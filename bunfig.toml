@@ -1,0 +1,13 @@
+[install]
+# For path aliases to work in Bun
+alias = {
+  "@components": "./src/components",
+  "@constants": "./src/constants",
+  "@hooks": "./src/hooks",
+  "@layout": "./src/layout",
+  "@pages": "./src/pages",
+  "@services": "./src/services",
+  "@types": "./src/types",
+  "@utils": "./src/utils",
+  "@assets": "./src/assets"
+}
