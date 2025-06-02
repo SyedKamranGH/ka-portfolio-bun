@@ -1,19 +1,32 @@
 import type { Education } from "../../types";
 
-export const education: Education[] = [
+export const educationData: Education[] = [
   {
-    id: "1",
+    id: "edu-1", 
     university: "University of Technology",
     degree: "Bachelor of Science in Computer Science",
-    year: "2017-2021",
+    year: "2016 - 2020",
     description:
-      "Focused on software engineering, data structures, and web development",
+      "Focused on software engineering, web development, and computer systems.",
+    grade: "3.8 GPA",
+    location: "California, USA",
   },
   {
-    id: "2",
-    university: "Tech Institute",
-    degree: "Certificate in Full Stack Development",
+    id: "edu-2",
+    university: "Code Academy",
+    degree: "Full Stack Web Development Bootcamp",
     year: "2020",
-    description: "Specialized training in modern web development technologies",
+    description:
+      "Intensive 6-month program covering modern web development technologies.",
+    location: "Online",
+  },
+  {
+    id: "edu-3",
+    university: "Tech Institute",
+    degree: "Certification in React Development",
+    year: "2021",
+    description:
+      "Advanced React concepts, hooks, and modern development practices.",
+    location: "Online",
   },
 ];
