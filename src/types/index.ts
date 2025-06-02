@@ -2,6 +2,7 @@ export interface NavigationItem {
   id: string;
   label: string;
   href: string;
+  isActive?: boolean;
 }
 
 export interface Experience {
@@ -10,12 +11,14 @@ export interface Experience {
   company: string;
   duration: string;
   startDate: string;
-  endDate: string;
+  endDate: string | "Present";
   summary: string;
   responsibilities: string[];
+  skills: string[];
   technologies: string[];
-  projects?: string[];
+  projects?: ProjectDetail[];
   keyHighlights: string[];
+  location?: string;
 }
 
 export interface Education {
@@ -24,12 +27,14 @@ export interface Education {
   degree: string;
   year: string;
   description?: string;
+  grade?: string;
+  location?: string;
 }
 
 export interface Skill {
   name: string;
   icon: string;
-  level?: number;
+  level?: "Beginner" | "Intermediate" | "Advanced" | "Expert";
 }
 
 export interface SkillDomain {
@@ -37,21 +42,42 @@ export interface SkillDomain {
   skills: Skill[];
 }
 
-export interface Project {
+export interface ProjectDetail {
   id: string;
   name: string;
   summary: string;
+  description?: string;
   skills: string[];
-  githubLink?: string;
+  githubUrl?: string;
+  liveUrl?: string;
   image?: string;
+  technologies: string[];
   type: "personal" | "company";
+  featured?: boolean;
 }
 
 export interface ContactInfo {
-  phone: string;
   email: string;
+  phone: string;
   github: string;
   linkedin: string;
+  location?: string;
+}
+
+export interface PersonalInfo {
+  name: string;
+  title: string;
+  summary: string;
+  profileImage: string;
+  welcomeMessage: string;
+  aboutMe: string;
+  achievements: string[];
+}
+
+export interface ApiResponse<T> {
+  data: T;
+  status: number;
+  message?: string;
 }
 
 export interface GitHubRepo {
@@ -59,6 +85,16 @@ export interface GitHubRepo {
   name: string;
   description: string;
   html_url: string;
+  homepage?: string;
   language: string;
+  languages_url: string;
   topics: string[];
+  updated_at: string;
+  stargazers_count: number;
+  forks_count: number;
+}
+
+export interface ThemeMode {
+  mode: "light" | "dark";
+  toggleTheme: () => void;
 }
