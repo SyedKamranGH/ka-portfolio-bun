@@ -5,6 +5,11 @@ export interface NavigationItem {
   isActive?: boolean;
 }
 
+export interface Navigation {
+  id: string;
+  label: string;
+  // add other properties as needed
+}
 export interface Experience {
   id: string;
   jobRole: string;
