@@ -1,0 +1,15 @@
+.skill-chip {
+  margin: var(--spacing-xs);
+  transition: all var(--transition-fast);
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .skill-icon {
+    font-size: 1rem !important;
+    width: 24px !important;
+    height: 24px !important;
+  }
+}

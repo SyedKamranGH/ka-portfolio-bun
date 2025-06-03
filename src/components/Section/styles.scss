@@ -1,0 +1,34 @@
+.section {
+  padding: var(--spacing-xxl) 0;
+
+  &.full-height {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  &.alternate {
+    background-color: var(--background-paper);
+  }
+
+  .section-title {
+    margin-bottom: var(--spacing-md);
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+
+  .section-subtitle {
+    max-width: 600px;
+    margin: 0 auto;
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: var(--spacing-xl) 0;
+  }
+}

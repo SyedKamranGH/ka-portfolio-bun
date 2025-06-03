@@ -1,0 +1,16 @@
+.custom-timeline {
+  .timeline-item {
+    .timeline-card {
+      transition: all var(--transition-normal);
+
+      &.clickable {
+        cursor: pointer;
+
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow-lg);
+        }
+      }
+    }
+  }
+}
