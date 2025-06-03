@@ -1,0 +1,9 @@
+.custom-card {
+  &.hoverable {
+    @include card-hover;
+  }
+
+  &.glass {
+    @include glass-effect;
+  }
+}
