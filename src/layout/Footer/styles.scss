@@ -1,0 +1,47 @@
+.footer {
+  background: var(--color-background-secondary);
+  padding: 3rem 0 1rem;
+  margin-top: auto;
+
+  &__content {
+    text-align: center;
+  }
+
+  &__social {
+    justify-content: center;
+  }
+
+  &__social-button {
+    color: var(--color-text-primary);
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: var(--color-primary);
+      transform: translateY(-2px);
+    }
+  }
+
+  &__divider {
+    width: 100%;
+    max-width: 200px;
+    background-color: var(--color-divider);
+  }
+
+  &__copyright {
+    color: var(--color-text-secondary);
+    opacity: 0.8;
+  }
+
+  &__scroll-top {
+    color: var(--color-primary);
+    background: var(--color-background-primary);
+    border: 2px solid var(--color-primary);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: var(--color-primary);
+      color: var(--color-background-primary);
+      transform: translateY(-2px);
+    }
+  }
+}
