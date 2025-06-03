@@ -1,12 +1,17 @@
 import axios from "axios";
-import type { AxiosInstance, AxiosResponse, AxiosRequestConfig } from "axios";
-import type { ApiResponse } from "../types";
+import type { AxiosInstance, AxiosResponse } from "axios";
+
+interface ApiResponse<T = any> {
+  data: T;
+  status: number;
+  message?: string;
+}
 
 class ApiService {
-  private client: AxiosInstance;
+  private axiosInstance: AxiosInstance;
 
   constructor() {
-    this.client = axios.create({
+    this.axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_API_BASE_URL || "https://api.github.com",
       timeout: 10000,
       headers: {
@@ -19,10 +24,10 @@ class ApiService {
 
   private setupInterceptors(): void {
     // Request interceptor
-    this.client.interceptors.request.use(
+    this.axiosInstance.interceptors.request.use(
       (config) => {
         // Add auth token if available
-        const token = localStorage.getItem("auth_token");
+        const token = localStorage.getItem("authToken");
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
@@ -34,110 +39,66 @@ class ApiService {
     );
 
     // Response interceptor
-    this.client.interceptors.response.use(
-      (response) => response,
+    this.axiosInstance.interceptors.response.use(
+      (response: AxiosResponse) => {
+        return response;
+      },
       (error) => {
+        // Handle common errors
         if (error.response?.status === 401) {
           // Handle unauthorized access
-          localStorage.removeItem("auth_token");
-          // Redirect to login if needed
+          localStorage.removeItem("authToken");
+          // Redirect to login or refresh token
         }
         return Promise.reject(error);
       }
     );
   }
 
-  async get<T>(
-    url: string,
-    config?: AxiosRequestConfig
-  ): Promise<ApiResponse<T>> {
+  public async get<T>(url: string, params?: any): Promise<ApiResponse<T>> {
     try {
-      const response: AxiosResponse<T> = await this.client.get(url, config);
+      const response = await this.axiosInstance.get<T>(url, { params });
       return {
         data: response.data,
         status: response.status,
-        message: "Success",
       };
-    } catch (error) {
+    } catch (error: any) {
       throw this.handleError(error);
     }
   }
 
-  async post<T>(
-    url: string,
-    data?: any,
-    config?: AxiosRequestConfig
-  ): Promise<ApiResponse<T>> {
+  public async post<T>(url: string, data?: any): Promise<ApiResponse<T>> {
     try {
-      const response: AxiosResponse<T> = await this.client.post(
-        url,
-        data,
-        config
-      );
+      const response = await this.axiosInstance.post<T>(url, data);
       return {
         data: response.data,
         status: response.status,
-        message: "Success",
       };
-    } catch (error) {
+    } catch (error: any) {
       throw this.handleError(error);
     }
   }
 
-  async put<T>(
-    url: string,
-    data?: any,
-    config?: AxiosRequestConfig
-  ): Promise<ApiResponse<T>> {
+  public async put<T>(url: string, data?: any): Promise<ApiResponse<T>> {
     try {
-      const response: AxiosResponse<T> = await this.client.put(
-        url,
-        data,
-        config
-      );
+      const response = await this.axiosInstance.put<T>(url, data);
       return {
         data: response.data,
         status: response.status,
-        message: "Success",
       };
-    } catch (error) {
+    } catch (error: any) {
       throw this.handleError(error);
     }
   }
 
-  async delete<T>(
-    url: string,
-    config?: AxiosRequestConfig
-  ): Promise<ApiResponse<T>> {
+  public async delete<T>(url: string): Promise<ApiResponse<T>> {
     try {
-      const response: AxiosResponse<T> = await this.client.delete(url, config);
+      const response = await this.axiosInstance.delete<T>(url);
       return {
         data: response.data,
         status: response.status,
-        message: "Success",
       };
-    } catch (error) {
-      throw this.handleError(error);
-    }
-  }
-
-  async patch<T>(
-    url: string,
-    data?: any,
-    config?: AxiosRequestConfig
-  ): Promise<ApiResponse<T>> {
-    try {
-      const response: AxiosResponse<T> = await this.client.patch(
-        url,
-        data,
-        config
-      );
-      return {
-        data: response.data,
-        status: response.status,
-        message: "Success",
-      };
-    } catch (error) {
+    } catch (error: any) {
       throw this.handleError(error);
     }
   }
@@ -145,35 +106,16 @@ class ApiService {
   private handleError(error: any): Error {
     if (error.response) {
       // Server responded with error status
-      const message = error.response.data?.message || "An error occurred";
-      return new Error(`${error.response.status}: ${message}`);
+      const message = error.response.data?.message || error.response.statusText;
+      return new Error(`API Error: ${message} (${error.response.status})`);
     } else if (error.request) {
       // Request was made but no response received
-      return new Error("Network error: No response received");
+      return new Error("Network Error: No response from server");
     } else {
       // Something else happened
-      return new Error(error.message || "An unexpected error occurred");
+      return new Error(`Request Error: ${error.message}`);
     }
-  }
-
-  // GitHub API specific methods
-  async getGitHubRepos(username: string) {
-    return this.get(`/users/${username}/repos?sort=updated&per_page=50`);
-  }
-
-  async getGitHubUser(username: string) {
-    return this.get(`/users/${username}`);
-  }
-
-  async getRepoContents(username: string, repo: string, path: string = "") {
-    return this.get(`/repos/${username}/${repo}/contents/${path}`);
-  }
-
-  async getRepoLanguages(username: string, repo: string) {
-    return this.get(`/repos/${username}/${repo}/languages`);
   }
 }
 
-// Export singleton instance
 export const apiService = new ApiService();
-export default ApiService;
