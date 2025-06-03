@@ -1,28 +1,48 @@
 import { useState, useEffect } from "react";
 
-export const useScroll = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [scrollDirection, setScrollDirection] = useState<"up" | "down">("up");
-  const [lastScrollY, setLastScrollY] = useState(0);
+interface ScrollPosition {
+  x: number;
+  y: number;
+}
+
+interface UseScrollReturn {
+  scrollPosition: ScrollPosition;
+  isScrollingDown: boolean;
+  isAtTop: boolean;
+  isAtBottom: boolean;
+}
+
+export const useScroll = (): UseScrollReturn => {
+  const [scrollPosition, setScrollPosition] = useState<ScrollPosition>({
+    x: 0,
+    y: 0,
+  });
+  const [isScrollingDown, setIsScrollingDown] = useState(false);
+  const [prevScrollY, setPrevScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+      const currentScrollY = window.pageYOffset;
+      const currentScrollX = window.pageXOffset;
 
-      setIsScrolled(currentScrollY > 10);
-
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setScrollDirection("down");
-      } else {
-        setScrollDirection("up");
-      }
-
-      setLastScrollY(currentScrollY);
+      setScrollPosition({ x: currentScrollX, y: currentScrollY });
+      setIsScrollingDown(currentScrollY > prevScrollY);
+      setPrevScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, [prevScrollY]);
 
-  return { isScrolled, scrollDirection };
+  const isAtTop = scrollPosition.y === 0;
+  const isAtBottom =
+    scrollPosition.y + window.innerHeight >=
+    document.documentElement.scrollHeight;
+
+  return {
+    scrollPosition,
+    isScrollingDown,
+    isAtTop,
+    isAtBottom,
+  };
 };
