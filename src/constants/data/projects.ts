@@ -1,4 +1,90 @@
-import type { ProjectDetail } from "../../types";
+import type { ProjectDetail, ProjectData } from "../../types";
+
+export const PROJECTS: ProjectData = {
+  personal: [
+    {
+      id: 1,
+      name: "Portfolio Website",
+      summary:
+        "A modern responsive portfolio website built with React, TypeScript, and Material-UI to showcase my projects and skills.",
+      image: "https://example.com/portfolio-screenshot.jpg",
+      skills: [
+        { name: "React", icon: "⚛️" },
+        { name: "TypeScript", icon: "📘" },
+        { name: "Material-UI", icon: "🎨" },
+      ],
+      githubUrl: "https://github.com/username/portfolio",
+      liveUrl: "https://myportfolio.example.com",
+    },
+    {
+      id: 2,
+      name: "E-commerce App",
+      summary:
+        "Full-stack e-commerce application with product listings, cart functionality, and user authentication.",
+      image: "https://example.com/ecommerce-screenshot.jpg",
+      skills: [
+        { name: "React", icon: "⚛️" },
+        { name: "Node.js", icon: "🟢" },
+        { name: "MongoDB", icon: "🍃" },
+      ],
+      githubUrl: "https://github.com/username/ecommerce-app",
+      demoUrl: "https://ecommerce-demo.example.com",
+    },
+    {
+      id: 3,
+      name: "Task Management Tool",
+      summary:
+        "A productivity application for managing tasks with drag-and-drop functionality and team collaboration features.",
+      image: "https://example.com/taskapp-screenshot.jpg",
+      skills: [
+        { name: "React", icon: "⚛️" },
+        { name: "Redux", icon: "📦" },
+        { name: "Firebase", icon: "🔥" },
+      ],
+      githubUrl: "https://github.com/username/task-manager",
+    },
+  ],
+  company: [
+    {
+      id: "comp-1",
+      name: "Enterprise Dashboard",
+      summary:
+        "Analytics dashboard for business metrics with real-time data visualization and reporting tools.",
+      image: "https://example.com/dashboard-screenshot.jpg",
+      skills: [
+        { name: "Angular", icon: "🅰️" },
+        { name: "TypeScript", icon: "📘" },
+        { name: "D3.js", icon: "📊" },
+      ],
+      liveUrl: "https://dashboard.company.com",
+    },
+    {
+      id: "comp-2",
+      name: "Customer Portal",
+      summary:
+        "Client-facing portal with account management, support ticketing, and billing information.",
+      image: "https://example.com/portal-screenshot.jpg",
+      skills: [
+        { name: "React", icon: "⚛️" },
+        { name: "GraphQL", icon: "🔷" },
+        { name: "AWS", icon: "☁️" },
+      ],
+      demoUrl: "https://demo-portal.company.com",
+    },
+    {
+      id: "comp-3",
+      name: "Internal CMS",
+      summary:
+        "Content management system for marketing teams to manage website content and campaigns.",
+      image: "https://example.com/cms-screenshot.jpg",
+      skills: [
+        { name: "Vue.js", icon: "🟩" },
+        { name: "Python", icon: "🐍" },
+        { name: "PostgreSQL", icon: "🐘" },
+      ],
+    },
+  ],
+};
 
 export const personalProjects: ProjectDetail[] = [
   {

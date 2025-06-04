@@ -38,7 +38,7 @@ export interface Education {
 
 export interface Skill {
   name: string;
-  icon: string;
+  icon: string | "";
   level?: "Beginner" | "Intermediate" | "Advanced" | "Expert";
 }
 
@@ -47,27 +47,38 @@ export interface SkillDomain {
   skills: Skill[];
 }
 
+export type ProjectType = "personal" | "company";
+
 export interface ProjectDetail {
-  id: string;
+  id: string | number;
   name: string;
   summary: string;
-  description?: string;
+  description: string;
   skills: string[];
+  technologies: string[];
   githubUrl?: string;
   liveUrl?: string;
   image?: string;
-  technologies: string[];
-  type: "personal" | "company";
+  type: ProjectType;
   featured?: boolean;
 }
 
-export interface ContactInfo {
-  email: string;
-  phone: string;
-  github: string;
-  linkedin: string;
-  location?: string;
+export interface Project {
+  id: string | number;
+  name: string;
+  summary: string;
+  image?: string;
+  skills?: Skill[];
+  githubUrl?: string;
+  liveUrl?: string;
+  demoUrl?: string;
 }
+
+export interface ProjectData {
+  personal: Project[];
+  company: Project[];
+}
+// Removed duplicate ContactInfo interface with conflicting property types
 
 export interface PersonalInfo {
   name: string;
@@ -120,4 +131,12 @@ export interface GitHubUser {
 export interface ThemeMode {
   mode: "light" | "dark";
   toggleTheme: () => void;
+}
+
+export interface ContactInfo {
+  email: string;
+  phone: string;
+  github: { username: string; url: string };
+  linkedin: { username: string; url: string };
+  location: string;
 }
