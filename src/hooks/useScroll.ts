@@ -10,6 +10,7 @@ interface UseScrollReturn {
   isScrollingDown: boolean;
   isAtTop: boolean;
   isAtBottom: boolean;
+  scrollTo: (sectionId: string, behavior?: ScrollBehavior) => void;
 }
 
 export const useScroll = (): UseScrollReturn => {
@@ -39,10 +40,17 @@ export const useScroll = (): UseScrollReturn => {
     scrollPosition.y + window.innerHeight >=
     document.documentElement.scrollHeight;
 
+  const scrollTo = (sectionId: string, behavior: ScrollBehavior = "smooth") => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior });
+    }
+  };
   return {
     scrollPosition,
     isScrollingDown,
     isAtTop,
     isAtBottom,
+    scrollTo,
   };
 };
