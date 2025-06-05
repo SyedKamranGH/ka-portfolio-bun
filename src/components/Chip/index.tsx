@@ -9,7 +9,7 @@ interface CustomChipProps extends ChipProps {
   level?: string;
 }
 
-const Chip: React.FC<CustomChipProps> = ({
+const CustomChip: React.FC<CustomChipProps> = ({
   skillName,
   iconText,
   level,
@@ -20,11 +20,15 @@ const Chip: React.FC<CustomChipProps> = ({
     <MuiChip
       className={`skill-chip ${className}`}
       label={skillName}
-      avatar={iconText ? <Avatar className="skill-icon">{iconText}</Avatar> : undefined}
+      avatar={
+        iconText ? (
+          <Avatar className="skill-icon">{iconText}</Avatar>
+        ) : undefined
+      }
       title={level ? `Level: ${level}` : undefined}
       {...props}
     />
   );
 };
 
-export default Chip;
+export default CustomChip;

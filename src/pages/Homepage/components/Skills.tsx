@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 // import { CustomChip } from "../../../components/Chip";
 // import { skillsData } from "../../../constants/data/skills";
 import type { SkillDomain } from "../../../types";
-import Chip from "@components/Chip";
+import CustomChip from "@components/Chip";
 import { skillDomains } from "@constants/data/skills";
 import Grid from "@mui/material/Grid";
 
@@ -89,7 +89,7 @@ const SkillDomainCard: React.FC<SkillDomainCardProps> = ({ domain, index }) => {
               justifyContent="center"
             >
               {domain.skills.map((skill) => (
-                <Chip
+                <CustomChip
                   key={skill.name}
                   skillName={skill.name}
                   iconText={skill.icon}
