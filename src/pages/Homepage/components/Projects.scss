@@ -1,0 +1,170 @@
+.projects-section {
+  padding: 80px 0;
+  background: linear-gradient(
+    135deg,
+    var(--mui-palette-background-default) 0%,
+    var(--mui-palette-background-paper) 100%
+  );
+
+  .section-title {
+    font-weight: 700;
+    background: linear-gradient(
+      45deg,
+      var(--mui-palette-primary-main),
+      var(--mui-palette-secondary-main)
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .section-subtitle {
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    opacity: 0.8;
+  }
+
+  .projects-tabs {
+    .MuiTab-root {
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-transform: none;
+      min-width: 160px;
+
+      &.Mui-selected {
+        color: var(--mui-palette-primary-main);
+      }
+    }
+
+    .MuiTabs-indicator {
+      height: 3px;
+      border-radius: 3px;
+      background: linear-gradient(
+        45deg,
+        var(--mui-palette-primary-main),
+        var(--mui-palette-secondary-main)
+      );
+    }
+  }
+
+  .project-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--mui-palette-divider);
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+      .project-image {
+        transform: scale(1.05);
+      }
+    }
+
+    .project-image {
+      transition: transform 0.3s ease;
+      object-fit: cover;
+    }
+
+    .project-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem;
+
+      .project-title {
+        font-weight: 600;
+        color: var(--mui-palette-text-primary);
+        margin-bottom: 0.5rem;
+        line-height: 1.3;
+      }
+
+      .project-summary {
+        flex: 1;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+
+      .project-skills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: auto;
+      }
+    }
+
+    .project-actions {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--mui-palette-divider);
+      justify-content: flex-start;
+      gap: 0.5rem;
+
+      .MuiIconButton-root {
+        color: var(--mui-palette-text-secondary);
+        transition: all 0.2s ease;
+
+        &:hover {
+          color: var(--mui-palette-primary-main);
+          background-color: var(--mui-palette-primary-main);
+          background-opacity: 0.1;
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  // Dark theme specific styles
+  [data-mui-color-scheme="dark"] & {
+    .project-card {
+      background: var(--mui-palette-background-paper);
+      border-color: var(--mui-palette-divider);
+
+      &:hover {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        border-color: var(--mui-palette-primary-main);
+      }
+    }
+  }
+
+  // Responsive design
+  @media (max-width: 768px) {
+    padding: 60px 0;
+
+    .section-title {
+      font-size: 2rem;
+    }
+
+    .projects-tabs {
+      .MuiTab-root {
+        min-width: 120px;
+        font-size: 1rem;
+      }
+    }
+
+    .project-card {
+      .project-content {
+        padding: 1.25rem;
+      }
+
+      .project-actions {
+        padding: 0.75rem 1.25rem;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .projects-tabs {
+      .MuiTab-root {
+        min-width: 100px;
+        font-size: 0.9rem;
+        padding: 12px 8px;
+      }
+    }
+  }
+}
