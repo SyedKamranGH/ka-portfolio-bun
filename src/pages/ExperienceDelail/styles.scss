@@ -1,0 +1,207 @@
+.experience-detail-page {
+  min-height: 100vh;
+  background: var(--mui-palette-background-default);
+  padding-top: 2rem;
+
+  .back-button {
+    color: var(--mui-palette-primary-main);
+    border: 2px solid var(--mui-palette-primary-main);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: var(--mui-palette-primary-main);
+      color: white;
+      transform: scale(1.05);
+    }
+  }
+
+  .experience-header {
+    border-radius: 16px;
+    background: linear-gradient(
+      135deg,
+      var(--mui-palette-background-paper) 0%,
+      var(--mui-palette-background-default) 100%
+    );
+    border: 1px solid var(--mui-palette-divider);
+
+    .experience-title {
+      font-weight: 700;
+      color: var(--mui-palette-text-primary);
+      line-height: 1.2;
+    }
+
+    .company-logo {
+      max-width: 120px;
+      max-height: 80px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+  }
+
+  .experience-section {
+    border-radius: 12px;
+    background: var(--mui-palette-background-paper);
+    border: 1px solid var(--mui-palette-divider);
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border-color: var(--mui-palette-primary-main);
+    }
+
+    h5 {
+      color: var(--mui-palette-text-primary);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .MuiList-root {
+      .MuiListItem-root {
+        padding-left: 0;
+        align-items: flex-start;
+
+        .MuiListItemIcon-root {
+          min-width: 40px;
+          margin-top: 4px;
+        }
+
+        .MuiListItemText-primary {
+          line-height: 1.6;
+          color: var(--mui-palette-text-primary);
+        }
+      }
+    }
+
+    .project-card {
+      height: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--mui-palette-divider);
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        border-color: var(--mui-palette-primary-main);
+      }
+
+      .MuiCardContent-root {
+        padding: 1.5rem;
+
+        h6 {
+          color: var(--mui-palette-text-primary);
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+        }
+
+        .MuiChip-root {
+          margin: 0.25rem;
+        }
+      }
+    }
+  }
+
+  .experience-sidebar {
+    border-radius: 12px;
+    background: var(--mui-palette-background-paper);
+    border: 1px solid var(--mui-palette-divider);
+    position: sticky;
+    top: 2rem;
+
+    h6 {
+      color: var(--mui-palette-text-primary);
+      font-weight: 600;
+    }
+
+    .skills-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .stats-item {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 0;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid var(--mui-palette-divider);
+      }
+
+      .MuiSvgIcon-root {
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  // Dark theme specific styles
+  [data-mui-color-scheme="dark"] & {
+    .experience-header,
+    .experience-section,
+    .experience-sidebar {
+      background: var(--mui-palette-background-paper);
+      border-color: var(--mui-palette-divider);
+
+      &:hover {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    .experience-section {
+      .project-card {
+        background: var(--mui-palette-background-default);
+
+        &:hover {
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+      }
+    }
+  }
+
+  // Responsive design
+  @media (max-width: 1200px) {
+    .experience-sidebar {
+      position: static;
+      top: auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding-top: 1rem;
+
+    .experience-header {
+      .experience-title {
+        font-size: 1.8rem;
+      }
+
+      .company-logo {
+        max-width: 100px;
+        max-height: 60px;
+      }
+    }
+
+    .experience-section,
+    .experience-sidebar {
+      .MuiCardContent-root,
+      & > * {
+        padding: 1.25rem;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .experience-header {
+      .experience-title {
+        font-size: 1.5rem;
+      }
+    }
+
+    .experience-section,
+    .experience-sidebar {
+      .MuiCardContent-root,
+      & > * {
+        padding: 1rem;
+      }
+    }
+  }
+}
