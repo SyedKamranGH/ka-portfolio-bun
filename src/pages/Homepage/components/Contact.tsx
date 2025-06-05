@@ -18,9 +18,9 @@ import {
   Send,
 } from "@mui/icons-material";
 import { motion } from "framer-motion";
-import "./styles.scss";
+import "./Contact.scss";
 import { CONTACT_INFO } from "../../../constants/data/contact";
-import { Grid } from "@mui/material/Grid";
+import Grid from "@mui/material/Grid";
 
 interface ContactCardProps {
   icon: React.ReactNode;
@@ -197,7 +197,7 @@ export const Contact: React.FC = () => {
           viewport={{ once: true }}
         >
           <Grid container spacing={4} sx={{ mb: 6 }}>
-            <Grid item xs={12} sm={6} md={3}>
+            {/* <Grid item xs={12} sm={6} md={3}>
               <ContactCard
                 icon={<Email className="contact-icon" />}
                 title="Email"
@@ -231,18 +231,18 @@ export const Contact: React.FC = () => {
                 value={CONTACT_INFO.linkedin.username}
                 link={CONTACT_INFO.linkedin.url}
               />
-            </Grid>
+            </Grid> */}
           </Grid>
 
           {CONTACT_INFO.location && (
             <Grid container spacing={4} sx={{ mb: 6 }}>
-              <Grid item xs={12} md={6} sx={{ mx: "auto" }}>
+              {/* <Grid item xs={12} md={6} sx={{ mx: "auto" }}>
                 <ContactCard
                   icon={<LocationOn className="contact-icon" />}
                   title="Location"
                   value={CONTACT_INFO.location}
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
           )}
 

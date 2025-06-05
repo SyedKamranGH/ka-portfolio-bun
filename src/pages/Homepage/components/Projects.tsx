@@ -14,12 +14,12 @@ import {
 } from "@mui/material";
 import { GitHub, Launch, Visibility } from "@mui/icons-material";
 import { motion } from "framer-motion";
-import "./styles.scss";
+import "./Projects.scss";
 import CustomChip from "../../../components/Chip/index";
 import type { Project, ProjectType } from "../../../types/index";
-import { useGitHubProjects } from "@hooks/useGItHubProjects";
-import { PROJECTS } from "@constants/data/projects";
 import Grid from "@mui/material/Grid";
+import { useGitHubProjects } from "../../../hooks/useGItHubProjects";
+import { PROJECTS } from "../../../constants/data/projects";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -155,7 +155,7 @@ const ProjectSkeleton: React.FC = () => (
 
 export const Projects: React.FC = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
-  const { projects: githubProjects, loading, error } = useGitHubProjects();
+  // const { projects: githubProjects, loading, error } = useGitHubProjects();
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
@@ -220,7 +220,7 @@ export const Projects: React.FC = () => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <Grid container spacing={3}>
+            {/* <Grid container spacing={3}>
               {loading ? (
                 // Show skeletons while loading
                 Array.from({ length: 6 }).map((_, index) => (
@@ -247,7 +247,7 @@ export const Projects: React.FC = () => {
                   </Typography>
                 </Grid>
               )}
-            </Grid>
+            </Grid> */}
           </motion.div>
         </TabPanel>
 
@@ -260,9 +260,11 @@ export const Projects: React.FC = () => {
           >
             <Grid container spacing={3}>
               {PROJECTS.company.map((project, index) => (
-                <Grid item xs={12} sm={6} lg={4} key={project.id || index}>
-                  <ProjectCard project={project} type="company" />
-                </Grid>
+                <>
+                  {/* <Grid item xs={12} sm={6} lg={4} key={project.id || index}>
+                    <ProjectCard project={project} type="company" />
+                  </Grid> */}
+                </>
               ))}
             </Grid>
           </motion.div>

@@ -5,7 +5,7 @@ export class GitHubService {
   private readonly username: string;
 
   constructor() {
-    this.username = process.env.REACT_APP_GITHUB_USERNAME || "";
+    this.username = import.meta.env.VITE_GITHUB_USERNAME || "";
   }
 
   public async getUserProfile(): Promise<GitHubUser> {

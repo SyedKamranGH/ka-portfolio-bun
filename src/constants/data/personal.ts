@@ -20,10 +20,10 @@ export const personalInfo: PersonalInfo = {
 };
 
 export const contactInfo: ContactInfo = {
-  email: process.env.REACT_APP_EMAIL || "john.doe@example.com",
-  phone: process.env.REACT_APP_PHONE || "+1 (555) 123-4567",
-  github: "https://github.com/johndoe",
+  email: import.meta.env.VITE_EMAIL || "john.doe@example.com",
+  phone: import.meta.env.VITE_PHONE || "+1 (555) 123-4567",
+  github: import.meta.env.VITE_GITHUB_URL || "https://github.com/johndoe",
   linkedin:
-    process.env.REACT_APP_LINKEDIN_URL || "https://linkedin.com/in/johndoe",
+    import.meta.env.VITE_LINKEDIN_URL || "https://linkedin.com/in/johndoe",
   location: "San Francisco, CA",
 };

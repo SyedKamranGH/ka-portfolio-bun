@@ -26,12 +26,12 @@ export const Footer: React.FC<FooterProps> = ({ onScrollToTop }) => {
   const currentYear = new Date().getFullYear();
 
   const contactInfo = {
-    email: process.env.REACT_APP_EMAIL || "your.email@example.com",
-    phone: process.env.REACT_APP_PHONE || "+1 (555) 123-4567",
+    email: import.meta.env.VITE_EMAIL || "your.email@example.com",
+    phone: import.meta.env.VITE_PHONE || "+1 (555) 123-4567",
     github:
-      process.env.REACT_APP_GITHUB_URL || "https://github.com/yourusername",
+      import.meta.env.VITE_GITHUB_USERNAME || "https://github.com/yourusername",
     linkedin:
-      process.env.REACT_APP_LINKEDIN_URL ||
+      import.meta.env.VITE_LINKEDIN_URL ||
       "https://linkedin.com/in/yourusername",
   };
 

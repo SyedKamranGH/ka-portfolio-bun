@@ -12,7 +12,7 @@ class ApiService {
 
   constructor() {
     this.axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_API_BASE_URL || "https://api.github.com",
+      baseURL: import.meta.env.VITE_API_BASE_URL || "https://api.github.com",
       timeout: 10000,
       headers: {
         "Content-Type": "application/json",
