@@ -107,7 +107,7 @@ const ProjectCard: React.FC<{ project: any }> = ({ project }) => {
   );
 };
 
-export const ExperienceDetail: React.FC = () => {
+const ExperienceDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [experience, setExperience] = useState<Experience | null>(null);
@@ -197,7 +197,7 @@ export const ExperienceDetail: React.FC = () => {
               sx={{ p: 4, mb: 4 }}
             >
               <Grid container spacing={3} alignItems="center">
-                <Grid item xs={12} md={8}>
+                {/* <Grid item xs={12} md={8}>
                   <Typography
                     variant="h3"
                     component="h1"
@@ -231,7 +231,7 @@ export const ExperienceDetail: React.FC = () => {
                       </Box>
                     )}
                   </Stack>
-                </Grid>
+                </Grid> */}
 
                 {/* {experience.companyLogo && (
                   <Grid item xs={12} md={4}>
@@ -250,9 +250,9 @@ export const ExperienceDetail: React.FC = () => {
 
           <Grid container spacing={4}>
             {/* Main Content */}
-            <Grid item xs={12} lg={8}>
-              {/* Summary */}
-              <motion.div variants={itemVariants}>
+            {/* <Grid item xs={12} lg={8}> */}
+            {/* Summary */}
+            {/* <motion.div variants={itemVariants}>
                 <Paper className="experience-section" sx={{ p: 3, mb: 3 }}>
                   <Typography variant="h5" component="h2" gutterBottom>
                     Overview
@@ -261,10 +261,10 @@ export const ExperienceDetail: React.FC = () => {
                     {experience.summary}
                   </Typography>
                 </Paper>
-              </motion.div>
+              </motion.div> */}
 
-              {/* Responsibilities */}
-              {experience.responsibilities &&
+            {/* Responsibilities */}
+            {/* {experience.responsibilities &&
                 experience.responsibilities.length > 0 && (
                   <motion.div variants={itemVariants}>
                     <Paper className="experience-section" sx={{ p: 3, mb: 3 }}>
@@ -285,10 +285,10 @@ export const ExperienceDetail: React.FC = () => {
                       </List>
                     </Paper>
                   </motion.div>
-                )}
+                )} */}
 
-              {/* Key Highlights */}
-              {experience.keyHighlights &&
+            {/* Key Highlights */}
+            {/* {experience.keyHighlights &&
                 experience.keyHighlights.length > 0 && (
                   <motion.div variants={itemVariants}>
                     <Paper className="experience-section" sx={{ p: 3, mb: 3 }}>
@@ -307,10 +307,10 @@ export const ExperienceDetail: React.FC = () => {
                       </List>
                     </Paper>
                   </motion.div>
-                )}
+                )} */}
 
-              {/* Projects */}
-              {experience.projects && experience.projects.length > 0 && (
+            {/* Projects */}
+            {/* {experience.projects && experience.projects.length > 0 && (
                 <motion.div variants={itemVariants}>
                   <Paper className="experience-section" sx={{ p: 3, mb: 3 }}>
                     <Typography variant="h5" component="h2" gutterBottom>
@@ -325,12 +325,12 @@ export const ExperienceDetail: React.FC = () => {
                     </Grid>
                   </Paper>
                 </motion.div>
-              )}
-            </Grid>
+              )} */}
+            {/* </Grid> */}
 
             {/* Sidebar */}
-            <Grid item xs={12} lg={4}>
-              {/* Skills & Technologies */}
+            {/* Skills & Technologies */}
+            {/* <Grid item xs={12} lg={4}>
               <motion.div variants={itemVariants}>
                 <Paper className="experience-sidebar" sx={{ p: 3, mb: 3 }}>
                   <Typography variant="h6" component="h3" gutterBottom>
@@ -340,7 +340,7 @@ export const ExperienceDetail: React.FC = () => {
 
                   {experience.skills && experience.skills.length > 0 && (
                     <Box className="skills-wrapper">
-                      {/* {experience.skills.map((skill, index) => (
+                      {experience.skills.map((skill, index) => (
                         <Chip
                           key={index}
                           label={skill.name}
@@ -348,13 +348,12 @@ export const ExperienceDetail: React.FC = () => {
                           size="small"
                           sx={{ mb: 1, mr: 1 }}
                         />
-                      ))} */}
+                      ))}
                     </Box>
                   )}
                 </Paper>
               </motion.div>
 
-              {/* Quick Stats */}
               <motion.div variants={itemVariants}>
                 <Paper className="experience-sidebar" sx={{ p: 3 }}>
                   <Typography variant="h6" component="h3" gutterBottom>
@@ -369,12 +368,12 @@ export const ExperienceDetail: React.FC = () => {
                         Employment Type
                       </Typography>
                       <Typography variant="body1" fontWeight="medium">
-                        {/* {experience.employmentType || "Full-time"} */}
+                        {experience.employmentType || "Full-time"}
                       </Typography>
                     </Box>
                   </Box>
 
-                  {/* {experience.teamSize && (
+                  {experience.teamSize && (
                     <Box className="stats-item" sx={{ mt: 2 }}>
                       <Typography variant="body2" color="text.secondary">
                         Team Size
@@ -383,13 +382,15 @@ export const ExperienceDetail: React.FC = () => {
                         {experience.teamSize}
                       </Typography>
                     </Box>
-                  )} */}
+                  )}
                 </Paper>
               </motion.div>
-            </Grid>
+            </Grid> */}
           </Grid>
         </motion.div>
       </Container>
     </div>
   );
 };
+
+export default ExperienceDetail;

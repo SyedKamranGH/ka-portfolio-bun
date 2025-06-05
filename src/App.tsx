@@ -1,39 +1,32 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-import Button from "../src/components/Button";
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import { ThemeProvider } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
+import { Routes, Route } from "react-router-dom";
+import { Layout } from "./layout";
+import { Homepage } from "./pages/Homepage";
+// import { ExperienceDetail } from "./pages/ExperienceDetail";
+import { lightTheme, darkTheme } from "./theme";
+import { ThemeProvider as CustomThemeProvider } from "./context/ThemeContext";
+import "./assets/scss/app.scss";
+import ExperienceDetail from "./pages/ExperienceDelail/index";
 
-function App() {
-  const [count, setCount] = useState(0);
-
+const App: React.FC = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank" rel="noopener noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noopener noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <Button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </Button>
-        {/* <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button> */}
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <CustomThemeProvider>
+      <BrowserRouter>
+        <ThemeProvider theme={lightTheme}>
+          <CssBaseline />
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Homepage />} />
+              <Route path="experience/:id" element={<ExperienceDetail />} />
+            </Route>
+          </Routes>
+        </ThemeProvider>
+      </BrowserRouter>
+    </CustomThemeProvider>
   );
-}
+};
 
 export default App;
