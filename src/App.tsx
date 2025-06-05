@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
-import { Layout } from "./layout";
+import Layout from "./layout";
 import { Homepage } from "./pages/Homepage";
 // import { ExperienceDetail } from "./pages/ExperienceDetail";
 import { lightTheme, darkTheme } from "./theme";
