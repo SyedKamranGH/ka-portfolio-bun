@@ -15,7 +15,7 @@ import {
 import { GitHub, Launch, Visibility } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import "./styles.scss";
-import Chip from "../../../components/Chip/index";
+import CustomChip from "../../../components/Chip/index";
 import type { Project, ProjectType } from "../../../types/index";
 import { useGitHubProjects } from "@hooks/useGItHubProjects";
 import { PROJECTS } from "@constants/data/projects";
@@ -86,10 +86,11 @@ const ProjectCard: React.FC<{ project: Project; type: ProjectType }> = ({
           {project.skills && project.skills.length > 0 && (
             <Box className="project-skills" sx={{ mt: 2 }}>
               {project.skills.map((skill, index) => (
-                <Chip
+                <CustomChip
                   key={index}
                   label={skill.name}
-                  icon={skill.icon}
+                  skillName={skill.name}
+                  icon={skill.icon ? <span>{skill.icon}</span> : undefined}
                   size="small"
                   variant="outlined"
                 />
