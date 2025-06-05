@@ -1,17 +1,16 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import type { ReactNode } from "react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-import { darkTheme, lightTheme } from "src/theme";
-import type { ThemeMode } from "../types/index";
+import { lightTheme, darkTheme } from "../theme";
 
-interface ThemeContextProviderProps {
-  children: ReactNode;
+interface ThemeContextType {
+  isDarkMode: boolean;
+  toggleTheme: () => void;
 }
 
-const ThemeContext = createContext<ThemeMode | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export const useTheme = (): ThemeMode => {
+export const useTheme = (): ThemeContextType => {
   const context = useContext(ThemeContext);
   if (!context) {
     throw new Error("useTheme must be used within a ThemeProvider");
@@ -19,39 +18,28 @@ export const useTheme = (): ThemeMode => {
   return context;
 };
 
-export const ThemeContextProvider: React.FC<ThemeContextProviderProps> = ({
-  children,
-}) => {
-  const [mode, setMode] = useState<"light" | "dark">("light");
+interface ThemeProviderProps {
+  children: React.ReactNode;
+}
+
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme === "dark";
+  });
 
   useEffect(() => {
-    const savedMode = localStorage.getItem("theme-mode") as "light" | "dark";
-    if (savedMode) {
-      setMode(savedMode);
-    } else {
-      // Check system preference
-      const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-      setMode(prefersDark ? "dark" : "light");
-    }
-  }, []);
+    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+  }, [isDarkMode]);
 
   const toggleTheme = () => {
-    const newMode = mode === "light" ? "dark" : "light";
-    setMode(newMode);
-    localStorage.setItem("theme-mode", newMode);
+    setIsDarkMode(!isDarkMode);
   };
 
-  const theme = mode === "light" ? lightTheme : darkTheme;
-
-  const contextValue: ThemeMode = {
-    mode,
-    toggleTheme,
-  };
+  const theme = isDarkMode ? darkTheme : lightTheme;
 
   return (
-    <ThemeContext.Provider value={contextValue}>
+    <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         {children}

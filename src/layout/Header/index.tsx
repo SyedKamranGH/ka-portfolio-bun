@@ -11,7 +11,8 @@ import { useTheme } from "@mui/material/styles";
 import type { Navigation } from "../../types";
 // import { CustomButton } from "../../components/Button";
 import "./styles.scss";
-import Button from "@components/Button";
+// import Button from "@components/Button";
+import Button from "../../components/Button/index";
 
 interface HeaderProps {
   navigations: Navigation[];
