@@ -89,7 +89,8 @@ const ProjectCard: React.FC<{ project: Project; type: ProjectType }> = ({
                 <CustomChip
                   key={index}
                   label={skill.name}
-                  icon={skill.icon}
+                  skillName={skill.name}
+                  icon={skill.icon ? <span>{skill.icon}</span> : undefined}
                   size="small"
                   variant="outlined"
                 />
