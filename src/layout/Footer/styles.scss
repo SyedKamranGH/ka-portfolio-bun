@@ -1,47 +1,81 @@
 .footer {
-  background: var(--color-background-secondary);
-  padding: 3rem 0 1rem;
-  margin-top: auto;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 
-  &__content {
-    text-align: center;
-  }
-
-  &__social {
-    justify-content: center;
-  }
-
-  &__social-button {
-    color: var(--color-text-primary);
-    transition: all 0.3s ease;
+  .contact-icon {
+    transition: all 0.3s ease-in-out;
 
     &:hover {
-      color: var(--color-primary);
       transform: translateY(-2px);
-    }
-  }
-
-  &__divider {
-    width: 100%;
-    max-width: 200px;
-    background-color: var(--color-divider);
-  }
-
-  &__copyright {
-    color: var(--color-text-secondary);
-    opacity: 0.8;
-  }
-
-  &__scroll-top {
-    color: var(--color-primary);
-    background: var(--color-background-primary);
-    border: 2px solid var(--color-primary);
-    transition: all 0.3s ease;
-
-    &:hover {
-      background: var(--color-primary);
-      color: var(--color-background-primary);
-      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
   }
 }
+
+.scroll-to-top-fab {
+  animation: pulse 2s infinite;
+
+  &:hover {
+    animation: none;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(25, 118, 210, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(25, 118, 210, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(25, 118, 210, 0);
+  }
+}
+
+// .footer {
+//   background: var(--color-background-secondary);
+//   padding: 3rem 0 1rem;
+//   margin-top: auto;
+
+//   &__content {
+//     text-align: center;
+//   }
+
+//   &__social {
+//     justify-content: center;
+//   }
+
+//   &__social-button {
+//     color: var(--color-text-primary);
+//     transition: all 0.3s ease;
+
+//     &:hover {
+//       color: var(--color-primary);
+//       transform: translateY(-2px);
+//     }
+//   }
+
+//   &__divider {
+//     width: 100%;
+//     max-width: 200px;
+//     background-color: var(--color-divider);
+//   }
+
+//   &__copyright {
+//     color: var(--color-text-secondary);
+//     opacity: 0.8;
+//   }
+
+//   &__scroll-top {
+//     color: var(--color-primary);
+//     background: var(--color-background-primary);
+//     border: 2px solid var(--color-primary);
+//     transition: all 0.3s ease;
+
+//     &:hover {
+//       background: var(--color-primary);
+//       color: var(--color-background-primary);
+//       transform: translateY(-2px);
+//     }
+//   }
+// }

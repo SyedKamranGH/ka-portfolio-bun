@@ -1,10 +1,31 @@
 .main {
   flex: 1;
-  padding-top: 70px; // Account for fixed header
-  min-height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
 
-  @media (max-width: 768px) {
-    padding-top: 60px;
-    min-height: calc(100vh - 60px);
+  // Smooth scrolling for sections
+  scroll-behavior: smooth;
+
+  // Add padding for content sections
+  .section {
+    padding: 4rem 0;
+
+    @media (max-width: 768px) {
+      padding: 2rem 0;
+    }
+  }
+
+  // Fade in animation for sections
+  .section-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+
+    &.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

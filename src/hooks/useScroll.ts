@@ -1,56 +1,72 @@
 import { useState, useEffect } from "react";
 
-interface ScrollPosition {
-  x: number;
-  y: number;
+interface ScrollState {
+  scrollY: number;
+  scrollDirection: "up" | "down" | null;
+  isScrolled: boolean;
 }
 
-interface UseScrollReturn {
-  scrollPosition: ScrollPosition;
-  isScrollingDown: boolean;
-  isAtTop: boolean;
-  isAtBottom: boolean;
-  scrollTo: (sectionId: string, behavior?: ScrollBehavior) => void;
-}
-
-export const useScroll = (): UseScrollReturn => {
-  const [scrollPosition, setScrollPosition] = useState<ScrollPosition>({
-    x: 0,
-    y: 0,
+export const useScroll = () => {
+  const [scrollState, setScrollState] = useState<ScrollState>({
+    scrollY: 0,
+    scrollDirection: null,
+    isScrolled: false,
   });
-  const [isScrollingDown, setIsScrollingDown] = useState(false);
-  const [prevScrollY, setPrevScrollY] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.pageYOffset;
-      const currentScrollX = window.pageXOffset;
+    let prevScrollY = window.scrollY;
 
-      setScrollPosition({ x: currentScrollX, y: currentScrollY });
-      setIsScrollingDown(currentScrollY > prevScrollY);
-      setPrevScrollY(currentScrollY);
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const direction = currentScrollY > prevScrollY ? "down" : "up";
+      const isScrolled = currentScrollY > 100;
+
+      setScrollState({
+        scrollY: currentScrollY,
+        scrollDirection: direction,
+        isScrolled,
+      });
+
+      prevScrollY = currentScrollY;
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [prevScrollY]);
+    const throttledHandleScroll = throttle(handleScroll, 100);
 
-  const isAtTop = scrollPosition.y === 0;
-  const isAtBottom =
-    scrollPosition.y + window.innerHeight >=
-    document.documentElement.scrollHeight;
+    window.addEventListener("scroll", throttledHandleScroll);
 
-  const scrollTo = (sectionId: string, behavior: ScrollBehavior = "smooth") => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior });
+    return () => {
+      window.removeEventListener("scroll", throttledHandleScroll);
+    };
+  }, []);
+
+  return scrollState;
+};
+
+// Throttle utility function
+function throttle<T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+): (...args: Parameters<T>) => void {
+  let timeout: NodeJS.Timeout | null = null;
+  let previous = 0;
+
+  return (...args: Parameters<T>) => {
+    const now = Date.now();
+    const remaining = wait - (now - previous);
+
+    if (remaining <= 0 || remaining > wait) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      previous = now;
+      func(...args);
+    } else if (!timeout) {
+      timeout = setTimeout(() => {
+        previous = Date.now();
+        timeout = null;
+        func(...args);
+      }, remaining);
     }
   };
-  return {
-    scrollPosition,
-    isScrollingDown,
-    isAtTop,
-    isAtBottom,
-    scrollTo,
-  };
-};
+}
