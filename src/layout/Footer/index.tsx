@@ -3,9 +3,11 @@ import {
   Box,
   Container,
   Typography,
-  IconButton,
   Stack,
   Divider,
+  useTheme,
+  Fab,
+  IconButton,
 } from "@mui/material";
 import {
   GitHub,
@@ -14,7 +16,9 @@ import {
   Phone,
   KeyboardArrowUp,
 } from "@mui/icons-material";
-import { useTheme } from "@mui/material/styles";
+// Update this import to match the actual export from the contact file.
+// For example, if you have `export const CONTACT_INFO = {...}` in that file:
+import { CONTACT_INFO } from "../../constants/data/contact";
 import "./styles.scss";
 
 interface FooterProps {
@@ -23,80 +27,124 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ onScrollToTop }) => {
   const theme = useTheme();
-  const currentYear = new Date().getFullYear();
-
-  const contactInfo = {
-    email: import.meta.env.VITE_EMAIL || "your.email@example.com",
-    phone: import.meta.env.VITE_PHONE || "+1 (555) 123-4567",
-    github:
-      import.meta.env.VITE_GITHUB_USERNAME || "https://github.com/yourusername",
-    linkedin:
-      import.meta.env.VITE_LINKEDIN_URL ||
-      "https://linkedin.com/in/yourusername",
-  };
 
   return (
-    <Box component="footer" className="footer">
-      <Container maxWidth="lg">
-        <Box className="footer__content">
-          <Stack spacing={3} alignItems="center">
-            {/* Contact Links */}
-            <Stack direction="row" spacing={2} className="footer__social">
-              <IconButton
-                href={`mailto:${contactInfo.email}`}
-                className="footer__social-button"
-                aria-label="Email"
-              >
-                <Email />
-              </IconButton>
+    <>
+      {/* Scroll to Top FAB */}
+      <Fab
+        color="primary"
+        aria-label="scroll to top"
+        className="scroll-to-top-fab"
+        onClick={onScrollToTop}
+        sx={{
+          position: "fixed",
+          bottom: 24,
+          right: 24,
+          zIndex: 1000,
+          transition: "all 0.3s ease-in-out",
+          "&:hover": {
+            transform: "translateY(-4px)",
+            boxShadow: "0 8px 25px rgba(0,0,0,0.2)",
+          },
+        }}
+      >
+        <KeyboardArrowUp />
+      </Fab>
 
-              <IconButton
-                href={`tel:${contactInfo.phone}`}
-                className="footer__social-button"
-                aria-label="Phone"
-              >
-                <Phone />
-              </IconButton>
+      {/* Main Footer */}
+      <Box
+        component="footer"
+        className="footer"
+        sx={{
+          backgroundColor: theme.palette.background.paper,
+          borderTop: `1px solid ${theme.palette.divider}`,
+          mt: "auto",
+        }}
+      >
+        <Container maxWidth="lg">
+          <Box sx={{ py: 4 }}>
+            {/* Contact Section */}
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={3}
+              alignItems="center"
+              justifyContent="center"
+              sx={{ mb: 3 }}
+            >
+              {/* Email */}
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <IconButton
+                  component="a"
+                  href={`mailto:${CONTACT_INFO.email}`}
+                  color="primary"
+                  className="contact-icon"
+                  aria-label="Email"
+                >
+                  <Email />
+                </IconButton>
+                <Typography variant="body2" color="text.secondary">
+                  {CONTACT_INFO.email}
+                </Typography>
+              </Stack>
 
+              {/* Phone */}
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <IconButton
+                  component="a"
+                  href={`tel:${CONTACT_INFO.phone}`}
+                  color="primary"
+                  className="contact-icon"
+                  aria-label="Phone"
+                >
+                  <Phone />
+                </IconButton>
+                <Typography variant="body2" color="text.secondary">
+                  {CONTACT_INFO.phone}
+                </Typography>
+              </Stack>
+
+              {/* GitHub */}
               <IconButton
-                href={contactInfo.github}
+                component="a"
+                href={CONTACT_INFO.github.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="footer__social-button"
+                color="primary"
+                className="contact-icon"
                 aria-label="GitHub"
               >
                 <GitHub />
               </IconButton>
 
+              {/* LinkedIn */}
               <IconButton
-                href={contactInfo.linkedin}
+                component="a"
+                href={CONTACT_INFO.linkedin.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="footer__social-button"
+                color="primary"
+                className="contact-icon"
                 aria-label="LinkedIn"
               >
                 <LinkedIn />
               </IconButton>
             </Stack>
 
-            <Divider className="footer__divider" />
+            <Divider sx={{ my: 2 }} />
 
             {/* Copyright */}
-            <Typography variant="body2" className="footer__copyright">
-              © {currentYear} Portfolio. Built with React 19 & TypeScript
-            </Typography>
-
-            {/* Back to Top */}
-            <IconButton
-              onClick={onScrollToTop}
-              className="footer__scroll-top"
-              aria-label="Scroll to top"
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              align="center"
+              sx={{ opacity: 0.8 }}
             >
-              <KeyboardArrowUp />
-            </IconButton>
-          </Stack>
-        </Box>
-      </Container>
-    </Box>
+              © {new Date().getFullYear()} Portfolio. Built with React 19+ &
+              Material-UI. All rights reserved.
+            </Typography>
+          </Box>
+        </Container>
+      </Box>
+    </>
   );
 };
