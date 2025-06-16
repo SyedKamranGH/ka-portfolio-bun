@@ -27,6 +27,7 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ onScrollToTop }) => {
   const theme = useTheme();
+  const currentYear = new Date().getFullYear();
 
   return (
     <>
@@ -68,8 +69,7 @@ export const Footer: React.FC<FooterProps> = ({ onScrollToTop }) => {
               direction={{ xs: "column", sm: "row" }}
               spacing={3}
               alignItems="center"
-              justifyContent="center"
-              sx={{ mb: 3 }}
+              justifyContent="space-between"
             >
               {/* Email */}
               <Stack direction="row" alignItems="center" spacing={1}>
@@ -139,7 +139,7 @@ export const Footer: React.FC<FooterProps> = ({ onScrollToTop }) => {
               align="center"
               sx={{ opacity: 0.8 }}
             >
-              © {new Date().getFullYear()} Portfolio. Built with React 19+ &
+              © {currentYear} Portfolio. Built with React 19+ &
               Material-UI. All rights reserved.
             </Typography>
           </Box>
@@ -148,3 +148,5 @@ export const Footer: React.FC<FooterProps> = ({ onScrollToTop }) => {
     </>
   );
 };
+
+export default Footer;

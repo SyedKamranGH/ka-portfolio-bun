@@ -1,11 +1,59 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, alpha } from "@mui/material";
 import type { ThemeOptions } from "@mui/material/styles";
 
-const commonTheme: ThemeOptions = {
+declare module "@mui/material/styles" {
+  interface Palette {
+    neutral: {
+      main: string;
+      light: string;
+      dark: string;
+      contrastText: string;
+    };
+  }
+  interface PaletteOptions {
+    neutral?: {
+      main: string;
+      light: string;
+      dark: string;
+      contrastText: string;
+    };
+  }
+}
+
+const getDesignTokens = (mode: "light" | "dark"): ThemeOptions => ({
+  palette: {
+    mode,
+    primary: {
+      main: "#2196f3",
+      light: "#64b5f6",
+      dark: "#1976d2",
+      contrastText: "#ffffff",
+    },
+    secondary: {
+      main: "#f50057",
+      light: "#ff4081",
+      dark: "#c51162",
+      contrastText: "#ffffff",
+    },
+    neutral: {
+      main: mode === "light" ? "#64748B" : "#94A3B8",
+      light: mode === "light" ? "#94A3B8" : "#CBD5E1",
+      dark: mode === "light" ? "#475569" : "#475569",
+      contrastText: mode === "light" ? "#ffffff" : "#000000",
+    },
+    background: {
+      default: mode === "light" ? "#f5f5f5" : "#121212",
+      paper: mode === "light" ? "#ffffff" : "#1e1e1e",
+    },
+    text: {
+      primary: mode === "light" ? "#1e1e1e" : "#ffffff",
+      secondary: mode === "light" ? "#64748B" : "#94A3B8",
+    },
+  },
   typography: {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
     h1: {
-      fontSize: "3rem",
+      fontSize: "3.5rem",
       fontWeight: 700,
       lineHeight: 1.2,
     },
@@ -20,19 +68,19 @@ const commonTheme: ThemeOptions = {
       lineHeight: 1.4,
     },
     h4: {
-      fontSize: "1.5rem",
-      fontWeight: 500,
+      fontSize: "1.75rem",
+      fontWeight: 600,
       lineHeight: 1.4,
     },
     h5: {
-      fontSize: "1.25rem",
-      fontWeight: 500,
-      lineHeight: 1.5,
+      fontSize: "1.5rem",
+      fontWeight: 600,
+      lineHeight: 1.4,
     },
     h6: {
-      fontSize: "1rem",
-      fontWeight: 500,
-      lineHeight: 1.5,
+      fontSize: "1.25rem",
+      fontWeight: 600,
+      lineHeight: 1.4,
     },
     body1: {
       fontSize: "1rem",
@@ -43,191 +91,50 @@ const commonTheme: ThemeOptions = {
       lineHeight: 1.6,
     },
   },
-  shape: {
-    borderRadius: 12,
-  },
-  spacing: 8,
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 900,
-      lg: 1200,
-      xl: 1536,
-    },
-  },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
+          borderRadius: 8,
           textTransform: "none",
-          borderRadius: 12,
-          padding: "12px 24px",
-          fontSize: "1rem",
-          fontWeight: 500,
-          transition: "all 0.3s ease-in-out",
-          "&:hover": {
-            transform: "translateY(-2px)",
-            boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
-          },
+          fontWeight: 600,
+          padding: "8px 24px",
         },
+        contained: ({ theme }) => ({
+          boxShadow: "none",
+          "&:hover": {
+            boxShadow: "none",
+            backgroundColor: alpha(theme.palette.primary.main, 0.9),
+          },
+        }),
       },
     },
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 16,
-          boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
-          transition: "all 0.3s ease-in-out",
-          "&:hover": {
-            transform: "translateY(-4px)",
-            boxShadow: "0 8px 30px rgba(0,0,0,0.15)",
-          },
-        },
-      },
-    },
-    MuiChip: {
-      styleOverrides: {
-        root: {
-          borderRadius: 20,
-          fontSize: "0.875rem",
-          fontWeight: 500,
-          transition: "all 0.2s ease-in-out",
-          "&:hover": {
-            transform: "scale(1.05)",
-          },
-        },
-      },
-    },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
           borderRadius: 12,
+          boxShadow:
+            mode === "light"
+              ? "0px 4px 20px rgba(0, 0, 0, 0.05)"
+              : "0px 4px 20px rgba(0, 0, 0, 0.25)",
         },
       },
     },
     MuiAppBar: {
       styleOverrides: {
         root: {
+          backgroundColor:
+            mode === "light"
+              ? "rgba(255, 255, 255, 0.8)"
+              : "rgba(30, 30, 30, 0.8)",
           backdropFilter: "blur(20px)",
-          backgroundColor: "rgba(255, 255, 255, 0.8)",
-          boxShadow: "0 2px 20px rgba(0,0,0,0.1)",
         },
       },
     },
   },
+});
+
+export const theme = (mode: "light" | "dark") => {
+  const themeOptions = getDesignTokens(mode);
+  return createTheme(themeOptions);
 };
-
-export const lightTheme = createTheme({
-  ...commonTheme,
-  palette: {
-    mode: "light",
-    primary: {
-      main: "#1976d2", // Royal Blue
-      light: "#42a5f5",
-      dark: "#1565c0",
-      contrastText: "#ffffff",
-    },
-    secondary: {
-      main: "#424242", // Dark Grey
-      light: "#757575",
-      dark: "#212121",
-      contrastText: "#ffffff",
-    },
-    background: {
-      default: "#fafafa",
-      paper: "#ffffff",
-    },
-    text: {
-      primary: "#212121",
-      secondary: "#757575",
-    },
-    grey: {
-      50: "#fafafa",
-      100: "#f5f5f5",
-      200: "#eeeeee",
-      300: "#e0e0e0",
-      400: "#bdbdbd",
-      500: "#9e9e9e",
-      600: "#757575",
-      700: "#616161",
-      800: "#424242",
-      900: "#212121",
-    },
-    success: {
-      main: "#4caf50",
-    },
-    warning: {
-      main: "#ff9800",
-    },
-    error: {
-      main: "#f44336",
-    },
-    info: {
-      main: "#2196f3",
-    },
-  },
-});
-
-export const darkTheme = createTheme({
-  ...commonTheme,
-  palette: {
-    mode: "dark",
-    primary: {
-      main: "#2196f3", // Royal Blue (lighter for dark mode)
-      light: "#64b5f6",
-      dark: "#1976d2",
-      contrastText: "#ffffff",
-    },
-    secondary: {
-      main: "#757575", // Light Grey for dark mode
-      light: "#9e9e9e",
-      dark: "#424242",
-      contrastText: "#ffffff",
-    },
-    background: {
-      default: "#121212",
-      paper: "#1e1e1e",
-    },
-    text: {
-      primary: "#ffffff",
-      secondary: "#b0b0b0",
-    },
-    grey: {
-      50: "#fafafa",
-      100: "#f5f5f5",
-      200: "#eeeeee",
-      300: "#e0e0e0",
-      400: "#bdbdbd",
-      500: "#9e9e9e",
-      600: "#757575",
-      700: "#616161",
-      800: "#424242",
-      900: "#212121",
-    },
-    success: {
-      main: "#66bb6a",
-    },
-    warning: {
-      main: "#ffa726",
-    },
-    error: {
-      main: "#ef5350",
-    },
-    info: {
-      main: "#42a5f5",
-    },
-  },
-  components: {
-    ...commonTheme.components,
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          backdropFilter: "blur(20px)",
-          backgroundColor: "rgba(30, 30, 30, 0.8)",
-          boxShadow: "0 2px 20px rgba(0,0,0,0.3)",
-        },
-      },
-    },
-  },
-});
