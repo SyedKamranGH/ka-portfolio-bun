@@ -77,8 +77,11 @@ export const Header: React.FC<HeaderProps> = ({
           sx={{
             fontWeight: 500,
             textTransform: "capitalize",
+            color: "inherit",
             "&:hover": {
-              backgroundColor: "rgba(255, 255, 255, 0.1)",
+              backgroundColor: isDarkMode
+                ? "rgba(255, 255, 255, 0.1)"
+                : "rgba(0, 0, 0, 0.1)",
             },
           }}
         >
@@ -90,6 +93,9 @@ export const Header: React.FC<HeaderProps> = ({
         color="inherit"
         aria-label="toggle theme"
         className="theme-toggle"
+        sx={{
+          color: "inherit",
+        }}
       >
         {isDarkMode ? <LightMode /> : <DarkMode />}
       </IconButton>
@@ -176,6 +182,14 @@ export const Header: React.FC<HeaderProps> = ({
           className="header"
           sx={{
             zIndex: theme.zIndex.drawer + 1,
+            backgroundColor: isDarkMode
+              ? "rgba(18, 18, 18, 0.95)"
+              : "rgba(255, 255, 255, 0.95)",
+            color: isDarkMode ? "#fff" : "#333",
+            backdropFilter: "blur(20px)",
+            borderBottom: `1px solid ${
+              isDarkMode ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.08)"
+            }`,
           }}
         >
           <Toolbar

@@ -2,9 +2,32 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 
+  // Default to light theme with fallback
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  color: #333 !important;
+
+  // Dark theme detection using background color or prefers-color-scheme
+  @media (prefers-color-scheme: dark) {
+    background-color: rgba(18, 18, 18, 0.95) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    color: #fff !important;
+  }
+
+  // Force colors on toolbar and buttons
+  .MuiToolbar-root {
+    color: inherit !important;
+
+    .MuiButton-root,
+    .MuiIconButton-root {
+      color: inherit !important;
+    }
+  }
+
   .nav-button {
     position: relative;
     overflow: hidden;
+    color: inherit !important;
 
     &::after {
       content: "";
@@ -30,6 +53,7 @@
 
   .theme-toggle {
     transition: all 0.3s ease-in-out;
+    color: inherit !important;
 
     &:hover {
       transform: rotate(180deg);
