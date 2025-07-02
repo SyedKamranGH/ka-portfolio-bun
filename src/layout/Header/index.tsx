@@ -79,9 +79,7 @@ export const Header: React.FC<HeaderProps> = ({
             textTransform: "capitalize",
             color: "inherit",
             "&:hover": {
-              backgroundColor: isDarkMode
-                ? "rgba(255, 255, 255, 0.1)"
-                : "rgba(0, 0, 0, 0.1)",
+              backgroundColor: "action.hover",
             },
           }}
         >
@@ -95,6 +93,9 @@ export const Header: React.FC<HeaderProps> = ({
         className="theme-toggle"
         sx={{
           color: "inherit",
+          "&:hover": {
+            backgroundColor: "action.hover",
+          },
         }}
       >
         {isDarkMode ? <LightMode /> : <DarkMode />}
@@ -116,7 +117,8 @@ export const Header: React.FC<HeaderProps> = ({
         "& .MuiDrawer-paper": {
           boxSizing: "border-box",
           width: 280,
-          backgroundColor: theme.palette.background.paper,
+          backgroundColor: "background.paper",
+          color: "text.primary",
         },
       }}
     >
@@ -133,6 +135,7 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={toggleTheme}
             color="inherit"
             aria-label="toggle theme"
+            sx={{ color: "text.primary" }}
           >
             {isDarkMode ? <LightMode /> : <DarkMode />}
           </IconButton>
@@ -140,6 +143,7 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={handleDrawerToggle}
             color="inherit"
             aria-label="close menu"
+            sx={{ color: "text.primary" }}
           >
             <CloseIcon />
           </IconButton>
@@ -153,7 +157,7 @@ export const Header: React.FC<HeaderProps> = ({
                   borderRadius: 2,
                   mb: 1,
                   "&:hover": {
-                    backgroundColor: theme.palette.primary.main + "20",
+                    backgroundColor: "action.hover",
                   },
                 }}
               >
@@ -163,6 +167,7 @@ export const Header: React.FC<HeaderProps> = ({
                     "& .MuiListItemText-primary": {
                       fontWeight: 500,
                       fontSize: "1.1rem",
+                      color: "text.primary",
                     },
                   }}
                 />
@@ -182,14 +187,6 @@ export const Header: React.FC<HeaderProps> = ({
           className="header"
           sx={{
             zIndex: theme.zIndex.drawer + 1,
-            backgroundColor: isDarkMode
-              ? "rgba(18, 18, 18, 0.95)"
-              : "rgba(255, 255, 255, 0.95)",
-            color: isDarkMode ? "#fff" : "#333",
-            backdropFilter: "blur(20px)",
-            borderBottom: `1px solid ${
-              isDarkMode ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.08)"
-            }`,
           }}
         >
           <Toolbar
@@ -223,6 +220,12 @@ export const Header: React.FC<HeaderProps> = ({
                     aria-label="open drawer"
                     edge="end"
                     onClick={handleDrawerToggle}
+                    sx={{
+                      color: "inherit",
+                      "&:hover": {
+                        backgroundColor: "action.hover",
+                      },
+                    }}
                   >
                     <MenuIcon />
                   </IconButton>

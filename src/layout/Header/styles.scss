@@ -1,33 +1,62 @@
 .header {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  transition: all 0.3s ease-in-out;
 
-  // Default to light theme with fallback
-  background-color: rgba(255, 255, 255, 0.95) !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  color: #333 !important;
+  // Ensure visibility and contrast
+  &.MuiAppBar-root {
+    // Light theme
+    .MuiToolbar-root {
+      .MuiButton-root {
+        font-weight: 500;
+        position: relative;
 
-  // Dark theme detection using background color or prefers-color-scheme
-  @media (prefers-color-scheme: dark) {
-    background-color: rgba(18, 18, 18, 0.95) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    color: #fff !important;
+        &.nav-button {
+          &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(
+              90deg,
+              transparent,
+              currentColor,
+              transparent
+            );
+            transition: all 0.3s ease-in-out;
+            transform: translateX(-50%);
+          }
+
+          &:hover::after {
+            width: 100%;
+          }
+        }
+      }
+
+      .MuiIconButton-root {
+        &.theme-toggle {
+          &:hover {
+            transform: rotate(180deg);
+          }
+        }
+      }
+    }
   }
 
-  // Force colors on toolbar and buttons
+  // Let Material-UI handle the colors through theme
   .MuiToolbar-root {
-    color: inherit !important;
-
     .MuiButton-root,
     .MuiIconButton-root {
-      color: inherit !important;
+      transition: all 0.3s ease-in-out;
     }
   }
 
   .nav-button {
     position: relative;
     overflow: hidden;
-    color: inherit !important;
+    transition: all 0.3s ease-in-out;
 
     &::after {
       content: "";
@@ -53,7 +82,6 @@
 
   .theme-toggle {
     transition: all 0.3s ease-in-out;
-    color: inherit !important;
 
     &:hover {
       transform: rotate(180deg);
