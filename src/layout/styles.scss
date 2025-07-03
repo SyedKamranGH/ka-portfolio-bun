@@ -17,8 +17,9 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding-top: 80px;
     overflow-x: hidden;
+    padding: 0;
+    margin: 0;
 
     /* Hide scrollbar while maintaining scroll functionality */
     &::-webkit-scrollbar {
@@ -33,3 +34,6 @@
 }
 
 // Global smooth scrolling
+html {
+  scroll-behavior: smooth;
+}

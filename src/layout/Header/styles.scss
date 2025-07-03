@@ -1,58 +1,127 @@
 .header {
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.floating-glass {
+    // Enhanced glassmorphism effect
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+
+    // Add a subtle gradient overlay for better glass effect
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255, 255, 255, 0.02) 100%
+      );
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    // Dark theme gradient overlay
+    &[data-theme="dark"]::before {
+      background: linear-gradient(
+        135deg,
+        rgba(167, 139, 250, 0.15) 0%,
+        rgba(167, 139, 250, 0.08) 50%,
+        rgba(167, 139, 250, 0.03) 100%
+      );
+    }
+
+    // Enhanced floating animation
+    &:hover {
+      transform: translateX(-50%) translateY(-4px) scale(1.02);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    // Ensure content is above the overlay
+    .MuiToolbar-root {
+      position: relative;
+      z-index: 2;
+    }
+  }
 
   // Ensure visibility and contrast
   &.MuiAppBar-root {
-    // Light theme
     .MuiToolbar-root {
       .MuiButton-root {
         font-weight: 500;
         position: relative;
+        border-radius: 20px;
+        padding: 8px 16px;
 
         &.nav-button {
-          &::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(
-              90deg,
-              transparent,
-              currentColor,
-              transparent
-            );
-            transition: all 0.3s ease-in-out;
-            transform: translateX(-50%);
-          }
+          position: relative;
+          overflow: hidden;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-          &:hover::after {
-            width: 100%;
+          &:hover {
+            &::before {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.1),
+                transparent,
+                rgba(255, 255, 255, 0.1)
+              );
+              border-radius: inherit;
+              animation: shimmer 1.5s infinite;
+            }
           }
         }
       }
 
       .MuiIconButton-root {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 50%;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: scale(1.05);
+        }
+
         &.theme-toggle {
+          position: relative;
+          overflow: hidden;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
           &:hover {
-            transform: rotate(180deg);
+            &::before {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background: radial-gradient(
+                circle,
+                rgba(255, 255, 255, 0.2) 0%,
+                transparent 70%
+              );
+              border-radius: inherit;
+              animation: pulse 2s infinite;
+            }
           }
         }
       }
     }
   }
 
-  // Let Material-UI handle the colors through theme
-  .MuiToolbar-root {
-    .MuiButton-root,
-    .MuiIconButton-root {
-      transition: all 0.3s ease-in-out;
-    }
-  }
-
+  // Legacy styles for compatibility
   .nav-button {
     position: relative;
     overflow: hidden;
@@ -89,16 +158,57 @@
   }
 }
 
+// Shimmer animation for buttons
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+// Pulse animation for theme toggle
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
 // Mobile drawer animations
 .MuiDrawer-paper {
-  animation: slideIn 0.3s ease-out;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.95) !important;
+
+  [data-theme="dark"] & {
+    background: rgba(30, 42, 71, 0.95) !important;
+  }
 }
 
 @keyframes slideIn {
   from {
     transform: translateX(100%);
+    opacity: 0;
   }
   to {
     transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+// Responsive adjustments for floating header
+@media (max-width: 600px) {
+  .header.floating-glass {
+    &:hover {
+      transform: translateX(-50%) translateY(-2px) scale(1.01);
+    }
   }
 }

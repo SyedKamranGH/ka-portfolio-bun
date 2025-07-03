@@ -77,11 +77,11 @@ const commonTheme: ThemeOptions = {
       styleOverrides: {
         root: {
           borderRadius: 16,
-          boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
           transition: "all 0.3s ease-in-out",
           "&:hover": {
             transform: "translateY(-4px)",
-            boxShadow: "0 8px 30px rgba(0,0,0,0.15)",
+            boxShadow: "0 8px 30px rgba(0, 0, 0, 0.15)",
           },
         },
       },
@@ -168,33 +168,6 @@ export const lightTheme = createTheme({
   },
   components: {
     ...commonTheme.components,
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          backdropFilter: "blur(20px)",
-          backgroundColor: "rgba(255, 255, 255, 0.95)",
-          boxShadow: "0 2px 20px rgba(30, 58, 138, 0.15)",
-          borderBottom: "1px solid rgba(30, 58, 138, 0.2)",
-          color: "#1E3A8A",
-
-          "& .MuiToolbar-root": {
-            color: "#1E3A8A",
-          },
-          "& .MuiButton-root": {
-            color: "#1E3A8A",
-            "&:hover": {
-              backgroundColor: "rgba(30, 58, 138, 0.1)",
-            },
-          },
-          "& .MuiIconButton-root": {
-            color: "#1E3A8A",
-            "&:hover": {
-              backgroundColor: "rgba(30, 58, 138, 0.1)",
-            },
-          },
-        },
-      },
-    },
   },
 });
 
@@ -257,33 +230,6 @@ export const darkTheme = createTheme({
   },
   components: {
     ...commonTheme.components,
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          backdropFilter: "blur(20px)",
-          backgroundColor: "rgba(30, 42, 71, 0.95)",
-          boxShadow: "0 2px 20px rgba(74, 54, 106, 0.3)",
-          borderBottom: "1px solid rgba(74, 54, 106, 0.3)",
-          color: "#F1F5F9",
-
-          "& .MuiToolbar-root": {
-            color: "#F1F5F9",
-          },
-          "& .MuiButton-root": {
-            color: "#F1F5F9",
-            "&:hover": {
-              backgroundColor: "rgba(167, 139, 250, 0.2)",
-            },
-          },
-          "& .MuiIconButton-root": {
-            color: "#F1F5F9",
-            "&:hover": {
-              backgroundColor: "rgba(167, 139, 250, 0.2)",
-            },
-          },
-        },
-      },
-    },
     MuiCard: {
       styleOverrides: {
         root: {

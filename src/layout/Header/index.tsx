@@ -75,11 +75,37 @@ export const Header: React.FC<HeaderProps> = ({
           color="inherit"
           className="nav-button"
           sx={{
-            fontWeight: 500,
+            fontWeight: 600,
             textTransform: "capitalize",
-            color: "inherit",
+            color: isDarkMode ? "#F1F5F9" : "#1E3A8A",
+            borderRadius: "24px",
+            padding: "10px 20px",
+            background: isDarkMode
+              ? "rgba(167, 139, 250, 0.2)"
+              : "rgba(30, 58, 138, 0.15)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            border: `1.5px solid ${
+              isDarkMode ? "rgba(167, 139, 250, 0.4)" : "rgba(30, 58, 138, 0.3)"
+            }`,
+            fontSize: "0.95rem",
+            letterSpacing: "0.5px",
+            textShadow: isDarkMode
+              ? "0 1px 2px rgba(0, 0, 0, 0.3)"
+              : "0 1px 2px rgba(255, 255, 255, 0.8)",
             "&:hover": {
-              backgroundColor: "action.hover",
+              backgroundColor: isDarkMode
+                ? "rgba(167, 139, 250, 0.35)"
+                : "rgba(30, 58, 138, 0.25)",
+              transform: "translateY(-2px)",
+              boxShadow: isDarkMode
+                ? "0 8px 25px rgba(167, 139, 250, 0.4)"
+                : "0 8px 25px rgba(30, 58, 138, 0.3)",
+              border: `1.5px solid ${
+                isDarkMode
+                  ? "rgba(167, 139, 250, 0.6)"
+                  : "rgba(30, 58, 138, 0.5)"
+              }`,
             },
           }}
         >
@@ -92,9 +118,28 @@ export const Header: React.FC<HeaderProps> = ({
         aria-label="toggle theme"
         className="theme-toggle"
         sx={{
-          color: "inherit",
+          color: isDarkMode ? "#F1F5F9" : "#1E3A8A",
+          background: isDarkMode
+            ? "rgba(167, 139, 250, 0.2)"
+            : "rgba(30, 58, 138, 0.15)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          border: `1.5px solid ${
+            isDarkMode ? "rgba(167, 139, 250, 0.4)" : "rgba(30, 58, 138, 0.3)"
+          }`,
+          width: 48,
+          height: 48,
           "&:hover": {
-            backgroundColor: "action.hover",
+            backgroundColor: isDarkMode
+              ? "rgba(167, 139, 250, 0.35)"
+              : "rgba(30, 58, 138, 0.25)",
+            transform: "scale(1.1) rotate(180deg)",
+            boxShadow: isDarkMode
+              ? "0 8px 25px rgba(167, 139, 250, 0.4)"
+              : "0 8px 25px rgba(30, 58, 138, 0.3)",
+            border: `1.5px solid ${
+              isDarkMode ? "rgba(167, 139, 250, 0.6)" : "rgba(30, 58, 138, 0.5)"
+            }`,
           },
         }}
       >
@@ -116,34 +161,63 @@ export const Header: React.FC<HeaderProps> = ({
         display: { xs: "block", md: "none" },
         "& .MuiDrawer-paper": {
           boxSizing: "border-box",
-          width: 280,
-          backgroundColor: "background.paper",
-          color: "text.primary",
+          width: 300,
+          backgroundColor: isDarkMode
+            ? "rgba(30, 42, 71, 0.95)"
+            : "rgba(255, 255, 255, 0.95)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          color: isDarkMode ? "#F1F5F9" : "#1E3A8A",
+          border: `1px solid ${
+            isDarkMode ? "rgba(167, 139, 250, 0.2)" : "rgba(30, 58, 138, 0.2)"
+          }`,
         },
       }}
     >
-      <Box sx={{ p: 2 }}>
+      <Box sx={{ p: 3 }}>
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            mb: 2,
+            mb: 3,
+            pb: 2,
+            borderBottom: `1px solid ${
+              isDarkMode ? "rgba(167, 139, 250, 0.2)" : "rgba(30, 58, 138, 0.2)"
+            }`,
           }}
         >
           <IconButton
             onClick={toggleTheme}
-            color="inherit"
             aria-label="toggle theme"
-            sx={{ color: "text.primary" }}
+            sx={{
+              color: isDarkMode ? "#F1F5F9" : "#1E3A8A",
+              background: isDarkMode
+                ? "rgba(167, 139, 250, 0.2)"
+                : "rgba(30, 58, 138, 0.15)",
+              "&:hover": {
+                backgroundColor: isDarkMode
+                  ? "rgba(167, 139, 250, 0.3)"
+                  : "rgba(30, 58, 138, 0.25)",
+              },
+            }}
           >
             {isDarkMode ? <LightMode /> : <DarkMode />}
           </IconButton>
           <IconButton
             onClick={handleDrawerToggle}
-            color="inherit"
             aria-label="close menu"
-            sx={{ color: "text.primary" }}
+            sx={{
+              color: isDarkMode ? "#F1F5F9" : "#1E3A8A",
+              background: isDarkMode
+                ? "rgba(167, 139, 250, 0.2)"
+                : "rgba(30, 58, 138, 0.15)",
+              "&:hover": {
+                backgroundColor: isDarkMode
+                  ? "rgba(167, 139, 250, 0.3)"
+                  : "rgba(30, 58, 138, 0.25)",
+              },
+            }}
           >
             <CloseIcon />
           </IconButton>
@@ -154,10 +228,22 @@ export const Header: React.FC<HeaderProps> = ({
               <ListItemButton
                 onClick={() => handleMobileNavClick(nav.id)}
                 sx={{
-                  borderRadius: 2,
-                  mb: 1,
+                  borderRadius: 3,
+                  mb: 1.5,
+                  p: 2,
+                  background: isDarkMode
+                    ? "rgba(167, 139, 250, 0.1)"
+                    : "rgba(30, 58, 138, 0.08)",
+                  border: `1px solid ${
+                    isDarkMode
+                      ? "rgba(167, 139, 250, 0.2)"
+                      : "rgba(30, 58, 138, 0.15)"
+                  }`,
                   "&:hover": {
-                    backgroundColor: "action.hover",
+                    backgroundColor: isDarkMode
+                      ? "rgba(167, 139, 250, 0.2)"
+                      : "rgba(30, 58, 138, 0.15)",
+                    transform: "translateX(8px)",
                   },
                 }}
               >
@@ -165,9 +251,10 @@ export const Header: React.FC<HeaderProps> = ({
                   primary={nav.label}
                   sx={{
                     "& .MuiListItemText-primary": {
-                      fontWeight: 500,
+                      fontWeight: 600,
                       fontSize: "1.1rem",
-                      color: "text.primary",
+                      color: isDarkMode ? "#F1F5F9" : "#1E3A8A",
+                      letterSpacing: "0.5px",
                     },
                   }}
                 />
@@ -181,62 +268,118 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <>
-      <HideOnScroll>
-        <AppBar
-          position="fixed"
-          className="header"
+      <AppBar
+        position="absolute"
+        className="header floating-glass"
+        sx={{
+          zIndex: theme.zIndex.appBar + 1,
+          top: 20,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: { xs: "90%", sm: "80%", md: "70%", lg: "60%" },
+          maxWidth: "1000px",
+          borderRadius: 6,
+
+          // Enhanced Glassmorphism styling
+          backdropFilter: "blur(24px)",
+          WebkitBackdropFilter: "blur(24px)",
+          background: isDarkMode
+            ? "rgba(30, 42, 71, 0.25)"
+            : "rgba(255, 255, 255, 0.25)",
+          border: `1px solid ${
+            isDarkMode ? "rgba(167, 139, 250, 0.3)" : "rgba(30, 58, 138, 0.2)"
+          }`,
+
+          // Enhanced shadows for glass effect
+          boxShadow: isDarkMode
+            ? `
+              0 8px 32px rgba(74, 54, 106, 0.4),
+              0 4px 16px rgba(74, 54, 106, 0.2),
+              inset 0 1px 0 rgba(167, 139, 250, 0.2)
+            `
+            : `
+              0 8px 32px rgba(0, 0, 0, 0.15),
+              0 4px 16px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.4)
+            `,
+
+          // Hover effect
+          "&:hover": {
+            transform: "translateX(-50%) translateY(-2px)",
+            boxShadow: isDarkMode
+              ? `
+                0 12px 48px rgba(74, 54, 106, 0.5),
+                0 6px 24px rgba(74, 54, 106, 0.3),
+                inset 0 1px 0 rgba(167, 139, 250, 0.3)
+              `
+              : `
+                0 12px 48px rgba(0, 0, 0, 0.2),
+                0 6px 24px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5)
+              `,
+          },
+        }}
+      >
+        <Toolbar
           sx={{
-            zIndex: theme.zIndex.drawer + 1,
+            justifyContent: "center",
+            minHeight: { xs: "56px", sm: "64px" },
+            px: { xs: 2, sm: 3, md: 4 },
+            borderRadius: 6,
           }}
         >
-          <Toolbar
+          <Box
             sx={{
+              display: "flex",
               justifyContent: "center",
-              minHeight: { xs: "64px", sm: "70px" },
-              px: { xs: 2, sm: 3, md: 4 },
+              alignItems: "center",
+              width: "100%",
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-                maxWidth: "lg",
-              }}
-            >
-              {isMobile ? (
-                <Box
+            {isMobile ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                <Box /> {/* Spacer for centering */}
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  edge="end"
+                  onClick={handleDrawerToggle}
                   sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: "100%",
+                    color: isDarkMode ? "#F1F5F9" : "#1E3A8A",
+                    background: isDarkMode
+                      ? "rgba(167, 139, 250, 0.2)"
+                      : "rgba(30, 58, 138, 0.15)",
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
+                    border: `1px solid ${
+                      isDarkMode
+                        ? "rgba(167, 139, 250, 0.3)"
+                        : "rgba(30, 58, 138, 0.2)"
+                    }`,
+                    "&:hover": {
+                      backgroundColor: isDarkMode
+                        ? "rgba(167, 139, 250, 0.3)"
+                        : "rgba(30, 58, 138, 0.2)",
+                      transform: "scale(1.05)",
+                    },
                   }}
                 >
-                  <Box /> {/* Spacer for centering */}
-                  <IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    edge="end"
-                    onClick={handleDrawerToggle}
-                    sx={{
-                      color: "inherit",
-                      "&:hover": {
-                        backgroundColor: "action.hover",
-                      },
-                    }}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                </Box>
-              ) : (
-                <NavigationButtons />
-              )}
-            </Box>
-          </Toolbar>
-        </AppBar>
-      </HideOnScroll>
+                  <MenuIcon />
+                </IconButton>
+              </Box>
+            ) : (
+              <NavigationButtons />
+            )}
+          </Box>
+        </Toolbar>
+      </AppBar>
       {isMobile && <MobileDrawer />}
     </>
   );
