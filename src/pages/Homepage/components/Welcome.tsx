@@ -78,7 +78,13 @@ export const Welcome: React.FC = () => {
           }}
         >
           {/* Left side - main content */}
-          <Box sx={{ flex: 1, maxWidth: { xs: "100%", md: "66%" } }}>
+          <Box
+            sx={{
+              flex: 1,
+              maxWidth: { xs: "100%", md: "66%" },
+              mt: { xs: 8, sm: 10, md: 12 }, // Adding top margin to create space from header
+            }}
+          >
             <MotionBox
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
