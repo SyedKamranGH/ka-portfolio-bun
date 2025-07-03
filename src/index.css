@@ -3,9 +3,15 @@
   line-height: 1.5;
   font-weight: 400;
 
+  /* Light theme colors */
+  --bg-color: #f8fafc;
+  --text-color: #1e3a8a;
+  --primary-color: #1e3a8a;
+  --secondary-color: #8b5cf6;
+
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--text-color);
+  background-color: var(--bg-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,21 +19,69 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+/* Dark theme colors */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #0f1419;
+    --text-color: #f1f5f9;
+    --primary-color: #1e2a47;
+    --secondary-color: #4a366a;
+
+    color: var(--text-color);
+    background-color: var(--bg-color);
+  }
 }
-a:hover {
-  color: #535bf2;
+
+/* Hide scrollbar for webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+/* Hide scrollbar for Firefox */
+* {
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
+}
+
+/* Ensure smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar for all elements while maintaining functionality */
+body,
+html {
+  overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  /* Keep vertical scroll but hide scrollbar */
+  overflow-y: auto;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+  font-weight: 500;
+  color: var(--secondary-color);
+  text-decoration: inherit;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--primary-color);
 }
 
 h1 {

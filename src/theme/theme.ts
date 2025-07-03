@@ -106,15 +106,6 @@ const commonTheme: ThemeOptions = {
         },
       },
     },
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          backdropFilter: "blur(20px)",
-          backgroundColor: "rgba(255, 255, 255, 0.8)",
-          boxShadow: "0 2px 20px rgba(0,0,0,0.1)",
-        },
-      },
-    },
   },
 };
 
@@ -123,48 +114,86 @@ export const lightTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#1976d2", // Royal Blue
-      light: "#42a5f5",
-      dark: "#1565c0",
+      main: "#1E3A8A", // Navy Blue
+      light: "#3B82F6",
+      dark: "#1E40AF",
       contrastText: "#ffffff",
     },
     secondary: {
-      main: "#424242", // Dark Grey
-      light: "#757575",
-      dark: "#212121",
+      main: "#8B5CF6", // Lilac
+      light: "#A78BFA",
+      dark: "#7C3AED",
       contrastText: "#ffffff",
     },
     background: {
-      default: "#fafafa",
-      paper: "#ffffff",
+      default: "#F8FAFC", // Light blue-gray
+      paper: "#FFFFFF",
     },
     text: {
-      primary: "#212121",
-      secondary: "#757575",
+      primary: "#1E3A8A", // Navy Blue for text
+      secondary: "#64748B", // Slate gray
     },
     grey: {
-      50: "#fafafa",
-      100: "#f5f5f5",
-      200: "#eeeeee",
-      300: "#e0e0e0",
-      400: "#bdbdbd",
-      500: "#9e9e9e",
-      600: "#757575",
-      700: "#616161",
-      800: "#424242",
-      900: "#212121",
+      50: "#F8FAFC",
+      100: "#F1F5F9",
+      200: "#E2E8F0",
+      300: "#CBD5E1",
+      400: "#94A3B8",
+      500: "#64748B",
+      600: "#475569",
+      700: "#334155",
+      800: "#1E293B",
+      900: "#0F172A",
     },
     success: {
-      main: "#4caf50",
+      main: "#10B981",
+      light: "#34D399",
+      dark: "#059669",
     },
     warning: {
-      main: "#ff9800",
+      main: "#F59E0B",
+      light: "#FBBF24",
+      dark: "#D97706",
     },
     error: {
-      main: "#f44336",
+      main: "#EF4444",
+      light: "#F87171",
+      dark: "#DC2626",
     },
     info: {
-      main: "#2196f3",
+      main: "#3B82F6",
+      light: "#60A5FA",
+      dark: "#2563EB",
+    },
+  },
+  components: {
+    ...commonTheme.components,
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backdropFilter: "blur(20px)",
+          backgroundColor: "rgba(255, 255, 255, 0.95)",
+          boxShadow: "0 2px 20px rgba(30, 58, 138, 0.15)",
+          borderBottom: "1px solid rgba(30, 58, 138, 0.2)",
+          color: "#1E3A8A",
+
+          "& .MuiToolbar-root": {
+            color: "#1E3A8A",
+          },
+          "& .MuiButton-root": {
+            color: "#1E3A8A",
+            "&:hover": {
+              backgroundColor: "rgba(30, 58, 138, 0.1)",
+            },
+          },
+          "& .MuiIconButton-root": {
+            color: "#1E3A8A",
+            "&:hover": {
+              backgroundColor: "rgba(30, 58, 138, 0.1)",
+            },
+          },
+        },
+      },
     },
   },
 });
@@ -174,48 +203,56 @@ export const darkTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#2196f3", // Royal Blue (lighter for dark mode)
-      light: "#64b5f6",
-      dark: "#1976d2",
+      main: "#1E2A47", // Dark Navy Blue
+      light: "#2D3F62",
+      dark: "#0F1419",
       contrastText: "#ffffff",
     },
     secondary: {
-      main: "#757575", // Light Grey for dark mode
-      light: "#9e9e9e",
-      dark: "#424242",
+      main: "#4A366A", // Dark Lilac
+      light: "#6B46C1",
+      dark: "#3B2F5F",
       contrastText: "#ffffff",
     },
     background: {
-      default: "#121212",
-      paper: "#1e1e1e",
+      default: "#0F1419", // Very dark navy
+      paper: "#1E2A47", // Dark navy blue for cards/papers
     },
     text: {
-      primary: "#ffffff",
-      secondary: "#b0b0b0",
+      primary: "#F1F5F9", // Light text
+      secondary: "#A78BFA", // Light lilac for secondary text
     },
     grey: {
-      50: "#fafafa",
-      100: "#f5f5f5",
-      200: "#eeeeee",
-      300: "#e0e0e0",
-      400: "#bdbdbd",
-      500: "#9e9e9e",
-      600: "#757575",
-      700: "#616161",
-      800: "#424242",
-      900: "#212121",
+      50: "#F8FAFC",
+      100: "#F1F5F9",
+      200: "#E2E8F0",
+      300: "#CBD5E1",
+      400: "#94A3B8",
+      500: "#64748B",
+      600: "#475569",
+      700: "#334155",
+      800: "#1E293B",
+      900: "#0F172A",
     },
     success: {
-      main: "#66bb6a",
+      main: "#10B981",
+      light: "#34D399",
+      dark: "#059669",
     },
     warning: {
-      main: "#ffa726",
+      main: "#F59E0B",
+      light: "#FBBF24",
+      dark: "#D97706",
     },
     error: {
-      main: "#ef5350",
+      main: "#EF4444",
+      light: "#F87171",
+      dark: "#DC2626",
     },
     info: {
-      main: "#42a5f5",
+      main: "#A78BFA",
+      light: "#C4B5FD",
+      dark: "#8B5CF6",
     },
   },
   components: {
@@ -224,8 +261,39 @@ export const darkTheme = createTheme({
       styleOverrides: {
         root: {
           backdropFilter: "blur(20px)",
-          backgroundColor: "rgba(30, 30, 30, 0.8)",
-          boxShadow: "0 2px 20px rgba(0,0,0,0.3)",
+          backgroundColor: "rgba(30, 42, 71, 0.95)",
+          boxShadow: "0 2px 20px rgba(74, 54, 106, 0.3)",
+          borderBottom: "1px solid rgba(74, 54, 106, 0.3)",
+          color: "#F1F5F9",
+
+          "& .MuiToolbar-root": {
+            color: "#F1F5F9",
+          },
+          "& .MuiButton-root": {
+            color: "#F1F5F9",
+            "&:hover": {
+              backgroundColor: "rgba(167, 139, 250, 0.2)",
+            },
+          },
+          "& .MuiIconButton-root": {
+            color: "#F1F5F9",
+            "&:hover": {
+              backgroundColor: "rgba(167, 139, 250, 0.2)",
+            },
+          },
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 16,
+          boxShadow: "0 4px 20px rgba(74, 54, 106, 0.15)",
+          transition: "all 0.3s ease-in-out",
+          "&:hover": {
+            transform: "translateY(-4px)",
+            boxShadow: "0 8px 30px rgba(74, 54, 106, 0.25)",
+          },
         },
       },
     },
