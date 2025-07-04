@@ -3,33 +3,105 @@
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
-  position: relative;
   overflow-x: hidden;
 
-  /* Hide scrollbar while maintaining scroll functionality */
-  &::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-  }
+  // Smooth transitions for theme switching
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   .main-content {
     flex: 1;
-    display: flex;
-    flex-direction: column;
     width: 100%;
-    padding-top: 80px;
-    overflow-x: hidden;
+    // Remove padding-top to prevent white space above background
+    padding: 0;
+  }
+}
 
-    /* Hide scrollbar while maintaining scroll functionality */
-    &::-webkit-scrollbar {
-      width: 0px;
-      background: transparent;
-    }
+// Theme-specific layout styles
+.theme-light {
+  .layout {
+    background-color: #ffffff;
+    color: #1e3a8a;
 
-    @media (max-width: 600px) {
-      padding-top: 70px;
+    .main-content {
+      background: transparent; // Let sections handle their own backgrounds
     }
   }
 }
 
-// Global smooth scrolling
+.theme-dark {
+  .layout {
+    background-color: #0f172a;
+    color: #f1f5f9;
+
+    .main-content {
+      background: transparent; // Let sections handle their own backgrounds
+    }
+  }
+}
+
+// Responsive layout adjustments
+@media (max-width: 960px) {
+  .layout {
+    .main-content {
+      padding: 0;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .layout {
+    .main-content {
+      padding: 0;
+    }
+  }
+}
+
+// Ensure proper z-index layering
+.layout {
+  position: relative;
+  z-index: 1;
+}
+
+// Smooth scrolling for the entire layout
+html {
+  scroll-behavior: smooth;
+}
+
+// Hide scrollbars while maintaining scroll functionality
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: transparent;
+}
+
+// Firefox scrollbar hiding
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+// Ensure full width and height coverage
+body,
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}

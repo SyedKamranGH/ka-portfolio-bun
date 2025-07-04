@@ -1,58 +1,114 @@
 .header {
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.floating-glass {
+    // Enhanced glassmorphism effect
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    border-radius: 1.5rem;
+
+    // Add a subtle gradient overlay for better glass effect
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255, 255, 255, 0.02) 100%
+      );
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    // Dark theme gradient overlay
+    &[data-theme="dark"]::before {
+      background: linear-gradient(
+        135deg,
+        rgba(167, 139, 250, 0.15) 0%,
+        rgba(167, 139, 250, 0.08) 50%,
+        rgba(167, 139, 250, 0.03) 100%
+      );
+    }
+
+    // Enhanced floating animation
+    &:hover {
+      transform: translateX(-50%) translateY(-4px) scale(1.02);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    // Ensure content is above the overlay
+    .MuiToolbar-root {
+      position: relative;
+      z-index: 2;
+      border-radius: 1.5rem;
+    }
+  }
 
   // Ensure visibility and contrast
   &.MuiAppBar-root {
-    // Light theme
     .MuiToolbar-root {
       .MuiButton-root {
         font-weight: 500;
         position: relative;
+        border-radius: 20px;
+        padding: 8px 16px;
 
         &.nav-button {
-          &::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(
-              90deg,
-              transparent,
-              currentColor,
-              transparent
-            );
-            transition: all 0.3s ease-in-out;
-            transform: translateX(-50%);
-          }
+          position: relative;
+          overflow: hidden;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          border-radius: 1.5rem;
+          padding: 0.625rem 1.25rem;
+          font-weight: 600;
+          text-transform: capitalize;
+          font-size: 0.95rem;
+          letter-spacing: 0.5px;
+          border: 1.5px solid transparent;
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
 
-          &:hover::after {
-            width: 100%;
+          &:hover {
+            transform: translateY(-2px);
           }
         }
       }
 
       .MuiIconButton-root {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 50%;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: scale(1.05);
+        }
+
         &.theme-toggle {
+          position: relative;
+          overflow: hidden;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          width: 48px;
+          height: 48px;
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1.5px solid transparent;
+
           &:hover {
-            transform: rotate(180deg);
+            transform: scale(1.1) rotate(180deg);
           }
         }
       }
     }
   }
 
-  // Let Material-UI handle the colors through theme
-  .MuiToolbar-root {
-    .MuiButton-root,
-    .MuiIconButton-root {
-      transition: all 0.3s ease-in-out;
-    }
-  }
-
+  // Legacy styles for compatibility
   .nav-button {
     position: relative;
     overflow: hidden;
@@ -87,18 +143,326 @@
       transform: rotate(180deg);
     }
   }
+
+  // Mobile menu button
+  .mobile-menu-button {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid transparent;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// Theme-specific header styles
+.theme-light {
+  .header.floating-glass {
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(30, 58, 138, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+
+    &:hover {
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2), 0 6px 24px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+
+    .MuiToolbar-root {
+      color: #1e3a8a;
+    }
+
+    .nav-button {
+      color: #1e3a8a;
+      background: rgba(30, 58, 138, 0.15);
+      border-color: rgba(30, 58, 138, 0.3);
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+
+      &:hover {
+        background: rgba(30, 58, 138, 0.25);
+        border-color: rgba(30, 58, 138, 0.5);
+        box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
+      }
+    }
+
+    .theme-toggle {
+      color: #1e3a8a;
+      background: rgba(30, 58, 138, 0.15);
+      border-color: rgba(30, 58, 138, 0.3);
+
+      &:hover {
+        background: rgba(30, 58, 138, 0.25);
+        border-color: rgba(30, 58, 138, 0.5);
+        box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
+      }
+    }
+
+    .mobile-menu-button {
+      color: #1e3a8a;
+      background: rgba(30, 58, 138, 0.15);
+      border-color: rgba(30, 58, 138, 0.2);
+
+      &:hover {
+        background: rgba(30, 58, 138, 0.2);
+      }
+    }
+  }
+}
+
+.theme-dark {
+  .header.floating-glass {
+    background: rgba(30, 42, 71, 0.25);
+    border: 1px solid rgba(167, 139, 250, 0.3);
+    box-shadow: 0 8px 32px rgba(74, 54, 106, 0.4),
+      0 4px 16px rgba(74, 54, 106, 0.2), inset 0 1px 0 rgba(167, 139, 250, 0.2);
+
+    &::before {
+      background: linear-gradient(
+        135deg,
+        rgba(167, 139, 250, 0.15) 0%,
+        rgba(167, 139, 250, 0.08) 50%,
+        rgba(167, 139, 250, 0.03) 100%
+      );
+    }
+
+    &:hover {
+      box-shadow: 0 12px 48px rgba(74, 54, 106, 0.5),
+        0 6px 24px rgba(74, 54, 106, 0.3),
+        inset 0 1px 0 rgba(167, 139, 250, 0.3);
+    }
+
+    .MuiToolbar-root {
+      color: #f1f5f9;
+    }
+
+    .nav-button {
+      color: #f1f5f9;
+      background: rgba(167, 139, 250, 0.2);
+      border-color: rgba(167, 139, 250, 0.4);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+
+      &:hover {
+        background: rgba(167, 139, 250, 0.35);
+        border-color: rgba(167, 139, 250, 0.6);
+        box-shadow: 0 8px 25px rgba(167, 139, 250, 0.4);
+      }
+    }
+
+    .theme-toggle {
+      color: #f1f5f9;
+      background: rgba(167, 139, 250, 0.2);
+      border-color: rgba(167, 139, 250, 0.4);
+
+      &:hover {
+        background: rgba(167, 139, 250, 0.35);
+        border-color: rgba(167, 139, 250, 0.6);
+        box-shadow: 0 8px 25px rgba(167, 139, 250, 0.4);
+      }
+    }
+
+    .mobile-menu-button {
+      color: #f1f5f9;
+      background: rgba(167, 139, 250, 0.2);
+      border-color: rgba(167, 139, 250, 0.3);
+
+      &:hover {
+        background: rgba(167, 139, 250, 0.3);
+      }
+    }
+  }
+}
+
+// Enhanced button animations
+.nav-button {
+  &:hover {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.1),
+        transparent,
+        rgba(255, 255, 255, 0.1)
+      );
+      border-radius: inherit;
+      animation: shimmer 1.5s infinite;
+    }
+  }
+}
+
+.theme-toggle {
+  &:hover {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.2) 0%,
+        transparent 70%
+      );
+      border-radius: inherit;
+      animation: pulse 2s infinite;
+    }
+  }
+}
+
+// Shimmer animation for buttons
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+// Pulse animation for theme toggle
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
 }
 
 // Mobile drawer animations
 .MuiDrawer-paper {
-  animation: slideIn 0.3s ease-out;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.95) !important;
+
+  [data-theme="dark"] & {
+    background: rgba(30, 42, 71, 0.95) !important;
+  }
+
+  .drawer-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid;
+    margin-bottom: 1.5rem;
+
+    .drawer-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .drawer-nav-item {
+    border-radius: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding: 1rem;
+    border: 1px solid;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateX(8px);
+    }
+
+    .drawer-nav-text {
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .drawer-icon-button {
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// Theme-specific drawer styles
+.theme-light {
+  .MuiDrawer-paper {
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #1e3a8a;
+    border: 1px solid rgba(30, 58, 138, 0.2);
+
+    .drawer-header {
+      border-bottom-color: rgba(30, 58, 138, 0.2);
+    }
+
+    .drawer-nav-item {
+      background: rgba(30, 58, 138, 0.08);
+      border-color: rgba(30, 58, 138, 0.15);
+
+      &:hover {
+        background: rgba(30, 58, 138, 0.15);
+      }
+    }
+
+    .drawer-icon-button {
+      background: rgba(30, 58, 138, 0.15);
+
+      &:hover {
+        background: rgba(30, 58, 138, 0.25);
+      }
+    }
+  }
+}
+
+.theme-dark {
+  .MuiDrawer-paper {
+    background-color: rgba(30, 42, 71, 0.95);
+    color: #f1f5f9;
+    border: 1px solid rgba(167, 139, 250, 0.2);
+
+    .drawer-header {
+      border-bottom-color: rgba(167, 139, 250, 0.2);
+    }
+
+    .drawer-nav-item {
+      background: rgba(167, 139, 250, 0.1);
+      border-color: rgba(167, 139, 250, 0.2);
+
+      &:hover {
+        background: rgba(167, 139, 250, 0.2);
+      }
+    }
+
+    .drawer-icon-button {
+      background: rgba(167, 139, 250, 0.2);
+
+      &:hover {
+        background: rgba(167, 139, 250, 0.3);
+      }
+    }
+  }
 }
 
 @keyframes slideIn {
   from {
     transform: translateX(100%);
+    opacity: 0;
   }
   to {
     transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+// Responsive adjustments for floating header
+@media (max-width: 600px) {
+  .header.floating-glass {
+    &:hover {
+      transform: translateX(-50%) translateY(-2px) scale(1.01);
+    }
   }
 }

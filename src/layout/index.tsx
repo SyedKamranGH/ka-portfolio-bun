@@ -3,10 +3,13 @@ import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
+import { useTheme } from "../context/ThemeContext";
 import { navigationItems } from "../constants/data/navigation";
 import "./styles.scss";
 
 const Layout: React.FC = () => {
+  const { isDarkMode } = useTheme();
+
   const handleNavigationClick = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -25,7 +28,7 @@ const Layout: React.FC = () => {
   };
 
   return (
-    <Box className="layout">
+    <Box className={`layout ${isDarkMode ? "theme-dark" : "theme-light"}`}>
       <Header
         navigations={navigationItems}
         onNavigationClick={handleNavigationClick}
@@ -37,4 +40,5 @@ const Layout: React.FC = () => {
     </Box>
   );
 };
+
 export default Layout;

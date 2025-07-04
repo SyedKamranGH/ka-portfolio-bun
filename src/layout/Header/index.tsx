@@ -1,29 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
-  Box,
+  Typography,
   Button,
   IconButton,
-  useScrollTrigger,
-  Slide,
-  Stack,
-  useTheme,
-  useMediaQuery,
   Drawer,
   List,
   ListItem,
-  ListItemButton,
   ListItemText,
+  Box,
+  Stack,
+  Divider,
+  useMediaQuery,
 } from "@mui/material";
 import {
-  LightMode,
-  DarkMode,
   Menu as MenuIcon,
   Close as CloseIcon,
+  LightMode as LightModeIcon,
+  DarkMode as DarkModeIcon,
 } from "@mui/icons-material";
+import { useTheme } from "@mui/material/styles";
 import { useTheme as useCustomTheme } from "../../context/ThemeContext";
-import { useScroll } from "../../hooks/useScroll";
 import type { NavigationItem } from "../../types";
 import "./styles.scss";
 
@@ -32,22 +30,6 @@ interface HeaderProps {
   onNavigationClick: (id: string) => void;
 }
 
-interface HideOnScrollProps {
-  children: React.ReactElement;
-}
-
-const HideOnScroll: React.FC<HideOnScrollProps> = ({ children }) => {
-  const trigger = useScrollTrigger({
-    threshold: 100,
-  });
-
-  return (
-    <Slide appear={false} direction="down" in={!trigger}>
-      {children}
-    </Slide>
-  );
-};
-
 export const Header: React.FC<HeaderProps> = ({
   navigations,
   onNavigationClick,
@@ -55,189 +37,144 @@ export const Header: React.FC<HeaderProps> = ({
   const theme = useTheme();
   const { isDarkMode, toggleTheme } = useCustomTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleMobileNavClick = (id: string) => {
+  const handleNavigationClick = (id: string) => {
     onNavigationClick(id);
     setMobileOpen(false);
   };
 
-  const NavigationButtons = () => (
-    <Stack direction="row" spacing={2} alignItems="center">
-      {navigations.map((nav) => (
-        <Button
-          key={nav.id}
-          onClick={() => onNavigationClick(nav.id)}
-          color="inherit"
-          className="nav-button"
-          sx={{
-            fontWeight: 500,
-            textTransform: "capitalize",
-            color: "inherit",
-            "&:hover": {
-              backgroundColor: "action.hover",
-            },
-          }}
-        >
-          {nav.label}
-        </Button>
-      ))}
-      <IconButton
-        onClick={toggleTheme}
-        color="inherit"
-        aria-label="toggle theme"
-        className="theme-toggle"
-        sx={{
-          color: "inherit",
-          "&:hover": {
-            backgroundColor: "action.hover",
-          },
-        }}
-      >
-        {isDarkMode ? <LightMode /> : <DarkMode />}
-      </IconButton>
-    </Stack>
-  );
-
-  const MobileDrawer = () => (
-    <Drawer
-      variant="temporary"
-      anchor="right"
-      open={mobileOpen}
-      onClose={handleDrawerToggle}
-      ModalProps={{
-        keepMounted: true, // Better open performance on mobile.
-      }}
-      sx={{
-        display: { xs: "block", md: "none" },
-        "& .MuiDrawer-paper": {
-          boxSizing: "border-box",
-          width: 280,
-          backgroundColor: "background.paper",
-          color: "text.primary",
-        },
-      }}
+  const drawer = (
+    <Box
+      className={`drawer-content ${isDarkMode ? "theme-dark" : "theme-light"}`}
     >
-      <Box sx={{ p: 2 }}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            mb: 2,
-          }}
-        >
-          <IconButton
-            onClick={toggleTheme}
-            color="inherit"
-            aria-label="toggle theme"
-            sx={{ color: "text.primary" }}
-          >
-            {isDarkMode ? <LightMode /> : <DarkMode />}
-          </IconButton>
+      <Box className="drawer-header">
+        <Box className="drawer-controls">
+          <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
+            Menu
+          </Typography>
           <IconButton
             onClick={handleDrawerToggle}
-            color="inherit"
-            aria-label="close menu"
-            sx={{ color: "text.primary" }}
+            className="drawer-icon-button"
           >
             <CloseIcon />
           </IconButton>
         </Box>
-        <List>
-          {navigations.map((nav) => (
-            <ListItem key={nav.id} disablePadding>
-              <ListItemButton
-                onClick={() => handleMobileNavClick(nav.id)}
-                sx={{
-                  borderRadius: 2,
-                  mb: 1,
-                  "&:hover": {
-                    backgroundColor: "action.hover",
-                  },
-                }}
-              >
-                <ListItemText
-                  primary={nav.label}
-                  sx={{
-                    "& .MuiListItemText-primary": {
-                      fontWeight: 500,
-                      fontSize: "1.1rem",
-                      color: "text.primary",
-                    },
-                  }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
       </Box>
-    </Drawer>
+
+      <List>
+        {navigations.map((nav) => (
+          <ListItem
+            key={nav.id}
+            onClick={() => handleNavigationClick(nav.id)}
+            className="drawer-nav-item"
+            sx={{ cursor: "pointer" }}
+          >
+            <ListItemText primary={nav.label} className="drawer-nav-text" />
+          </ListItem>
+        ))}
+      </List>
+
+      <Divider sx={{ my: 2 }} />
+
+      <Box sx={{ px: 2 }}>
+        <Button
+          fullWidth
+          variant="contained"
+          startIcon={isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}
+          onClick={toggleTheme}
+          className="drawer-icon-button"
+        >
+          {isDarkMode ? "Light Mode" : "Dark Mode"}
+        </Button>
+      </Box>
+    </Box>
   );
 
   return (
     <>
-      <HideOnScroll>
-        <AppBar
-          position="fixed"
-          className="header"
-          sx={{
-            zIndex: theme.zIndex.drawer + 1,
-          }}
-        >
-          <Toolbar
-            sx={{
-              justifyContent: "center",
-              minHeight: { xs: "64px", sm: "70px" },
-              px: { xs: 2, sm: 3, md: 4 },
-            }}
+      <AppBar
+        position="absolute"
+        elevation={0}
+        className={`header floating-glass ${
+          isDarkMode ? "theme-dark" : "theme-light"
+        }`}
+        sx={{
+          top: 20,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: { xs: "90%", sm: "85%", md: "80%", lg: "75%", xl: "70%" },
+          maxWidth: 1200,
+          zIndex: 1300,
+        }}
+      >
+        <Toolbar>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, fontWeight: 700, letterSpacing: "0.05em" }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-                maxWidth: "lg",
-              }}
-            >
-              {isMobile ? (
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: "100%",
-                  }}
+            Portfolio
+          </Typography>
+
+          {/* Desktop Navigation */}
+          {!isMobile && (
+            <Stack direction="row" spacing={1} sx={{ mr: 2 }}>
+              {navigations.map((nav) => (
+                <Button
+                  key={nav.id}
+                  onClick={() => handleNavigationClick(nav.id)}
+                  className="nav-button"
                 >
-                  <Box /> {/* Spacer for centering */}
-                  <IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    edge="end"
-                    onClick={handleDrawerToggle}
-                    sx={{
-                      color: "inherit",
-                      "&:hover": {
-                        backgroundColor: "action.hover",
-                      },
-                    }}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                </Box>
-              ) : (
-                <NavigationButtons />
-              )}
-            </Box>
-          </Toolbar>
-        </AppBar>
-      </HideOnScroll>
-      {isMobile && <MobileDrawer />}
+                  {nav.label}
+                </Button>
+              ))}
+            </Stack>
+          )}
+
+          {/* Theme Toggle */}
+          <IconButton
+            onClick={toggleTheme}
+            className="theme-toggle"
+            size="large"
+          >
+            {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}
+          </IconButton>
+
+          {/* Mobile Menu Button */}
+          {isMobile && (
+            <IconButton
+              onClick={handleDrawerToggle}
+              className="mobile-menu-button"
+              size="large"
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+        </Toolbar>
+      </AppBar>
+
+      {/* Mobile Drawer */}
+      <Drawer
+        anchor="right"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{
+          keepMounted: true,
+        }}
+        PaperProps={{
+          sx: {
+            width: 280,
+            animation: "slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          },
+        }}
+      >
+        {drawer}
+      </Drawer>
     </>
   );
 };

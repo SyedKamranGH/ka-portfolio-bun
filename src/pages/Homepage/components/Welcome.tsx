@@ -1,193 +1,160 @@
 import React from "react";
-import {
-  Box,
-  Container,
-  Typography,
-  Stack,
-  Avatar,
-  useTheme,
-} from "@mui/material";
+import { Box, Container, Typography, Stack } from "@mui/material";
 import { motion } from "framer-motion";
 import Button from "../../../components/Button";
-import { useScroll } from "../../../hooks/useScroll";
+import { useTheme as useCustomTheme } from "../../../context/ThemeContext";
+import WelcomeTechStackImage from "../../../assets/images/WelocmeTechStackLight.png";
+import "./Welcome.scss";
 
 const MotionBox = motion(Box);
 const MotionTypography = motion(Typography);
 
 export const Welcome: React.FC = () => {
-  const theme = useTheme();
-  const { scrollTo } = useScroll();
+  const { isDarkMode } = useCustomTheme();
 
   const handleQuickLink = (sectionId: string) => {
-    scrollTo(sectionId);
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
   };
 
   return (
     <Box
       component="section"
       id="welcome"
-      className="welcome-section"
+      className={`welcome-section ${isDarkMode ? "theme-dark" : "theme-light"}`}
       sx={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        background: `linear-gradient(135deg, ${theme.palette.primary.main}10, ${theme.palette.secondary.main}10)`,
-        position: "relative",
-        overflow: "hidden",
+        backgroundImage: `url(${WelcomeTechStackImage})`,
       }}
     >
-      <Container maxWidth="lg">
-        <MotionBox
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <Stack spacing={4} alignItems="center" textAlign="center">
-            {/* Profile Avatar */}
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{
-                delay: 0.3,
-                type: "spring",
-                stiffness: 260,
-                damping: 20,
-              }}
-            >
-              <Avatar
-                src="/assets/images/profile.jpg"
-                alt="Profile"
-                sx={{
-                  width: 150,
-                  height: 150,
-                  border: `4px solid ${theme.palette.primary.main}`,
-                  boxShadow: theme.shadows[8],
-                }}
-              />
-            </motion.div>
-
-            {/* Welcome Greeting */}
-            <Stack spacing={2} alignItems="center">
-              <MotionTypography
-                variant="h6"
-                color="text.secondary"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-              >
-                Hello, I&#39;m
-              </MotionTypography>
-
-              <MotionTypography
-                variant="h2"
-                // component="h1"
-                color="primary"
-                fontWeight="bold"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 }}
-                sx={{
-                  fontSize: { xs: "2.5rem", md: "3.5rem" },
-                }}
-              >
-                John Doe
-              </MotionTypography>
-
-              <MotionTypography
-                variant="h5"
-                color="text.primary"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.9 }}
-                sx={{
-                  fontSize: { xs: "1.2rem", md: "1.5rem" },
-                }}
-              >
-                Full Stack Developer
-              </MotionTypography>
-            </Stack>
-
-            {/* Career Summary */}
+      <Container maxWidth="lg" className="welcome-container">
+        <Box className="welcome-content">
+          {/* Left side - main content */}
+          <Box className="welcome-main-content">
             <MotionBox
-              maxWidth="md"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.1 }}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="welcome-card"
             >
-              <Typography
-                variant="body1"
-                color="text.secondary"
-                sx={{
-                  fontSize: { xs: "1rem", md: "1.1rem" },
-                  lineHeight: 1.7,
-                }}
-              >
-                Passionate developer with 5+ years of experience building
-                scalable web applications using modern technologies. Specialized
-                in React, TypeScript, and Node.js with a strong focus on user
-                experience and performance optimization.
-              </Typography>
-            </MotionBox>
-
-            {/* Quick Action Buttons */}
-            <MotionBox
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.3 }}
-            >
-              <Stack
-                direction={{ xs: "column", sm: "row" }}
-                spacing={2}
-                justifyContent="center"
-              >
-                <Button
-                  variant="contained"
-                  size="large"
-                  onClick={() => handleQuickLink("projects")}
-                  sx={{
-                    px: 4,
-                    py: 1.5,
-                    borderRadius: 2,
-                    textTransform: "none",
-                    fontSize: "1.1rem",
-                  }}
+              <Stack className="welcome-content-stack">
+                {/* Professional Welcome Header */}
+                <MotionTypography
+                  variant="h6"
+                  className="welcome-header"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
                 >
-                  View Projects
-                </Button>
+                  Welcome to my Portfolio
+                </MotionTypography>
 
-                <Button
-                  variant="outlined"
-                  size="large"
-                  onClick={() => handleQuickLink("experience")}
-                  sx={{
-                    px: 4,
-                    py: 1.5,
-                    borderRadius: 2,
-                    textTransform: "none",
-                    fontSize: "1.1rem",
-                  }}
+                {/* Main Title */}
+                <MotionTypography
+                  variant="h1"
+                  className="welcome-title"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
                 >
-                  My Experience
-                </Button>
+                  John Doe
+                </MotionTypography>
+
+                {/* Subtitle */}
+                <MotionTypography
+                  variant="h4"
+                  className="welcome-subtitle"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 }}
+                >
+                  Full Stack Developer
+                </MotionTypography>
+
+                {/* Professional Summary */}
+                <MotionBox
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.9 }}
+                  className="welcome-summary"
+                >
+                  <Typography variant="body1" className="summary-text">
+                    Crafting innovative digital solutions with 5+ years of
+                    expertise in modern web technologies. Specialized in{" "}
+                    <Box component="span" className="highlight-text">
+                      React, TypeScript, and Node.js
+                    </Box>{" "}
+                    with a passion for creating exceptional user experiences.
+                  </Typography>
+                </MotionBox>
+
+                {/* Action Buttons */}
+                <MotionBox
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.1 }}
+                  className="welcome-actions"
+                >
+                  <Stack className="actions-stack">
+                    <Button
+                      variant="contained"
+                      size="large"
+                      onClick={() => handleQuickLink("projects")}
+                      className="primary-button"
+                    >
+                      View My Work
+                    </Button>
+
+                    <Button
+                      variant="outlined"
+                      size="large"
+                      onClick={() => handleQuickLink("experience")}
+                      className="secondary-button"
+                    >
+                      My Experience
+                    </Button>
+                  </Stack>
+                </MotionBox>
               </Stack>
             </MotionBox>
-          </Stack>
-        </MotionBox>
+          </Box>
+
+          {/* Right side - magical decorative elements */}
+          <Box className="welcome-decorative">
+            <MotionBox
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1.3, duration: 0.8 }}
+            >
+              {/* Magical floating elements */}
+              <Box className="magical-container">
+                {/* Floating glass orb */}
+                <Box className="floating-orb" />
+
+                {/* Floating glass card */}
+                <Box className="floating-card" />
+
+                {/* Additional floating particle */}
+                <Box className="floating-particle" />
+              </Box>
+            </MotionBox>
+          </Box>
+        </Box>
       </Container>
 
-      {/* Background Animation */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: -1,
-          background:
-            "radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%)",
-        }}
-      />
+      {/* Magical scroll indicator */}
+      <MotionBox
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2 }}
+        className="scroll-indicator"
+      >
+        <Box className="scroll-mouse" />
+      </MotionBox>
     </Box>
   );
 };
