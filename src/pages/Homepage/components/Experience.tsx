@@ -7,7 +7,6 @@ import {
   TimelineConnector,
   TimelineContent,
   TimelineDot,
-  TimelineOppositeContent,
 } from "@mui/lab";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +30,7 @@ export const ExperienceSection: React.FC = () => {
       component="section"
       id="experience"
       sx={{
-        py: { xs: 6, md: 8 },
+        py: { xs: 6, md: 10 },
         backgroundColor: theme.palette.background.default,
         position: "relative",
         overflow: "hidden",
@@ -78,7 +77,7 @@ export const ExperienceSection: React.FC = () => {
             textAlign="center"
             sx={{
               color: theme.palette.text.secondary,
-              mb: 6,
+              mb: 8,
               maxWidth: "600px",
               mx: "auto",
             }}
@@ -87,14 +86,7 @@ export const ExperienceSection: React.FC = () => {
             industry
           </Typography>
 
-          <Timeline
-            position="alternate"
-            sx={{
-              "& .MuiTimelineItem-missingOppositeContent:before": {
-                display: "none",
-              },
-            }}
-          >
+          <Timeline position="alternate">
             {experiences.map((experience: Experience, index: number) => (
               <MotionTimelineItem
                 key={experience.id}
@@ -103,62 +95,21 @@ export const ExperienceSection: React.FC = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <TimelineOppositeContent
-                  sx={{
-                    m: "auto 0",
-                    display: { xs: "none", md: "block" },
-                    px: 2,
-                  }}
-                  align={index % 2 === 0 ? "right" : "left"}
-                  variant="body2"
-                  color="text.secondary"
-                >
-                  <Box
-                    sx={{
-                      p: 2,
-                      borderRadius: 2,
-                      backgroundColor:
-                        theme.palette.mode === "light"
-                          ? "rgba(255, 255, 255, 0.8)"
-                          : "rgba(30, 42, 71, 0.8)",
-                      backdropFilter: "blur(10px)",
-                      border: `1px solid ${
-                        theme.palette.mode === "light" ? "#e2e8f0" : "#334155"
-                      }`,
-                    }}
-                  >
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        color: theme.palette.primary.main,
-                        fontWeight: 700,
-                        mb: 0.5,
-                      }}
-                    >
-                      {experience.duration}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: theme.palette.text.secondary,
-                        fontWeight: 500,
-                      }}
-                    >
-                      {experience.company}
-                    </Typography>
-                  </Box>
-                </TimelineOppositeContent>
-
                 <TimelineSeparator>
                   <TimelineDot
                     sx={{
                       bgcolor: theme.palette.background.paper,
                       border: `4px solid ${theme.palette.primary.main}`,
-                      width: 20,
-                      height: 20,
-                      boxShadow: `0 0 0 4px ${
+                      width: 24,
+                      height: 24,
+                      boxShadow: `0 0 0 6px ${
                         theme.palette.mode === "light" ? "#ffffff" : "#1e2a47"
                       }`,
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "scale(1.2)",
+                        background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                      },
                     }}
                   />
                   {index < experiences.length - 1 && (
@@ -167,20 +118,71 @@ export const ExperienceSection: React.FC = () => {
                         background: `linear-gradient(180deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
                         width: 4,
                         borderRadius: 2,
+                        minHeight: 60,
                       }}
                     />
                   )}
                 </TimelineSeparator>
-
-                <TimelineContent sx={{ py: "12px", px: 2 }}>
-                  <ExperienceCard
-                    experience={experience}
-                    onClick={() => handleExperienceClick(experience)}
-                  />
+                <TimelineContent>
+                  <MotionBox
+                    initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
+                    viewport={{ once: true }}
+                  >
+                    <ExperienceCard
+                      experience={experience}
+                      onClick={() => handleExperienceClick(experience)}
+                    />
+                  </MotionBox>
                 </TimelineContent>
               </MotionTimelineItem>
             ))}
           </Timeline>
+
+          {/* Call to Action */}
+          <MotionBox
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            viewport={{ once: true }}
+            sx={{
+              textAlign: "center",
+              mt: 6,
+              p: 4,
+              borderRadius: 3,
+              backgroundColor:
+                theme.palette.mode === "light"
+                  ? "rgba(255, 255, 255, 0.8)"
+                  : "rgba(30, 42, 71, 0.8)",
+              backdropFilter: "blur(20px)",
+              border: `1px solid ${
+                theme.palette.mode === "light" ? "#e2e8f0" : "#334155"
+              }`,
+            }}
+          >
+            <Typography
+              variant="h6"
+              sx={{
+                color: theme.palette.primary.main,
+                fontWeight: 600,
+                mb: 1,
+              }}
+            >
+              Want to know more?
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                color: theme.palette.text.secondary,
+                maxWidth: "400px",
+                mx: "auto",
+              }}
+            >
+              Click on any experience card to view detailed information about my
+              roles, responsibilities, and achievements.
+            </Typography>
+          </MotionBox>
         </MotionBox>
       </Container>
     </Box>
