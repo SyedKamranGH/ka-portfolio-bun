@@ -192,11 +192,11 @@ export const ExperienceSection: React.FC = () => {
         },
       }}
     >
-      {/* Animated Tech Background */}
+      {/* Animated Tech Background - Positioned below header area */}
       <Box
         sx={{
           position: "absolute",
-          top: 0,
+          top: "25%", // Start after header area
           left: 0,
           right: 0,
           bottom: 0,
@@ -204,7 +204,7 @@ export const ExperienceSection: React.FC = () => {
           overflow: "hidden",
         }}
       >
-        {/* Floating Tech Icons - Increased quantity */}
+        {/* Floating Tech Icons - Positioned in timeline area only */}
         <TechIcon delay={0} duration={12} x="10%" y="15%">
           ⚛️
         </TechIcon>
@@ -251,7 +251,7 @@ export const ExperienceSection: React.FC = () => {
           🔥
         </TechIcon>
 
-        {/* Floating Code Snippets - Increased quantity */}
+        {/* Floating Code Snippets - Timeline area only */}
         <CodeSnippet text="const experience = {}" delay={1} x="18%" y="22%" />
         <CodeSnippet text="<React.FC>" delay={3} x="78%" y="18%" />
         <CodeSnippet text="TypeScript" delay={5} x="8%" y="58%" />
@@ -271,7 +271,7 @@ export const ExperienceSection: React.FC = () => {
         <CodeSnippet text="props.children" delay={33} x="18%" y="72%" />
         <CodeSnippet text="styled-components" delay={35} x="62%" y="78%" />
 
-        {/* Floating Particles - Significantly increased */}
+        {/* Floating Particles - Timeline area only */}
         <FloatingParticle size={8} delay={0} x="28%" y="28%" />
         <FloatingParticle size={12} delay={2} x="68%" y="32%" />
         <FloatingParticle size={6} delay={4} x="18%" y="52%" />
@@ -293,7 +293,7 @@ export const ExperienceSection: React.FC = () => {
         <FloatingParticle size={6} delay={36} x="78%" y="48%" />
         <FloatingParticle size={14} delay={38} x="8%" y="28%" />
 
-        {/* Animated Lines/Connections - More lines */}
+        {/* Animated Lines/Connections - Timeline area */}
         <MotionBox
           initial={{ pathLength: 0, opacity: 0 }}
           animate={{ pathLength: 1, opacity: 0.6 }}
@@ -388,7 +388,7 @@ export const ExperienceSection: React.FC = () => {
           </svg>
         </MotionBox>
 
-        {/* Geometric Shapes - More shapes */}
+        {/* Geometric Shapes - Timeline area */}
         <MotionBox
           animate={{
             rotate: [0, 360],
@@ -489,6 +489,7 @@ export const ExperienceSection: React.FC = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
+          {/* Simple Header - Consistent with other sections */}
           <Typography
             variant="h3"
             component="h2"
