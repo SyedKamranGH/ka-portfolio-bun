@@ -11,7 +11,7 @@ import {
 } from "@mui/lab";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-// import { ExperienceCard } from "../../../components/Card/ExperienceCard";
+import { ExperienceCard } from "../../../components/Card/ExperienceCard";
 import { experiences } from "../../../constants/data/experiences";
 import type { Experience } from "../../../types";
 
@@ -31,11 +31,26 @@ export const ExperienceSection: React.FC = () => {
       component="section"
       id="experience"
       sx={{
-        py: 8,
-        backgroundColor: theme.palette.background.paper,
+        py: { xs: 6, md: 8 },
+        backgroundColor: theme.palette.background.default,
+        position: "relative",
+        overflow: "hidden",
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background:
+            theme.palette.mode === "light"
+              ? "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)"
+              : "linear-gradient(135deg, #0f1419 0%, #1e2a47 100%)",
+          zIndex: 0,
+        },
       }}
     >
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
         <MotionBox
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -46,16 +61,41 @@ export const ExperienceSection: React.FC = () => {
             variant="h3"
             component="h2"
             textAlign="center"
-            fontWeight="bold"
-            color="primary"
-            gutterBottom
-            sx={{ mb: 6 }}
+            sx={{
+              fontWeight: 700,
+              background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              mb: 2,
+            }}
           >
             Professional Experience
           </Typography>
 
-          {/* <Timeline position="alternate">
-            {experiencesData.map((experience, index) => (
+          <Typography
+            variant="h6"
+            textAlign="center"
+            sx={{
+              color: theme.palette.text.secondary,
+              mb: 6,
+              maxWidth: "600px",
+              mx: "auto",
+            }}
+          >
+            My journey through various roles and experiences in the tech
+            industry
+          </Typography>
+
+          <Timeline
+            position="alternate"
+            sx={{
+              "& .MuiTimelineItem-missingOppositeContent:before": {
+                display: "none",
+              },
+            }}
+          >
+            {experiences.map((experience: Experience, index: number) => (
               <MotionTimelineItem
                 key={experience.id}
                 initial={{ opacity: 0, y: 50 }}
@@ -64,32 +104,69 @@ export const ExperienceSection: React.FC = () => {
                 viewport={{ once: true }}
               >
                 <TimelineOppositeContent
-                  sx={{ m: "auto 0" }}
+                  sx={{
+                    m: "auto 0",
+                    display: { xs: "none", md: "block" },
+                    px: 2,
+                  }}
                   align={index % 2 === 0 ? "right" : "left"}
                   variant="body2"
                   color="text.secondary"
                 >
-                  <Typography variant="h6" color="primary" fontWeight="bold">
-                    {experience.duration}
-                  </Typography>
-                  <Typography variant="body2">{experience.company}</Typography>
+                  <Box
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      backgroundColor:
+                        theme.palette.mode === "light"
+                          ? "rgba(255, 255, 255, 0.8)"
+                          : "rgba(30, 42, 71, 0.8)",
+                      backdropFilter: "blur(10px)",
+                      border: `1px solid ${
+                        theme.palette.mode === "light" ? "#e2e8f0" : "#334155"
+                      }`,
+                    }}
+                  >
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        color: theme.palette.primary.main,
+                        fontWeight: 700,
+                        mb: 0.5,
+                      }}
+                    >
+                      {experience.duration}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: theme.palette.text.secondary,
+                        fontWeight: 500,
+                      }}
+                    >
+                      {experience.company}
+                    </Typography>
+                  </Box>
                 </TimelineOppositeContent>
 
                 <TimelineSeparator>
                   <TimelineDot
-                    color="primary"
-                    variant="outlined"
                     sx={{
-                      borderWidth: 3,
-                      width: 16,
-                      height: 16,
+                      bgcolor: theme.palette.background.paper,
+                      border: `4px solid ${theme.palette.primary.main}`,
+                      width: 20,
+                      height: 20,
+                      boxShadow: `0 0 0 4px ${
+                        theme.palette.mode === "light" ? "#ffffff" : "#1e2a47"
+                      }`,
                     }}
                   />
-                  {index < experiencesData.length - 1 && (
+                  {index < experiences.length - 1 && (
                     <TimelineConnector
                       sx={{
-                        bgcolor: theme.palette.primary.main,
-                        width: 3,
+                        background: `linear-gradient(180deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                        width: 4,
+                        borderRadius: 2,
                       }}
                     />
                   )}
@@ -103,7 +180,7 @@ export const ExperienceSection: React.FC = () => {
                 </TimelineContent>
               </MotionTimelineItem>
             ))}
-          </Timeline> */}
+          </Timeline>
         </MotionBox>
       </Container>
     </Box>

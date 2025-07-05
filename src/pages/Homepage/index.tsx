@@ -7,6 +7,7 @@ import { About } from "./components/About";
 // import { Skills } from "./components/Skills";
 import { Projects } from "./components/Projects";
 import { Contact } from "./components/Contact";
+import { ExperienceSection } from "./components/Experience";
 // import "./styles.scss";
 
 export const Homepage: React.FC = () => {
@@ -14,9 +15,9 @@ export const Homepage: React.FC = () => {
     <Box className="homepage">
       <Welcome />
       <About />
-      {/* <Experience />
-      <Education />
-      <Skills /> */}
+      <ExperienceSection />
+      {/* <Education /> */}
+      {/* <Skills /> */}
       <Projects />
       <Contact />
     </Box>
