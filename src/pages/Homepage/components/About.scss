@@ -1,0 +1,400 @@
+.about-section {
+  padding: 3rem 0;
+  position: relative;
+  overflow: hidden;
+
+  @media (min-width: 900px) {
+    padding: 5rem 0;
+  }
+
+  // Background gradient overlay
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(25, 118, 210, 0.03) 0%,
+      rgba(156, 39, 176, 0.03) 100%
+    );
+    z-index: 0;
+  }
+
+  // Main container
+  .about-container {
+    position: relative;
+    z-index: 1;
+  }
+
+  // Section Header
+  .about-header {
+    text-align: center;
+    margin-bottom: 4rem;
+
+    .about-title {
+      font-weight: 700;
+      margin-bottom: 1rem;
+      font-size: 2rem;
+
+      @media (min-width: 900px) {
+        font-size: 3rem;
+      }
+    }
+
+    .about-subtitle {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1rem;
+
+      @media (min-width: 900px) {
+        font-size: 1.1rem;
+      }
+    }
+  }
+
+  // Main Content Layout
+  .about-main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: stretch;
+
+    @media (min-width: 1200px) {
+      flex-direction: row;
+      gap: 2rem;
+    }
+  }
+
+  // Profile Section
+  .about-profile-section {
+    flex: 1 1 100%;
+
+    @media (min-width: 1200px) {
+      flex: 1 1 42%;
+    }
+
+    .profile-card {
+      height: 100%;
+      border-radius: 1.5rem;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(25, 118, 210, 0.08) 100%
+      );
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+      .profile-content {
+        padding: 2rem;
+        text-align: center;
+
+        .profile-stack {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          align-items: center;
+        }
+
+        .profile-avatar {
+          width: 150px;
+          height: 150px;
+          border: 4px solid #1976d2;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+          @media (min-width: 900px) {
+            width: 200px;
+            height: 200px;
+          }
+        }
+
+        .profile-text {
+          font-size: 1.1rem;
+          line-height: 1.8;
+        }
+
+        .skills-container {
+          width: 100%;
+          margin-top: 1.5rem;
+
+          .skills-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+          }
+
+          .skills-stack {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+
+            .skill-chip {
+              background-color: #1976d2;
+              color: white;
+              font-weight: 500;
+
+              &:hover {
+                background-color: #1565c0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Highlights Section
+  .about-highlights-section {
+    flex: 1 1 100%;
+
+    @media (min-width: 1200px) {
+      flex: 1 1 58%;
+    }
+
+    .highlights-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      height: 100%;
+
+      @media (min-width: 600px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .highlight-card {
+        height: 100%;
+        border-radius: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-5px) scale(1.02);
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .highlight-content {
+          padding: 1.5rem;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          gap: 1rem;
+
+          .highlight-icon {
+            font-size: 2.5rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+          }
+
+          .highlight-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+          }
+
+          .highlight-description {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            flex-grow: 1;
+          }
+        }
+      }
+    }
+  }
+
+  // Achievements Section
+  .about-achievements {
+    margin-top: 5rem;
+
+    .achievements-title {
+      text-align: center;
+      font-weight: 700;
+      margin-bottom: 3rem;
+      font-size: 1.8rem;
+
+      @media (min-width: 900px) {
+        font-size: 2.5rem;
+      }
+    }
+
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      justify-content: center;
+
+      @media (min-width: 600px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media (min-width: 900px) {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .achievement-card {
+        text-align: center;
+        padding: 1.5rem;
+        border-radius: 1.5rem;
+        background: linear-gradient(
+          135deg,
+          rgba(25, 118, 210, 0.15) 0%,
+          rgba(156, 39, 176, 0.15) 100%
+        );
+        border: 2px solid rgba(25, 118, 210, 0.2);
+        height: 100%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-10px) scale(1.05);
+          border-color: #1976d2;
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .achievement-content {
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1rem;
+
+          .achievement-icon {
+            color: #1976d2;
+            font-size: 2rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            background-color: rgba(25, 118, 210, 0.1);
+          }
+
+          .achievement-number {
+            color: #1976d2;
+            font-weight: 700;
+            font-size: 2.5rem;
+          }
+
+          .achievement-title {
+            font-weight: 700;
+          }
+
+          .achievement-description {
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+  }
+
+  // Color variations for highlights
+  .highlight-card {
+    &.technical-excellence {
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(25, 118, 210, 0.08) 100%
+      );
+      border: 1px solid rgba(25, 118, 210, 0.2);
+
+      .highlight-icon {
+        color: #1976d2;
+        background-color: rgba(25, 118, 210, 0.1);
+      }
+
+      &:hover {
+        border-color: rgba(25, 118, 210, 0.4);
+      }
+    }
+
+    &.problem-solving {
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(123, 31, 162, 0.08) 100%
+      );
+      border: 1px solid rgba(123, 31, 162, 0.2);
+
+      .highlight-icon {
+        color: #7b1fa2;
+        background-color: rgba(123, 31, 162, 0.1);
+      }
+
+      &:hover {
+        border-color: rgba(123, 31, 162, 0.4);
+      }
+    }
+
+    &.performance-optimization {
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(245, 124, 0, 0.08) 100%
+      );
+      border: 1px solid rgba(245, 124, 0, 0.2);
+
+      .highlight-icon {
+        color: #f57c00;
+        background-color: rgba(245, 124, 0, 0.1);
+      }
+
+      &:hover {
+        border-color: rgba(245, 124, 0, 0.4);
+      }
+    }
+
+    &.team-collaboration {
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(56, 142, 60, 0.08) 100%
+      );
+      border: 1px solid rgba(56, 142, 60, 0.2);
+
+      .highlight-icon {
+        color: #388e3c;
+        background-color: rgba(56, 142, 60, 0.1);
+      }
+
+      &:hover {
+        border-color: rgba(56, 142, 60, 0.4);
+      }
+    }
+
+    &.achievement-focus {
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(251, 192, 45, 0.08) 100%
+      );
+      border: 1px solid rgba(251, 192, 45, 0.2);
+
+      .highlight-icon {
+        color: #fbc02d;
+        background-color: rgba(251, 192, 45, 0.1);
+      }
+
+      &:hover {
+        border-color: rgba(251, 192, 45, 0.4);
+      }
+    }
+
+    &.continuous-learning {
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(211, 47, 47, 0.08) 100%
+      );
+      border: 1px solid rgba(211, 47, 47, 0.2);
+
+      .highlight-icon {
+        color: #d32f2f;
+        background-color: rgba(211, 47, 47, 0.1);
+      }
+
+      &:hover {
+        border-color: rgba(211, 47, 47, 0.4);
+      }
+    }
+  }
+}
