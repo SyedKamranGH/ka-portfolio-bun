@@ -9,7 +9,6 @@ import { Projects } from "./components/Projects";
 import { Contact } from "./components/Contact";
 import { EducationSection } from "./components/Education";
 
-
 export const Homepage: React.FC = () => {
   return (
     <Box className="homepage">
