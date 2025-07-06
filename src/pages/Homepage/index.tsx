@@ -3,11 +3,10 @@ import { Box } from "@mui/material";
 import { Welcome } from "./components/Welcome";
 import { About } from "./components/About";
 import { ExperienceSection } from "./components/Experience";
-// import { Education } from "./components/Education";
-// import { Skills } from "./components/Skills";
 import { Projects } from "./components/Projects";
 import { Contact } from "./components/Contact";
 import { EducationSection } from "./components/Education";
+import { SkillsSection } from "./components/Skills";
 
 export const Homepage: React.FC = () => {
   return (
@@ -16,7 +15,7 @@ export const Homepage: React.FC = () => {
       <About />
       <ExperienceSection />
       <EducationSection />
-      {/* <Skills /> */}
+      <SkillsSection />
       <Projects />
       <Contact />
     </Box>
