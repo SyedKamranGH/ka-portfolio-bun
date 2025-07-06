@@ -1,0 +1,240 @@
+.education-section {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+
+  // Background gradient overlay
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(25, 118, 210, 0.03) 0%,
+      rgba(156, 39, 176, 0.03) 100%
+    );
+    z-index: 0;
+  }
+
+  // Theme variations
+  &.light-mode {
+    background: linear-gradient(
+      135deg,
+      rgba(248, 250, 252, 0.95) 0%,
+      rgba(241, 245, 249, 0.9) 100%
+    );
+
+    .education-card {
+      &:not(.active) {
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.9) 0%,
+          rgba(248, 250, 252, 0.8) 100%
+        );
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      &.active {
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.95) 0%,
+          rgba(248, 250, 252, 0.9) 100%
+        );
+        border: 2px solid rgba(25, 118, 210, 0.4);
+        box-shadow: 0 20px 40px rgba(25, 118, 210, 0.2);
+      }
+
+      &:hover {
+        border: 2px solid rgba(25, 118, 210, 0.3);
+        box-shadow: 0 20px 40px rgba(25, 118, 210, 0.15);
+      }
+    }
+  }
+
+  &.dark-mode {
+    background: linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.95) 0%,
+      rgba(30, 41, 59, 0.9) 100%
+    );
+
+    .education-card {
+      &:not(.active) {
+        background: linear-gradient(
+          145deg,
+          rgba(30, 41, 59, 0.9) 0%,
+          rgba(15, 23, 42, 0.8) 100%
+        );
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      }
+
+      &.active {
+        background: linear-gradient(
+          145deg,
+          rgba(30, 41, 59, 0.95) 0%,
+          rgba(15, 23, 42, 0.9) 100%
+        );
+        border: 2px solid rgba(25, 118, 210, 0.5);
+        box-shadow: 0 20px 40px rgba(25, 118, 210, 0.3);
+      }
+
+      &:hover {
+        border: 2px solid rgba(25, 118, 210, 0.4);
+        box-shadow: 0 20px 40px rgba(25, 118, 210, 0.25);
+      }
+    }
+  }
+
+  // Simple Card Styling
+  .education-card {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    height: 100%;
+
+    // Subtle glass effect
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        transparent 100%
+      );
+      pointer-events: none;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    // Hover and active states
+    &:hover {
+      transform: translateY(-8px) scale(1.02);
+
+      &::after {
+        opacity: 1;
+      }
+    }
+
+    &.active {
+      &::after {
+        opacity: 1;
+      }
+    }
+
+    // Content styling
+    .MuiCardContent-root {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    // Avatar styling
+    .MuiAvatar-root {
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    // Chip styling
+    .MuiChip-root {
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  // Navigation dots
+  .navigation-dots {
+    .dot {
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
+
+  // Responsive design
+  @media (max-width: 768px) {
+    .education-card {
+      &:hover {
+        transform: translateY(-4px) scale(1.01);
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 3rem 0;
+
+    .education-card {
+      &:hover {
+        transform: translateY(-2px);
+      }
+    }
+  }
+}
+
+// Smooth transitions for theme changes
+.education-section * {
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+// Floating orbs
+.floating-orb {
+  filter: blur(1px);
+  will-change: transform, opacity;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 20%;
+    border-radius: 50%;
+    background: inherit;
+    filter: blur(2px);
+    animation: orbPulse 6s ease-in-out infinite;
+  }
+}
+
+@keyframes orbPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+// Performance optimizations
+.education-section {
+  will-change: transform;
+
+  .education-card {
+    will-change: transform, box-shadow;
+  }
+}

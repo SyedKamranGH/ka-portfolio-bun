@@ -1,0 +1,189 @@
+@use "../../../../assets/scss/mixins" as *;
+@use "../../../../assets/scss/variables" as *;
+
+.education-section {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 0;
+
+  // Background gradient overlay
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(25, 118, 210, 0.03) 0%,
+      rgba(156, 39, 176, 0.03) 100%
+    );
+    z-index: 0;
+  }
+
+  // Light theme
+  background: linear-gradient(
+    135deg,
+    rgba(248, 250, 252, 0.95) 0%,
+    rgba(241, 245, 249, 0.9) 100%
+  );
+
+  // Dark theme
+  html[data-theme="dark"] & {
+    background: linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.95) 0%,
+      rgba(30, 41, 59, 0.9) 100%
+    );
+  }
+
+  &__container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__header {
+    // Styles handled by framer-motion
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+    width: 100%;
+    max-width: 1400px;
+
+    @media (min-width: 576px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (min-width: 1200px) {
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+  }
+
+  &__navigation {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  &__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    html[data-theme="dark"] & {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    &:hover {
+      transform: scale(1.2);
+      background-color: var(--primary-main);
+    }
+
+    &--active {
+      background-color: var(--primary-main);
+    }
+  }
+
+  &__title {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  &__active-title {
+    font-weight: 700;
+    background: linear-gradient(
+      135deg,
+      var(--primary-main) 0%,
+      var(--secondary-main) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+  }
+
+  &__active-subtitle {
+    color: var(--text-secondary);
+  }
+}
+
+// Smooth transitions for theme changes
+.education-section * {
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+// Performance optimizations
+.education-section {
+  will-change: transform;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .education-section {
+    padding: 3rem 0;
+
+    &__grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    &__navigation {
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    &__dot {
+      width: 10px;
+      height: 10px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .education-section {
+    padding: 2rem 0;
+
+    &__grid {
+      margin-top: 1.5rem;
+    }
+
+    &__title {
+      margin-top: 1.5rem;
+    }
+
+    &__active-title {
+      font-size: 1.75rem;
+    }
+
+    &__active-subtitle {
+      font-size: 1rem;
+    }
+  }
+}

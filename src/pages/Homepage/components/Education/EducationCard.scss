@@ -1,0 +1,185 @@
+@use "../../../../assets/scss/mixins" as *;
+@use "../../../../assets/scss/variables" as *;
+
+.education-card-wrapper {
+  cursor: pointer;
+  height: 100%;
+}
+
+.education-card {
+  width: 100%;
+  height: 280px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+  will-change: transform, box-shadow;
+
+  // Default state - Light theme
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(248, 250, 252, 0.8) 100%
+  );
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+  // Dark theme
+  html[data-theme="dark"] & {
+    background: linear-gradient(
+      145deg,
+      rgba(30, 41, 59, 0.9) 0%,
+      rgba(15, 23, 42, 0.8) 100%
+    );
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  // Responsive width
+  @media (max-width: 576px) {
+    width: 300px;
+  }
+
+  @media (min-width: 576px) {
+    width: 320px;
+  }
+
+  @media (min-width: 768px) {
+    width: 350px;
+  }
+
+  // Hover state
+  &:hover {
+    border-color: var(--primary-main);
+    box-shadow: 0 20px 40px rgba(25, 118, 210, 0.15);
+
+    html[data-theme="dark"] & {
+      box-shadow: 0 20px 40px rgba(25, 118, 210, 0.25);
+    }
+
+    .education-card__avatar {
+      transform: scale(1.05);
+    }
+
+    .education-card__grade-chip {
+      transform: scale(1.05);
+    }
+  }
+
+  // Active state
+  &--active {
+    border-color: var(--primary-main);
+    box-shadow: 0 20px 40px rgba(25, 118, 210, 0.2);
+
+    html[data-theme="dark"] & {
+      box-shadow: 0 20px 40px rgba(25, 118, 210, 0.3);
+    }
+  }
+
+  // Content
+  &__content {
+    padding: 1.5rem;
+    height: 100%;
+  }
+
+  &__stack {
+    height: 100%;
+  }
+
+  &__header {
+    // Styles handled by Stack component
+  }
+
+  &__avatar {
+    background-color: rgba(25, 118, 210, 0.15);
+    color: var(--primary-main);
+    width: 48px;
+    height: 48px;
+    transition: all 0.3s ease;
+  }
+
+  &__header-content {
+    flex: 1;
+  }
+
+  &__title {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+  }
+
+  &__university {
+    color: var(--primary-main);
+    font-weight: 500;
+  }
+
+  &__info {
+    // Styles handled by Stack component
+  }
+
+  &__info-item {
+    // Styles handled by Stack component
+  }
+
+  &__icon {
+    color: var(--text-secondary);
+  }
+
+  &__text {
+    color: var(--text-secondary);
+  }
+
+  &__grade-wrapper {
+    // Wrapper for grade chip
+  }
+
+  &__grade-chip {
+    background-color: rgba(76, 175, 80, 0.15);
+    color: #4caf50;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    .MuiChip-icon {
+      color: #4caf50;
+    }
+  }
+
+  &__description-wrapper {
+    margin-top: auto;
+  }
+
+  &__description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .education-card {
+    height: 260px;
+
+    &__content {
+      padding: 1.25rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .education-card {
+    height: 240px;
+    width: 100% !important;
+
+    &__content {
+      padding: 1rem;
+    }
+  }
+}
