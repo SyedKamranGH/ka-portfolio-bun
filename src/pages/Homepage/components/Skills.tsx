@@ -1,260 +1,336 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Container,
   Typography,
   Card,
   CardContent,
-  Stack,
   useTheme,
+  Tabs,
+  Tab,
+  Chip,
+  Stack,
 } from "@mui/material";
 import { motion } from "framer-motion";
-// import { CustomChip } from "../../../components/Chip";
-// import { skillsData } from "../../../constants/data/skills";
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Radar } from "react-chartjs-2";
 import type { SkillDomain } from "../../../types";
-import CustomChip from "@components/Chip";
 import { skillDomains } from "@constants/data/skills";
+
+// Register Chart.js components
+ChartJS.register(
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend
+);
 
 const MotionBox = motion(Box);
 const MotionCard = motion(Card);
 
-interface SkillDomainCardProps {
-  domain: SkillDomain;
+interface TabPanelProps {
+  children?: React.ReactNode;
   index: number;
+  value: number;
 }
 
-const SkillDomainCard: React.FC<SkillDomainCardProps> = ({ domain, index }) => {
-  const theme = useTheme();
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
 
   return (
-    <MotionCard
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      whileHover={{ scale: 1.02 }}
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`skill-tabpanel-${index}`}
+      aria-labelledby={`skill-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ pt: 3 }}>{children}</Box>}
+    </div>
+  );
+}
+
+// Skill level to percentage mapping
+const skillLevelToPercentage = {
+  Beginner: 25,
+  Intermediate: 50,
+  Advanced: 75,
+  Expert: 100,
+};
+
+// Calculate domain averages for spider graph
+const getDomainAverages = () => {
+  return skillDomains.map((domain) => {
+    const average =
+      domain.skills.reduce((acc, skill) => {
+        return acc + (skillLevelToPercentage[skill.level || "Beginner"] || 25);
+      }, 0) / domain.skills.length;
+    return {
+      domain: domain.title,
+      percentage: Math.round(average),
+    };
+  });
+};
+
+const SpiderChart: React.FC = () => {
+  const theme = useTheme();
+  const domainAverages = getDomainAverages();
+
+  const data = {
+    labels: domainAverages.map((item) =>
+      item.domain.replace(" Development", "").replace(" & Tools", "")
+    ),
+    datasets: [
+      {
+        label: "Proficiency Level",
+        data: domainAverages.map((item) => item.percentage),
+        backgroundColor: `${theme.palette.primary.main}20`,
+        borderColor: theme.palette.primary.main,
+        borderWidth: 3,
+        pointBackgroundColor: theme.palette.primary.main,
+        pointBorderColor: theme.palette.background.paper,
+        pointBorderWidth: 3,
+        pointRadius: 6,
+        pointHoverRadius: 8,
+        pointHoverBackgroundColor: theme.palette.secondary.main,
+        pointHoverBorderColor: theme.palette.background.paper,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        backgroundColor: theme.palette.background.paper,
+        titleColor: theme.palette.text.primary,
+        bodyColor: theme.palette.text.primary,
+        borderColor: theme.palette.primary.main,
+        borderWidth: 1,
+        cornerRadius: 8,
+        displayColors: false,
+        callbacks: {
+          label: function (context: any) {
+            return `${context.parsed.r}% Proficiency`;
+          },
+        },
+      },
+    },
+    scales: {
+      r: {
+        beginAtZero: true,
+        max: 100,
+        min: 0,
+        ticks: {
+          stepSize: 25,
+          color: theme.palette.text.secondary,
+          font: {
+            size: 12,
+          },
+          callback: function (value: any) {
+            return value + "%";
+          },
+        },
+        grid: {
+          color: theme.palette.divider,
+          lineWidth: 1,
+        },
+        angleLines: {
+          color: theme.palette.divider,
+          lineWidth: 1,
+        },
+        pointLabels: {
+          color: theme.palette.text.primary,
+          font: {
+            size: 14,
+            weight: "bold",
+          },
+        },
+      },
+    },
+    interaction: {
+      intersect: false,
+    },
+  } as any; // Type assertion to suppress Chart.js type errors
+
+  return (
+    <Box sx={{ height: 400, position: "relative" }}>
+      <Radar data={data} options={options} />
+    </Box>
+  );
+};
+
+const TechnologyRadar: React.FC<{ domain: SkillDomain }> = ({ domain }) => {
+  const theme = useTheme();
+
+  const data = {
+    labels: domain.skills.map((skill) => skill.name),
+    datasets: [
+      {
+        label: "Skill Level",
+        data: domain.skills.map(
+          (skill) => skillLevelToPercentage[skill.level || "Beginner"] || 25
+        ),
+        backgroundColor: `${theme.palette.secondary.main}20`,
+        borderColor: theme.palette.secondary.main,
+        borderWidth: 2,
+        pointBackgroundColor: theme.palette.secondary.main,
+        pointBorderColor: theme.palette.background.paper,
+        pointBorderWidth: 2,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        pointHoverBackgroundColor: theme.palette.primary.main,
+        pointHoverBorderColor: theme.palette.background.paper,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        backgroundColor: theme.palette.background.paper,
+        titleColor: theme.palette.text.primary,
+        bodyColor: theme.palette.text.primary,
+        borderColor: theme.palette.secondary.main,
+        borderWidth: 1,
+        cornerRadius: 8,
+        displayColors: false,
+        callbacks: {
+          label: function (context: any) {
+            const skill = domain.skills[context.dataIndex];
+            return `${skill.level || "Beginner"} (${context.parsed.r}%)`;
+          },
+        },
+      },
+    },
+    scales: {
+      r: {
+        beginAtZero: true,
+        max: 100,
+        min: 0,
+        ticks: {
+          stepSize: 25,
+          color: theme.palette.text.secondary,
+          font: {
+            size: 10,
+          },
+          callback: function (value: any) {
+            return value + "%";
+          },
+        },
+        grid: {
+          color: theme.palette.divider,
+          lineWidth: 1,
+        },
+        angleLines: {
+          color: theme.palette.divider,
+          lineWidth: 1,
+        },
+        pointLabels: {
+          color: theme.palette.text.primary,
+          font: {
+            size: 12,
+            weight: "500",
+          },
+        },
+      },
+    },
+  } as any; // Type assertion to suppress Chart.js type errors
+
+  return (
+    <Box sx={{ height: 350, position: "relative", mb: 3 }}>
+      <Radar data={data} options={options} />
+    </Box>
+  );
+};
+
+const SkillLegend: React.FC = () => {
+  const theme = useTheme();
+
+  const levels = [
+    { name: "Expert", percentage: 100, color: "#10B981" },
+    { name: "Advanced", percentage: 75, color: "#F59E0B" },
+    { name: "Intermediate", percentage: 50, color: "#3B82F6" },
+    { name: "Beginner", percentage: 25, color: "#94A3B8" },
+  ];
+
+  return (
+    <Box
       sx={{
-        height: "100%",
-        borderRadius: 3,
-        boxShadow: theme.shadows[4],
-        background: `linear-gradient(135deg, ${theme.palette.background.paper}, ${theme.palette.primary.main}08)`,
-        border: `1px solid ${theme.palette.divider}`,
-        transition: "all 0.3s ease",
-        position: "relative",
-        overflow: "hidden",
-        "&:hover": {
-          boxShadow: theme.shadows[8],
-          border: `1px solid ${theme.palette.primary.main}40`,
-          transform: "translateY(-4px)",
-        },
-        "&::before": {
-          content: '""',
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: "4px",
-          background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-          borderRadius: "4px 4px 0 0",
-        },
+        display: "flex",
+        justifyContent: "center",
+        flexWrap: "wrap",
+        gap: 2,
+        mb: 4,
       }}
     >
-      <CardContent sx={{ p: 4 }}>
-        <Stack spacing={3}>
-          {/* Domain Header */}
-          <Box textAlign="center">
-            <Typography
-              variant="h5"
-              component="h3"
-              fontWeight="bold"
-              color="primary"
-              gutterBottom
-              sx={{
-                mb: 2,
-                position: "relative",
-                "&::after": {
-                  content: '""',
-                  position: "absolute",
-                  bottom: "-8px",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  width: "40px",
-                  height: "2px",
-                  background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                  borderRadius: "2px",
-                },
-              }}
-            >
-              {domain.title}
-            </Typography>
-          </Box>
-
-          {/* Skills */}
-          <Box>
-            <Stack
-              direction="row"
-              spacing={1}
-              flexWrap="wrap"
-              gap={1}
-              justifyContent="center"
-              sx={{ minHeight: "120px" }}
-            >
-              {domain.skills.map((skill, skillIndex) => (
-                <motion.div
-                  key={skill.name}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{
-                    duration: 0.3,
-                    delay: index * 0.1 + skillIndex * 0.05,
-                  }}
-                  viewport={{ once: true }}
-                >
-                  <CustomChip
-                    skillName={skill.name}
-                    iconText={skill.icon}
-                    level={skill.level}
-                    variant="outlined"
-                    size="medium"
-                    sx={{
-                      borderColor: theme.palette.primary.main,
-                      color: theme.palette.primary.main,
-                      backgroundColor: `${theme.palette.primary.main}05`,
-                      fontWeight: 500,
-                      "&:hover": {
-                        backgroundColor: `${theme.palette.primary.main}15`,
-                        borderColor: theme.palette.primary.main,
-                        transform: "scale(1.05)",
-                        boxShadow: `0 4px 12px ${theme.palette.primary.main}20`,
-                      },
-                    }}
-                  />
-                </motion.div>
-              ))}
-            </Stack>
-          </Box>
-
-          {/* Skill Count Badge */}
-          <Box textAlign="center">
-            <Box
-              sx={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 1,
-                padding: "6px 12px",
-                borderRadius: "20px",
-                backgroundColor: `${theme.palette.secondary.main}10`,
-                border: `1px solid ${theme.palette.secondary.main}30`,
-              }}
-            >
-              <Typography
-                variant="caption"
-                color="secondary"
-                fontWeight="bold"
-                sx={{ fontSize: "0.75rem" }}
-              >
-                {domain.skills.length} Skills
-              </Typography>
-            </Box>
-          </Box>
-        </Stack>
-      </CardContent>
-    </MotionCard>
-  );
-};
-
-// Floating Animation Components
-const FloatingIcon: React.FC<{
-  icon: string;
-  delay: number;
-  x: string;
-  y: string;
-}> = ({ icon, delay, x, y }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{
-        opacity: [0.3, 0.7, 0.3],
-        scale: [0.8, 1.2, 0.8],
-        rotate: [0, 360],
-      }}
-      transition={{
-        duration: 8,
-        delay,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-      style={{
-        position: "absolute",
-        left: x,
-        top: y,
-        fontSize: "2rem",
-        pointerEvents: "none",
-        zIndex: 1,
-      }}
-    >
-      {icon}
-    </motion.div>
-  );
-};
-
-const FloatingParticle: React.FC<{
-  size: number;
-  delay: number;
-  x: string;
-  y: string;
-}> = ({ size, delay, x, y }) => {
-  const theme = useTheme();
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{
-        opacity: [0.2, 0.5, 0.2],
-        scale: [0.5, 1, 0.5],
-        y: [-10, 10, -10],
-      }}
-      transition={{
-        duration: 6,
-        delay,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-      style={{
-        position: "absolute",
-        left: x,
-        top: y,
-        width: `${size}px`,
-        height: `${size}px`,
-        borderRadius: "50%",
-        background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-        pointerEvents: "none",
-        zIndex: 1,
-      }}
-    />
+      {levels.map((level) => (
+        <Chip
+          key={level.name}
+          label={`${level.name} (${level.percentage}%)`}
+          sx={{
+            backgroundColor: `${level.color}15`,
+            color: level.color,
+            border: `1px solid ${level.color}30`,
+            fontWeight: 600,
+            "&:hover": {
+              backgroundColor: `${level.color}25`,
+            },
+          }}
+        />
+      ))}
+    </Box>
   );
 };
 
 export const SkillsSection: React.FC = () => {
   const theme = useTheme();
+  const [selectedTab, setSelectedTab] = useState(0);
 
-  const floatingIcons = [
-    { icon: "⚛️", delay: 0, x: "10%", y: "15%" },
-    { icon: "🔷", delay: 2, x: "85%", y: "10%" },
-    { icon: "🚀", delay: 4, x: "20%", y: "85%" },
-    { icon: "💻", delay: 6, x: "75%", y: "80%" },
-    { icon: "⚡", delay: 8, x: "5%", y: "50%" },
-    { icon: "🎯", delay: 10, x: "90%", y: "45%" },
-  ];
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setSelectedTab(newValue);
+  };
 
-  const floatingParticles = [
-    { size: 8, delay: 0, x: "25%", y: "30%" },
-    { size: 12, delay: 2, x: "70%", y: "25%" },
-    { size: 6, delay: 4, x: "15%", y: "70%" },
-    { size: 10, delay: 6, x: "80%", y: "65%" },
-    { size: 14, delay: 8, x: "45%", y: "20%" },
-    { size: 9, delay: 10, x: "60%", y: "75%" },
-  ];
+  // Calculate overall statistics
+  const totalSkills = skillDomains.reduce(
+    (acc, domain) => acc + domain.skills.length,
+    0
+  );
+  const totalExpertSkills = skillDomains.reduce(
+    (acc, domain) =>
+      acc + domain.skills.filter((skill) => skill.level === "Expert").length,
+    0
+  );
+  const overallAverage = Math.round(
+    skillDomains.reduce((acc, domain) => {
+      const domainAverage =
+        domain.skills.reduce((skillAcc, skill) => {
+          return (
+            skillAcc + (skillLevelToPercentage[skill.level || "Beginner"] || 25)
+          );
+        }, 0) / domain.skills.length;
+      return acc + domainAverage;
+    }, 0) / skillDomains.length
+  );
 
   return (
     <Box
@@ -264,102 +340,260 @@ export const SkillsSection: React.FC = () => {
         py: 8,
         backgroundColor: theme.palette.background.default,
         position: "relative",
-        overflow: "hidden",
       }}
     >
-      {/* Floating Background Elements */}
-      {floatingIcons.map((item, index) => (
-        <FloatingIcon
-          key={index}
-          icon={item.icon}
-          delay={item.delay}
-          x={item.x}
-          y={item.y}
-        />
-      ))}
-
-      {floatingParticles.map((particle, index) => (
-        <FloatingParticle
-          key={index}
-          size={particle.size}
-          delay={particle.delay}
-          x={particle.x}
-          y={particle.y}
-        />
-      ))}
-
-      {/* Background Gradient */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: `radial-gradient(circle at 30% 20%, ${theme.palette.primary.main}05 0%, transparent 50%),
-                      radial-gradient(circle at 70% 80%, ${theme.palette.secondary.main}05 0%, transparent 50%)`,
-          pointerEvents: "none",
-        }}
-      />
-
-      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
+      <Container maxWidth="lg">
         <MotionBox
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <Box textAlign="center" sx={{ mb: 8 }}>
+          {/* Header */}
+          <Box textAlign="center" sx={{ mb: 6 }}>
             <Typography
-              variant="h3"
+              variant="h2"
               component="h2"
-              fontWeight="bold"
+              fontWeight="700"
               color="primary"
               gutterBottom
-              sx={{
-                position: "relative",
-                "&::after": {
-                  content: '""',
-                  position: "absolute",
-                  bottom: "-12px",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  width: "80px",
-                  height: "4px",
-                  background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                  borderRadius: "2px",
-                },
-              }}
+              sx={{ mb: 2 }}
             >
-              Skills & Technologies
+              Technical Expertise
             </Typography>
             <Typography
-              variant="body1"
+              variant="h6"
               color="text.secondary"
-              sx={{ mt: 3, maxWidth: "600px", mx: "auto", fontSize: "1.1rem" }}
+              sx={{
+                maxWidth: "600px",
+                mx: "auto",
+                mb: 4,
+                lineHeight: 1.6,
+              }}
             >
-              A comprehensive overview of the technologies and tools I work with
-              to create exceptional digital experiences.
+              Interactive visualization of my technical skills across different
+              domains and specific technologies.
             </Typography>
+
+            {/* Quick Stats */}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                gap: 4,
+                mb: 4,
+                flexWrap: "wrap",
+              }}
+            >
+              <Box textAlign="center">
+                <Typography variant="h4" fontWeight="bold" color="primary.main">
+                  {totalSkills}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Total Skills
+                </Typography>
+              </Box>
+              <Box textAlign="center">
+                <Typography variant="h4" fontWeight="bold" color="success.main">
+                  {totalExpertSkills}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Expert Level
+                </Typography>
+              </Box>
+              <Box textAlign="center">
+                <Typography
+                  variant="h4"
+                  fontWeight="bold"
+                  color="secondary.main"
+                >
+                  {overallAverage}%
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Average Proficiency
+                </Typography>
+              </Box>
+            </Box>
           </Box>
 
-          <Box
-            sx={{
-              display: "grid",
-              gridTemplateColumns: {
-                xs: "1fr",
-                md: "repeat(2, 1fr)",
-                lg: "repeat(3, 1fr)",
-              },
-              gap: 4,
-            }}
+          {/* Main Spider Chart */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
           >
-            {skillDomains.map((domain, index) => (
-              <Box key={domain.title}>
-                <SkillDomainCard domain={domain} index={index} />
+            <Card
+              sx={{
+                mb: 6,
+                borderRadius: 3,
+                boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                border: `1px solid ${theme.palette.divider}`,
+              }}
+            >
+              <CardContent sx={{ p: 4 }}>
+                <Typography
+                  variant="h5"
+                  fontWeight="600"
+                  color="text.primary"
+                  textAlign="center"
+                  sx={{ mb: 3 }}
+                >
+                  Overall Domain Proficiency
+                </Typography>
+                <SpiderChart />
+                <SkillLegend />
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Detailed Technology Tabs */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            <Card
+              sx={{
+                borderRadius: 3,
+                boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                border: `1px solid ${theme.palette.divider}`,
+              }}
+            >
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <Tabs
+                  value={selectedTab}
+                  onChange={handleTabChange}
+                  variant="scrollable"
+                  scrollButtons="auto"
+                  sx={{
+                    px: 2,
+                    "& .MuiTabs-indicator": {
+                      background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                      height: 3,
+                    },
+                    "& .MuiTab-root": {
+                      textTransform: "none",
+                      fontWeight: 600,
+                      fontSize: "1rem",
+                      color: theme.palette.text.secondary,
+                      "&.Mui-selected": {
+                        color: theme.palette.primary.main,
+                      },
+                    },
+                  }}
+                >
+                  {skillDomains.map((domain, index) => (
+                    <Tab
+                      key={index}
+                      label={domain.title
+                        .replace(" Development", "")
+                        .replace(" & Tools", "")}
+                      id={`skill-tab-${index}`}
+                      aria-controls={`skill-tabpanel-${index}`}
+                    />
+                  ))}
+                </Tabs>
               </Box>
-            ))}
-          </Box>
+
+              {skillDomains.map((domain, index) => (
+                <TabPanel key={index} value={selectedTab} index={index}>
+                  <CardContent sx={{ p: 4 }}>
+                    <Typography
+                      variant="h5"
+                      fontWeight="600"
+                      color="text.primary"
+                      textAlign="center"
+                      sx={{ mb: 3 }}
+                    >
+                      {domain.title} Technologies
+                    </Typography>
+
+                    <Box
+                      sx={{
+                        display: "grid",
+                        gridTemplateColumns: {
+                          xs: "1fr",
+                          md: "2fr 1fr",
+                        },
+                        gap: 4,
+                      }}
+                    >
+                      <Box>
+                        <TechnologyRadar domain={domain} />
+                      </Box>
+                      <Box>
+                        <Typography
+                          variant="h6"
+                          fontWeight="600"
+                          color="text.primary"
+                          sx={{ mb: 2 }}
+                        >
+                          Technology List
+                        </Typography>
+                        <Stack spacing={1}>
+                          {domain.skills.map((skill) => {
+                            const levelColor =
+                              skill.level === "Expert"
+                                ? "#10B981"
+                                : skill.level === "Advanced"
+                                ? "#F59E0B"
+                                : skill.level === "Intermediate"
+                                ? "#3B82F6"
+                                : "#94A3B8";
+
+                            return (
+                              <Box
+                                key={skill.name}
+                                sx={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  p: 2,
+                                  borderRadius: 1,
+                                  backgroundColor: theme.palette.grey[50],
+                                  border: `1px solid ${theme.palette.grey[200]}`,
+                                }}
+                              >
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 1,
+                                  }}
+                                >
+                                  <Typography
+                                    variant="body2"
+                                    sx={{ fontSize: "1.2rem" }}
+                                  >
+                                    {skill.icon}
+                                  </Typography>
+                                  <Typography variant="body1" fontWeight="500">
+                                    {skill.name}
+                                  </Typography>
+                                </Box>
+                                <Chip
+                                  label={skill.level || "Beginner"}
+                                  size="small"
+                                  sx={{
+                                    backgroundColor: `${levelColor}15`,
+                                    color: levelColor,
+                                    border: `1px solid ${levelColor}30`,
+                                    fontWeight: 600,
+                                  }}
+                                />
+                              </Box>
+                            );
+                          })}
+                        </Stack>
+                      </Box>
+                    </Box>
+                  </CardContent>
+                </TabPanel>
+              ))}
+            </Card>
+          </motion.div>
         </MotionBox>
       </Container>
     </Box>
