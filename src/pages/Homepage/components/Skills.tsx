@@ -327,12 +327,23 @@ export const SkillsSection: React.FC = () => {
 
   // Get top skills (Expert and Advanced) and remaining skills
   const getSkillGroups = (domain: SkillDomain) => {
-    const topSkills = domain.skills.filter(
-      (skill) => skill.level === "Expert" || skill.level === "Advanced"
-    );
-    const remainingSkills = domain.skills.filter(
-      (skill) => skill.level !== "Expert" && skill.level !== "Advanced"
-    );
+    // Sort skills by level priority (Expert > Advanced > Intermediate > Beginner)
+    const levelPriority = {
+      Expert: 4,
+      Advanced: 3,
+      Intermediate: 2,
+      Beginner: 1,
+    };
+
+    const sortedSkills = domain.skills.sort((a, b) => {
+      const aLevel = levelPriority[a.level || "Beginner"] || 1;
+      const bLevel = levelPriority[b.level || "Beginner"] || 1;
+      return bLevel - aLevel; // Sort in descending order (highest first)
+    });
+
+    const topSkills = sortedSkills.slice(0, 4); // Show top 4 skills
+    const remainingSkills = sortedSkills.slice(4); // Hide the rest
+
     return { topSkills, remainingSkills };
   };
 
