@@ -55,3 +55,19 @@ export const skillDomains: SkillDomain[] = [
     ],
   },
 ];
+
+// Core technologies array for use in About section
+export const coreSkills = [
+  "React.js",
+  "TypeScript",
+  "Node.js",
+  "Python",
+  "AWS",
+  "MongoDB",
+  "PostgreSQL",
+  "Docker",
+  "GraphQL",
+  "Next.js",
+  "Express.js",
+  "Git",
+];

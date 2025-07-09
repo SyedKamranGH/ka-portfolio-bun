@@ -21,7 +21,7 @@ import {
 } from "chart.js";
 import { skillDomains } from "@constants/data/skills";
 import { SectionHeader } from "../../../components/SectionHeader/SectionHeader";
-import { TabPanel } from "@components/common";
+import { TabPanel } from "../../../components/TabPanel";
 import {
   SpiderChart,
   TechnologyRadar,
