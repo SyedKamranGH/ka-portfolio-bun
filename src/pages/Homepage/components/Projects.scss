@@ -6,24 +6,8 @@
     var(--mui-palette-background-paper) 100%
   );
 
-  .section-title {
-    font-weight: 700;
-    background: linear-gradient(
-      45deg,
-      var(--mui-palette-primary-main),
-      var(--mui-palette-secondary-main)
-    );
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-
-  .section-subtitle {
-    max-width: 600px;
-    margin: 0 auto 3rem;
-    opacity: 0.8;
+  .projects-header {
+    margin-bottom: 2rem;
   }
 
   .projects-tabs {
@@ -135,10 +119,6 @@
   // Responsive design
   @media (max-width: 768px) {
     padding: 60px 0;
-
-    .section-title {
-      font-size: 2rem;
-    }
 
     .projects-tabs {
       .MuiTab-root {

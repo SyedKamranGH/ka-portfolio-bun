@@ -17,6 +17,7 @@ import { GitHub, Launch, Visibility } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import "./Projects.scss";
 import CustomChip from "../../../components/Chip/index";
+import { SectionHeader } from "../../../components/SectionHeader/SectionHeader";
 import type { Project, ProjectType } from "../../../types/index";
 import { useGitHubProjects } from "../../../hooks/useGItHubProjects";
 import { PROJECTS } from "../../../constants/data/projects";
@@ -252,31 +253,12 @@ export const Projects: React.FC = () => {
   return (
     <section id="projects" className="projects-section">
       <Container maxWidth="xl">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <Typography
-            variant="h2"
-            component="h2"
-            className="section-title"
-            align="center"
-            sx={{ mb: 2 }}
-          >
-            Projects
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            className="section-subtitle"
-            align="center"
-            color="text.secondary"
-            sx={{ mb: 4 }}
-          >
-            A showcase of my personal and professional work
-          </Typography>
-        </motion.div>
+        <SectionHeader
+          title="Projects"
+          subtitle="A showcase of my personal and professional work"
+          variant="h2"
+          className="projects-header"
+        />
 
         <Box sx={{ borderBottom: 1, borderColor: "divider", mb: 3 }}>
           <Tabs
