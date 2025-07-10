@@ -1,196 +1,187 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Container,
   Typography,
   Card,
   CardContent,
-  Stack,
   useTheme,
+  Tabs,
+  Tab,
 } from "@mui/material";
 import { motion } from "framer-motion";
-// import { CustomChip } from "../../../components/Chip";
-// import { skillsData } from "../../../constants/data/skills";
-import type { SkillDomain } from "../../../types";
-import CustomChip from "@components/Chip";
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+} from "chart.js";
 import { skillDomains } from "@constants/data/skills";
-import Grid from "@mui/material/Grid";
+import { SectionHeader } from "../../../components/SectionHeader/SectionHeader";
+import { TabPanel } from "../../../components/TabPanel";
+import {
+  SpiderChart,
+  TechnologyRadar,
+  SkillLegend,
+  SkillsList,
+  SkillStatistics,
+} from "@components/skills";
+import "../../../styles/components/Skills.scss";
+
+// Register Chart.js components
+ChartJS.register(
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend
+);
 
 const MotionBox = motion(Box);
-const MotionCard = motion(Card);
-
-interface SkillDomainCardProps {
-  domain: SkillDomain;
-  index: number;
-}
-
-const SkillDomainCard: React.FC<SkillDomainCardProps> = ({ domain, index }) => {
-  const theme = useTheme();
-
-  return (
-    <MotionCard
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      whileHover={{ scale: 1.02 }}
-      sx={{
-        height: "100%",
-        borderRadius: 3,
-        boxShadow: theme.shadows[4],
-        background: `linear-gradient(135deg, ${theme.palette.background.paper}, ${theme.palette.primary.main}05)`,
-        border: `1px solid ${theme.palette.divider}`,
-        transition: "all 0.3s ease",
-        "&:hover": {
-          boxShadow: theme.shadows[8],
-          border: `1px solid ${theme.palette.primary.main}40`,
-        },
-      }}
-    >
-      <CardContent sx={{ p: 4 }}>
-        <Stack spacing={3}>
-          {/* Domain Header */}
-          <Box textAlign="center">
-            <Box
-              sx={{
-                fontSize: "3rem",
-                mb: 2,
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              {/* {domain.icon} */}
-            </Box>
-
-            <Typography
-              variant="h5"
-              component="h3"
-              fontWeight="bold"
-              color="primary"
-              gutterBottom
-            >
-              {domain.title}
-            </Typography>
-
-            {/* {domain.description && (
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                {domain.description}
-              </Typography>
-            )} */}
-          </Box>
-
-          {/* Skills */}
-          <Box>
-            <Stack
-              direction="row"
-              spacing={1}
-              flexWrap="wrap"
-              gap={1}
-              justifyContent="center"
-            >
-              {domain.skills.map((skill) => (
-                <CustomChip
-                  key={skill.name}
-                  skillName={skill.name}
-                  iconText={skill.icon}
-                  level={skill.level}
-                  variant="outlined"
-                  size="medium"
-                  sx={{
-                    borderColor: theme.palette.primary.main,
-                    color: theme.palette.primary.main,
-                    "&:hover": {
-                      backgroundColor: `${theme.palette.primary.main}15`,
-                      borderColor: theme.palette.primary.main,
-                    },
-                  }}
-                />
-              ))}
-            </Stack>
-          </Box>
-
-          {/* Proficiency Level */}
-          {/* {domain.proficiency && (
-            <Box textAlign="center">
-              <Typography variant="body2" color="text.secondary" gutterBottom>
-                Proficiency Level
-              </Typography>
-
-              <Box
-                sx={{
-                  width: "100%",
-                  height: 6,
-                  backgroundColor: theme.palette.grey[300],
-                  borderRadius: 3,
-                  overflow: "hidden",
-                }}
-              >
-                <Box
-                  sx={{
-                    width: `${domain.proficiency}%`,
-                    height: "100%",
-                    backgroundColor: theme.palette.primary.main,
-                    borderRadius: 3,
-                    transition: "width 1s ease",
-                  }}
-                />
-              </Box>
-
-              <Typography
-                variant="body2"
-                color="primary"
-                fontWeight="bold"
-                sx={{ mt: 1 }}
-              >
-                {domain.proficiency}%
-              </Typography>
-            </Box>
-          )} */}
-        </Stack>
-      </CardContent>
-    </MotionCard>
-  );
-};
 
 export const SkillsSection: React.FC = () => {
   const theme = useTheme();
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [expandedDomains, setExpandedDomains] = useState<Set<number>>(
+    new Set()
+  );
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setSelectedTab(newValue);
+  };
+
+  const toggleDomainExpansion = (domainIndex: number) => {
+    const newExpanded = new Set(expandedDomains);
+    if (newExpanded.has(domainIndex)) {
+      newExpanded.delete(domainIndex);
+    } else {
+      newExpanded.add(domainIndex);
+    }
+    setExpandedDomains(newExpanded);
+  };
 
   return (
     <Box
       component="section"
       id="skills"
+      className="skills-section"
       sx={{
-        py: 8,
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: theme.palette.background.default,
       }}
     >
       <Container maxWidth="lg">
-        <MotionBox
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        {/* Header */}
+        <SectionHeader
+          title="Technical Expertise"
+          subtitle="Interactive visualization of my technical skills across different domains and specific technologies."
+          variant="h2"
+          className="skills-section__header"
+        />
+
+        {/* Quick Stats */}
+        <SkillStatistics />
+
+        {/* Combined Spider Chart and Technology Tabs */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <Typography
-            variant="h3"
-            component="h2"
-            textAlign="center"
-            fontWeight="bold"
-            color="primary"
-            gutterBottom
-            sx={{ mb: 6 }}
+          <Card
+            className="skills-section__card"
+            sx={{
+              borderColor: theme.palette.divider,
+            }}
           >
-            Skills & Technologies
-          </Typography>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs
+                value={selectedTab}
+                onChange={handleTabChange}
+                variant="scrollable"
+                scrollButtons="auto"
+                className="skills-section__tabs"
+                sx={{
+                  "& .MuiTabs-indicator": {
+                    background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                  },
+                  "& .MuiTab-root": {
+                    color: theme.palette.text.secondary,
+                    "&.Mui-selected": {
+                      color: theme.palette.primary.main,
+                    },
+                  },
+                }}
+              >
+                {/* Overall Tab */}
+                <Tab
+                  label="Overall Proficiency"
+                  id="skill-tab-overall"
+                  aria-controls="skill-tabpanel-overall"
+                />
+                {/* Domain-specific Tabs */}
+                {skillDomains.map((domain, index) => (
+                  <Tab
+                    key={index}
+                    label={domain.title
+                      .replace(" Development", "")
+                      .replace(" & Tools", "")}
+                    id={`skill-tab-${index + 1}`}
+                    aria-controls={`skill-tabpanel-${index + 1}`}
+                  />
+                ))}
+              </Tabs>
+            </Box>
 
-          <Grid container spacing={4}>
+            {/* Overall Tab Panel */}
+            <TabPanel value={selectedTab} index={0}>
+              <CardContent className="skills-section__tab-content">
+                <Typography
+                  variant="h5"
+                  className="skills-section__tab-title"
+                  color="text.primary"
+                >
+                  Overall Domain Proficiency
+                </Typography>
+                <SpiderChart />
+                <SkillLegend />
+              </CardContent>
+            </TabPanel>
+
+            {/* Domain-specific Tab Panels */}
             {skillDomains.map((domain, index) => (
-              <Grid item xs={12} md={6} lg={4} key={domain.id}>
-                <SkillDomainCard domain={domain} index={index} />
-              </Grid>
+              <TabPanel key={index} value={selectedTab} index={index + 1}>
+                <CardContent className="skills-section__tab-content">
+                  <Typography
+                    variant="h5"
+                    className="skills-section__tab-title"
+                    color="text.primary"
+                  >
+                    {domain.title} Technologies
+                  </Typography>
+
+                  <Box className="skills-section__technology-grid">
+                    <Box>
+                      <TechnologyRadar domain={domain} />
+                    </Box>
+                    <Box>
+                      <SkillsList
+                        domain={domain}
+                        domainIndex={index}
+                        expandedDomains={expandedDomains}
+                        onToggleExpansion={toggleDomainExpansion}
+                      />
+                    </Box>
+                  </Box>
+                </CardContent>
+              </TabPanel>
             ))}
-          </Grid>
-        </MotionBox>
+          </Card>
+        </motion.div>
       </Container>
     </Box>
   );

@@ -9,7 +9,7 @@ import {
   Chip,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { skills } from "../../../../constants/data/about";
+import { coreSkills } from "../../../../constants/data/skills";
 
 const MotionBox = motion(Box);
 
@@ -71,7 +71,7 @@ export const ProfileSection: React.FC = () => {
                   justifyContent="center"
                   className="skills-stack"
                 >
-                  {skills.map((skill, index) => (
+                  {coreSkills.map((skill, index) => (
                     <Chip
                       key={index}
                       label={skill}

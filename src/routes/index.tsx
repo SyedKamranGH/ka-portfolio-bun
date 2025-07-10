@@ -6,7 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
-import { Layout } from "../layout";
+import Layout from "../layout";
 // import ErrorBoundary from "../components/ErrorBoundary";
 
 // Lazy load pages for better performance

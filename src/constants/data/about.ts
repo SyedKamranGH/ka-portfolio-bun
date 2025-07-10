@@ -80,18 +80,3 @@ export const achievements = [
     icon: Lightbulb,
   },
 ];
-
-export const skills = [
-  "React.js",
-  "TypeScript",
-  "Node.js",
-  "Python",
-  "AWS",
-  "MongoDB",
-  "PostgreSQL",
-  "Docker",
-  "GraphQL",
-  "Next.js",
-  "Express.js",
-  "Git",
-];
