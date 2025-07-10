@@ -26,10 +26,16 @@ class ApiService {
     // Request interceptor
     this.axiosInstance.interceptors.request.use(
       (config) => {
-        // Add auth token if available
-        const token = localStorage.getItem("authToken");
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
+        // Add GitHub token for GitHub API requests
+        const githubToken = import.meta.env.VITE_GITHUB_TOKEN;
+        if (githubToken && config.baseURL?.includes("github.com")) {
+          config.headers.Authorization = `Bearer ${githubToken}`;
+        } else {
+          // Add auth token if available for other APIs
+          const token = localStorage.getItem("authToken");
+          if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+          }
         }
         return config;
       },
@@ -50,6 +56,17 @@ class ApiService {
           localStorage.removeItem("authToken");
           // Redirect to login or refresh token
         }
+
+        // Handle GitHub API rate limit specifically
+        if (
+          error.response?.status === 403 &&
+          error.response?.data?.message?.includes("rate limit")
+        ) {
+          console.error(
+            "GitHub API rate limit exceeded. Please check your token configuration."
+          );
+        }
+
         return Promise.reject(error);
       }
     );
@@ -107,6 +124,14 @@ class ApiService {
     if (error.response) {
       // Server responded with error status
       const message = error.response.data?.message || error.response.statusText;
+
+      // Provide more helpful error messages for GitHub API rate limiting
+      if (error.response.status === 403 && message?.includes("rate limit")) {
+        return new Error(
+          `GitHub API rate limit exceeded. Please check your VITE_GITHUB_TOKEN configuration. ${message}`
+        );
+      }
+
       return new Error(`API Error: ${message} (${error.response.status})`);
     } else if (error.request) {
       // Request was made but no response received
