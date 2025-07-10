@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Container,
@@ -11,13 +11,13 @@ import {
   Tab,
   IconButton,
   Skeleton,
+  Alert,
 } from "@mui/material";
 import { GitHub, Launch, Visibility } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import "./Projects.scss";
 import CustomChip from "../../../components/Chip/index";
 import type { Project, ProjectType } from "../../../types/index";
-import Grid from "@mui/material/Grid";
 import { useGitHubProjects } from "../../../hooks/useGItHubProjects";
 import { PROJECTS } from "../../../constants/data/projects";
 
@@ -153,14 +153,12 @@ const ProjectSkeleton: React.FC = () => (
   </Card>
 );
 
-export const Projects: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<number>(0);
-  // const { projects: githubProjects, loading, error } = useGitHubProjects();
-
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue);
-  };
-
+const ProjectsGrid: React.FC<{
+  projects: Project[];
+  type: ProjectType;
+  loading?: boolean;
+  error?: string | null;
+}> = ({ projects, type, loading, error }) => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -169,6 +167,86 @@ export const Projects: React.FC = () => {
         staggerChildren: 0.1,
       },
     },
+  };
+
+  const gridStyles = {
+    display: "grid",
+    gridTemplateColumns: {
+      xs: "1fr",
+      sm: "repeat(2, 1fr)",
+      lg: "repeat(3, 1fr)",
+    },
+    gap: 3,
+  };
+
+  if (loading) {
+    return (
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <Box sx={gridStyles}>
+          {Array.from({ length: 6 }).map((_, index) => (
+            <ProjectSkeleton key={index} />
+          ))}
+        </Box>
+      </motion.div>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ py: 4 }}>
+        <Alert severity="error" sx={{ mb: 2 }}>
+          Failed to load GitHub projects. Please try again later.
+        </Alert>
+        <Typography color="text.secondary" align="center">
+          {error}
+        </Typography>
+      </Box>
+    );
+  }
+
+  if (projects.length === 0) {
+    return (
+      <Box sx={{ py: 4 }}>
+        <Typography align="center" color="text.secondary">
+          {type === "personal"
+            ? "No GitHub projects found."
+            : "No company projects available."}
+        </Typography>
+      </Box>
+    );
+  }
+
+  return (
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+    >
+      <Box sx={gridStyles}>
+        {projects.map((project, index) => (
+          <ProjectCard
+            key={project.id || index}
+            project={project}
+            type={type}
+          />
+        ))}
+      </Box>
+    </motion.div>
+  );
+};
+
+export const Projects: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<number>(0);
+  const { projects: githubProjects, loading, error } = useGitHubProjects();
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setActiveTab(newValue);
   };
 
   return (
@@ -214,60 +292,16 @@ export const Projects: React.FC = () => {
         </Box>
 
         <TabPanel value={activeTab} index={0}>
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {/* <Grid container spacing={3}>
-              {loading ? (
-                // Show skeletons while loading
-                Array.from({ length: 6 }).map((_, index) => (
-                  <Grid item xs={12} sm={6} lg={4} key={index}>
-                    <ProjectSkeleton />
-                  </Grid>
-                ))
-              ) : error ? (
-                <Grid item xs={12}>
-                  <Typography color="error" align="center">
-                    Failed to load GitHub projects. Please try again later.
-                  </Typography>
-                </Grid>
-              ) : githubProjects.length > 0 ? (
-                githubProjects.map((project, index) => (
-                  <Grid item xs={12} sm={6} lg={4} key={project.id || index}>
-                    <ProjectCard project={project} type="personal" />
-                  </Grid>
-                ))
-              ) : (
-                <Grid item xs={12}>
-                  <Typography align="center" color="text.secondary">
-                    No GitHub projects found.
-                  </Typography>
-                </Grid>
-              )}
-            </Grid> */}
-          </motion.div>
+          <ProjectsGrid
+            projects={githubProjects}
+            type="personal"
+            loading={loading}
+            error={error}
+          />
         </TabPanel>
 
         <TabPanel value={activeTab} index={1}>
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <Grid container spacing={3}>
-              {PROJECTS.company.map((project, index) => (
-                <>
-                  {/* <Grid item xs={12} sm={6} lg={4} key={project.id || index}>
-                    <ProjectCard project={project} type="company" />
-                  </Grid> */}
-                </>
-              ))}
-            </Grid>
-          </motion.div>
+          <ProjectsGrid projects={PROJECTS.company} type="company" />
         </TabPanel>
       </Container>
     </section>
