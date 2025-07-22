@@ -12,9 +12,11 @@ import {
   IconButton,
   Skeleton,
   Alert,
+  Button,
+  Fade,
 } from "@mui/material";
-import { GitHub, Launch, Visibility } from "@mui/icons-material";
-import { motion } from "framer-motion";
+import { GitHub, Launch, Visibility, ExpandMore, ExpandLess } from "@mui/icons-material";
+import { motion, AnimatePresence } from "framer-motion";
 import "./Projects.scss";
 import CustomChip from "../../../components/Chip/index";
 import { SectionHeader } from "../../../components/SectionHeader/SectionHeader";
@@ -61,6 +63,7 @@ const ProjectCard: React.FC<{ project: Project; type: ProjectType }> = ({
       whileHover="hover"
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6 }}
+      layout
     >
       <Card className="project-card" elevation={2}>
         {project.image && (
@@ -228,17 +231,135 @@ const ProjectsGrid: React.FC<{
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
+      layout
     >
       <Box sx={gridStyles}>
-        {projects.map((project, index) => (
-          <ProjectCard
-            key={project.id || index}
-            project={project}
-            type={type}
-          />
-        ))}
+        <AnimatePresence>
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={project.id || index}
+              project={project}
+              type={type}
+            />
+          ))}
+        </AnimatePresence>
       </Box>
     </motion.div>
+  );
+};
+
+// New component with pagination functionality
+const ProjectsWithPagination: React.FC<{
+  projects: Project[];
+  type: ProjectType;
+  loading?: boolean;
+  error?: string | null;
+}> = ({ projects, type, loading, error }) => {
+  const [showAll, setShowAll] = useState(false);
+  const [isExpanding, setIsExpanding] = useState(false);
+
+  const INITIAL_PROJECTS_COUNT = 6;
+  const displayedProjects = showAll ? projects : projects.slice(0, INITIAL_PROJECTS_COUNT);
+  const hasMoreProjects = projects.length > INITIAL_PROJECTS_COUNT;
+
+  const handleToggleProjects = async () => {
+    if (!showAll) {
+      setIsExpanding(true);
+      // Add a small delay for better UX
+      setTimeout(() => {
+        setShowAll(true);
+        setIsExpanding(false);
+      }, 300);
+    } else {
+      setShowAll(false);
+      // Scroll back to the projects section when collapsing
+      setTimeout(() => {
+        document.getElementById("projects")?.scrollIntoView({ 
+          behavior: "smooth",
+          block: "start"
+        });
+      }, 100);
+    }
+  };
+
+  const buttonVariants = {
+    hover: {
+      scale: 1.05,
+      transition: { duration: 0.2 }
+    },
+    tap: {
+      scale: 0.95,
+      transition: { duration: 0.1 }
+    }
+  };
+
+  // Handle loading and error states
+  if (loading || error || projects.length === 0) {
+    return <ProjectsGrid projects={projects} type={type} loading={loading} error={error} />;
+  }
+
+  return (
+    <Box>
+      <ProjectsGrid 
+        projects={displayedProjects} 
+        type={type} 
+        loading={isExpanding} 
+        error={error} 
+      />
+      
+      {hasMoreProjects && (
+        <Fade in={true} timeout={600}>
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            mt: 4,
+            mb: 2 
+          }}>
+            <motion.div
+              variants={buttonVariants}
+              whileHover="hover"
+              whileTap="tap"
+            >
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={handleToggleProjects}
+                startIcon={showAll ? <ExpandLess /> : <ExpandMore />}
+                disabled={isExpanding}
+                sx={{
+                  borderRadius: 3,
+                  px: 4,
+                  py: 1.5,
+                  textTransform: 'none',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  borderWidth: 2,
+                  '&:hover': {
+                    borderWidth: 2,
+                    backgroundColor: 'rgba(25, 118, 210, 0.04)',
+                  },
+                  transition: 'all 0.3s ease-in-out',
+                }}
+              >
+                {showAll ? `Show Less Projects` : `Show All ${projects.length} Projects`}
+              </Button>
+            </motion.div>
+          </Box>
+        </Fade>
+      )}
+
+      {showAll && hasMoreProjects && (
+        <Box sx={{ 
+          textAlign: 'center', 
+          mt: 2,
+          opacity: 0.7 
+        }}>
+          <Typography variant="body2" color="text.secondary">
+            Showing all {projects.length} projects
+          </Typography>
+        </Box>
+      )}
+    </Box>
   );
 };
 
@@ -274,7 +395,7 @@ export const Projects: React.FC = () => {
         </Box>
 
         <TabPanel value={activeTab} index={0}>
-          <ProjectsGrid
+          <ProjectsWithPagination
             projects={githubProjects}
             type="personal"
             loading={loading}
@@ -283,7 +404,7 @@ export const Projects: React.FC = () => {
         </TabPanel>
 
         <TabPanel value={activeTab} index={1}>
-          <ProjectsGrid projects={PROJECTS.company} type="company" />
+          <ProjectsWithPagination projects={PROJECTS.company} type="company" />
         </TabPanel>
       </Container>
     </section>
