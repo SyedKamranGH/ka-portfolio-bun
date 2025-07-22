@@ -15,7 +15,13 @@ import {
   Button,
   Fade,
 } from "@mui/material";
-import { GitHub, Launch, Visibility, ExpandMore, ExpandLess } from "@mui/icons-material";
+import {
+  GitHub,
+  Launch,
+  Visibility,
+  ExpandMore,
+  ExpandLess,
+} from "@mui/icons-material";
 import { motion, AnimatePresence } from "framer-motion";
 import "./Projects.scss";
 import CustomChip from "../../../components/Chip/index";
@@ -30,16 +36,121 @@ interface TabPanelProps {
   value: number;
 }
 
-const TabPanel: React.FC<TabPanelProps> = ({ children, value, index }) => (
-  <div
-    role="tabpanel"
-    hidden={value !== index}
-    id={`projects-tabpanel-${index}`}
-    aria-labelledby={`projects-tab-${index}`}
-  >
-    {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
-  </div>
-);
+const TabPanel: React.FC<TabPanelProps> = ({ children, value, index }) => {
+  const isActive = value === index;
+
+  const panelVariants = {
+    hidden: {
+      opacity: 0,
+      y: 20,
+      scale: 0.95,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+        when: "beforeChildren",
+        staggerChildren: 0.1,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: -10,
+      scale: 0.98,
+      transition: {
+        duration: 0.3,
+        ease: "easeIn",
+      },
+    },
+  };
+
+  const contentVariants = {
+    hidden: {
+      opacity: 0,
+      y: 15,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  return (
+    <Box
+      role="tabpanel"
+      id={`projects-tabpanel-${index}`}
+      aria-labelledby={`projects-tab-${index}`}
+      sx={{
+        position: "relative",
+        width: "100%",
+      }}
+    >
+      <AnimatePresence mode="wait">
+        {isActive && (
+          <motion.div
+            key={`panel-${index}`}
+            variants={panelVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            style={{
+              width: "100%",
+            }}
+          >
+            <Box
+              sx={{
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
+                backdropFilter: "blur(10px)",
+                borderRadius: 4,
+                border: "1px solid rgba(255,255,255,0.08)",
+                boxShadow: {
+                  xs: "0 8px 32px rgba(0,0,0,0.08)",
+                  md: "0 12px 40px rgba(0,0,0,0.12)",
+                },
+                p: { xs: 2, sm: 3, md: 4 },
+                position: "relative",
+                overflow: "hidden",
+                mt: -1, // Slight negative margin to connect with tabs
+                borderTopLeftRadius: 0,
+                borderTopRightRadius: 0,
+                borderTop: "none",
+                "&::before": {
+                  content: '""',
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: "2px",
+                  background:
+                    "linear-gradient(90deg, transparent, rgba(25, 118, 210, 0.6), transparent)",
+                  animation: "shimmer 2s ease-in-out infinite",
+                },
+                "@keyframes shimmer": {
+                  "0%": {
+                    transform: "translateX(-100%)",
+                  },
+                  "100%": {
+                    transform: "translateX(100%)",
+                  },
+                },
+              }}
+            >
+              <motion.div variants={contentVariants}>{children}</motion.div>
+            </Box>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Box>
+  );
+};
 
 const ProjectCard: React.FC<{ project: Project; type: ProjectType }> = ({
   project,
@@ -259,7 +370,9 @@ const ProjectsWithPagination: React.FC<{
   const [isExpanding, setIsExpanding] = useState(false);
 
   const INITIAL_PROJECTS_COUNT = 6;
-  const displayedProjects = showAll ? projects : projects.slice(0, INITIAL_PROJECTS_COUNT);
+  const displayedProjects = showAll
+    ? projects
+    : projects.slice(0, INITIAL_PROJECTS_COUNT);
   const hasMoreProjects = projects.length > INITIAL_PROJECTS_COUNT;
 
   const handleToggleProjects = async () => {
@@ -274,9 +387,9 @@ const ProjectsWithPagination: React.FC<{
       setShowAll(false);
       // Scroll back to the projects section when collapsing
       setTimeout(() => {
-        document.getElementById("projects")?.scrollIntoView({ 
+        document.getElementById("projects")?.scrollIntoView({
           behavior: "smooth",
-          block: "start"
+          block: "start",
         });
       }, 100);
     }
@@ -285,36 +398,45 @@ const ProjectsWithPagination: React.FC<{
   const buttonVariants = {
     hover: {
       scale: 1.05,
-      transition: { duration: 0.2 }
+      transition: { duration: 0.2 },
     },
     tap: {
       scale: 0.95,
-      transition: { duration: 0.1 }
-    }
+      transition: { duration: 0.1 },
+    },
   };
 
   // Handle loading and error states
   if (loading || error || projects.length === 0) {
-    return <ProjectsGrid projects={projects} type={type} loading={loading} error={error} />;
+    return (
+      <ProjectsGrid
+        projects={projects}
+        type={type}
+        loading={loading}
+        error={error}
+      />
+    );
   }
 
   return (
     <Box>
-      <ProjectsGrid 
-        projects={displayedProjects} 
-        type={type} 
-        loading={isExpanding} 
-        error={error} 
+      <ProjectsGrid
+        projects={displayedProjects}
+        type={type}
+        loading={isExpanding}
+        error={error}
       />
-      
+
       {hasMoreProjects && (
         <Fade in={true} timeout={600}>
-          <Box sx={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
-            mt: 4,
-            mb: 2 
-          }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              mt: 4,
+              mb: 2,
+            }}
+          >
             <motion.div
               variants={buttonVariants}
               whileHover="hover"
@@ -330,18 +452,20 @@ const ProjectsWithPagination: React.FC<{
                   borderRadius: 3,
                   px: 4,
                   py: 1.5,
-                  textTransform: 'none',
-                  fontSize: '1rem',
+                  textTransform: "none",
+                  fontSize: "1rem",
                   fontWeight: 600,
                   borderWidth: 2,
-                  '&:hover': {
+                  "&:hover": {
                     borderWidth: 2,
-                    backgroundColor: 'rgba(25, 118, 210, 0.04)',
+                    backgroundColor: "rgba(25, 118, 210, 0.04)",
                   },
-                  transition: 'all 0.3s ease-in-out',
+                  transition: "all 0.3s ease-in-out",
                 }}
               >
-                {showAll ? `Show Less Projects` : `Show All ${projects.length} Projects`}
+                {showAll
+                  ? `Show Less Projects`
+                  : `Show All ${projects.length} Projects`}
               </Button>
             </motion.div>
           </Box>
@@ -349,11 +473,13 @@ const ProjectsWithPagination: React.FC<{
       )}
 
       {showAll && hasMoreProjects && (
-        <Box sx={{ 
-          textAlign: 'center', 
-          mt: 2,
-          opacity: 0.7 
-        }}>
+        <Box
+          sx={{
+            textAlign: "center",
+            mt: 2,
+            opacity: 0.7,
+          }}
+        >
           <Typography variant="body2" color="text.secondary">
             Showing all {projects.length} projects
           </Typography>
@@ -371,6 +497,31 @@ export const Projects: React.FC = () => {
     setActiveTab(newValue);
   };
 
+  const tabVariants = {
+    inactive: {
+      scale: 0.95,
+      y: 5,
+      rotateX: 15,
+      transformOrigin: "bottom",
+    },
+    active: {
+      scale: 1,
+      y: 0,
+      rotateX: 0,
+      transformOrigin: "bottom",
+    },
+    hover: {
+      scale: 1.02,
+      y: -2,
+      rotateX: -5,
+      transformOrigin: "bottom",
+      transition: {
+        duration: 0.2,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
     <section id="projects" className="projects-section">
       <Container maxWidth="xl">
@@ -381,17 +532,132 @@ export const Projects: React.FC = () => {
           className="projects-header"
         />
 
-        <Box sx={{ borderBottom: 1, borderColor: "divider", mb: 3 }}>
-          <Tabs
-            value={activeTab}
-            onChange={handleTabChange}
-            aria-label="projects tabs"
-            centered
-            className="projects-tabs"
+        {/* Custom Folder-Style Tabs */}
+        <Box sx={{ position: "relative", mb: 0 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              position: "relative",
+              perspective: "1000px",
+              mb: 0,
+            }}
           >
-            <Tab label="Personal Projects" id="projects-tab-0" />
-            <Tab label="Company Projects" id="projects-tab-1" />
-          </Tabs>
+            {["Personal Projects", "Company Projects"].map((label, index) => (
+              <motion.div
+                key={index}
+                variants={tabVariants}
+                initial="inactive"
+                animate={activeTab === index ? "active" : "inactive"}
+                whileHover="hover"
+                style={{
+                  transformStyle: "preserve-3d",
+                  zIndex: activeTab === index ? 10 : 1,
+                  marginLeft: index > 0 ? "-10px" : "0",
+                }}
+              >
+                <Box
+                  onClick={(event) => handleTabChange(event, index)}
+                  sx={{
+                    position: "relative",
+                    cursor: "pointer",
+                    px: { xs: 2.5, sm: 4 },
+                    py: { xs: 1.5, sm: 2 },
+                    minWidth: { xs: "140px", sm: "180px" },
+                    textAlign: "center",
+                    background:
+                      activeTab === index
+                        ? "linear-gradient(145deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.08) 100%)"
+                        : "linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)",
+                    backdropFilter: "blur(10px)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    borderBottom:
+                      activeTab === index
+                        ? "none"
+                        : "1px solid rgba(255,255,255,0.1)",
+                    borderTopLeftRadius: "16px",
+                    borderTopRightRadius: "16px",
+                    borderBottomLeftRadius: 0,
+                    borderBottomRightRadius: 0,
+                    boxShadow:
+                      activeTab === index
+                        ? "0 -8px 25px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2)"
+                        : "0 -4px 15px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)",
+                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                    "&::before": {
+                      content: '""',
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background:
+                        activeTab === index
+                          ? "linear-gradient(135deg, rgba(25, 118, 210, 0.15) 0%, rgba(25, 118, 210, 0.05) 100%)"
+                          : "transparent",
+                      borderTopLeftRadius: "16px",
+                      borderTopRightRadius: "16px",
+                      transition: "all 0.3s ease",
+                    },
+                    "&::after": {
+                      content: '""',
+                      position: "absolute",
+                      bottom: -1,
+                      left: 0,
+                      right: 0,
+                      height: activeTab === index ? "2px" : "0",
+                      background:
+                        "linear-gradient(90deg, rgba(25, 118, 210, 0.8), rgba(25, 118, 210, 0.4), rgba(25, 118, 210, 0.8))",
+                      transition: "height 0.3s ease",
+                    },
+                    "&:hover": {
+                      background:
+                        activeTab === index
+                          ? "linear-gradient(145deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.12) 100%)"
+                          : "linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 100%)",
+                      "&::before": {
+                        background:
+                          "linear-gradient(135deg, rgba(25, 118, 210, 0.2) 0%, rgba(25, 118, 210, 0.08) 100%)",
+                      },
+                    },
+                  }}
+                >
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      position: "relative",
+                      zIndex: 2,
+                      fontWeight: activeTab === index ? 600 : 500,
+                      fontSize: { xs: "0.9rem", sm: "1rem" },
+                      color:
+                        activeTab === index ? "primary.main" : "text.primary",
+                      textShadow:
+                        activeTab === index
+                          ? "0 1px 2px rgba(0,0,0,0.1)"
+                          : "none",
+                      transition: "all 0.3s ease",
+                    }}
+                  >
+                    {label}
+                  </Typography>
+                </Box>
+              </motion.div>
+            ))}
+          </Box>
+
+          {/* Background connection for active tab */}
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: "1px",
+              background:
+                "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)",
+              zIndex: 0,
+            }}
+          />
         </Box>
 
         <TabPanel value={activeTab} index={0}>
