@@ -17,8 +17,9 @@ import {
   LinkedIn,
   LocationOn,
   Send,
-  WhatsApp,
-  Telegram,
+  Facebook,
+  Instagram,
+  X,
 } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import { SectionHeader } from "../../../components/SectionHeader/SectionHeader";
@@ -776,24 +777,24 @@ export const Contact: React.FC = () => {
                 }}
               >
                 <SocialButton
-                  icon={<GitHub />}
-                  label="GitHub Profile"
-                  url={CONTACT_INFO.github.url}
-                  color="#24292e"
+                  icon={<Facebook />}
+                  label="Facebook Profile"
+                  url="https://facebook.com/yourprofile"
+                  color="#1877F2"
                 />
 
                 <SocialButton
-                  icon={<LinkedIn />}
-                  label="LinkedIn Profile"
-                  url={CONTACT_INFO.linkedin.url}
-                  color="#0077B5"
+                  icon={<Instagram />}
+                  label="Instagram Profile"
+                  url="https://instagram.com/yourprofile"
+                  color="#E4405F"
                 />
 
                 <SocialButton
-                  icon={<Send />}
-                  label="Send Email"
-                  url={`mailto:${CONTACT_INFO.email}`}
-                  color="#EA4335"
+                  icon={<X />}
+                  label="X (Twitter) Profile"
+                  url="https://x.com/yourprofile"
+                  color="#000000"
                 />
               </Stack>
             </Box>
