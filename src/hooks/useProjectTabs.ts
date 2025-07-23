@@ -1,6 +1,9 @@
 import { useState, useMemo } from "react";
-import { useGitHubProjects } from "../../../../../hooks/useGItHubProjects";
-import type { TabConfig, UseProjectTabsReturn } from "../types";
+import { useGitHubProjects } from "./useGItHubProjects";
+import type {
+  TabConfig,
+  UseProjectTabsReturn,
+} from "../pages/Homepage/components/Projects/types";
 
 export const useProjectTabs = (): UseProjectTabsReturn => {
   const [activeTab, setActiveTab] = useState<number>(0);

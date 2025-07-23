@@ -10,9 +10,10 @@ import {
 } from "@mui/material";
 import { GitHub, Launch, Visibility } from "@mui/icons-material";
 import { motion } from "framer-motion";
-import CustomChip from "../../../../../../components/Chip/index";
-import type { ProjectCardProps } from "../../types";
-import { ANIMATION_VARIANTS } from "../../constants/tabsConfig";
+import CustomChip from "../../../../components/Chip/index";
+import type { ProjectCardProps } from "./types";
+import { ANIMATION_VARIANTS } from "../../../../constants/projectsConfig";
+import "./ProjectCard.scss";
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project, type }) => {
   const handleLinkClick = (url: string) => {

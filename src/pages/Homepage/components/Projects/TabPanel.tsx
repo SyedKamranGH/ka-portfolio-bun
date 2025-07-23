@@ -1,8 +1,9 @@
 import React from "react";
 import { Box } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
-import type { TabPanelProps } from "../../types";
-import { ANIMATION_VARIANTS } from "../../constants/tabsConfig";
+import type { TabPanelProps } from "./types";
+import { ANIMATION_VARIANTS } from "../../../../constants/projectsConfig";
+import "./TabPanel.scss";
 
 export const TabPanel: React.FC<TabPanelProps> = ({
   children,

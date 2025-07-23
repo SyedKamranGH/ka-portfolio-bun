@@ -2,12 +2,12 @@ import React from "react";
 import { Container, Box, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { SectionHeader } from "../../../../components/SectionHeader/SectionHeader";
-import { TabPanel } from "./components/TabPanel";
-import { ProjectsWithPagination } from "./components/ProjectsWithPagination";
-import { useProjectTabs } from "./hooks/useProjectTabs";
+import { TabPanel } from "./TabPanel";
+import { ProjectsWithPagination } from "./ProjectsWithPagination";
+import { useProjectTabs } from "../../../../hooks/useProjectTabs";
 import { PROJECTS } from "../../../../constants/data/projects";
-import { ANIMATION_VARIANTS } from "./constants/tabsConfig";
-import "./styles/index.scss";
+import { ANIMATION_VARIANTS } from "../../../../constants/projectsConfig";
+import "./Projects.scss";
 
 export const Projects: React.FC = () => {
   const {

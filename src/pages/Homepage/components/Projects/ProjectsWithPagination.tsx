@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Box, Button, Typography, Fade } from "@mui/material";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
 import { motion } from "framer-motion";
-import { ProjectsGrid } from "../ProjectsGrid";
-import type { ProjectsWithPaginationProps } from "../../types";
+import { ProjectsGrid } from "./ProjectsGrid";
+import type { ProjectsWithPaginationProps } from "./types";
 import {
   PAGINATION_CONFIG,
   ANIMATION_VARIANTS,
-} from "../../constants/tabsConfig";
+} from "../../../../constants/projectsConfig";
+import "./ProjectsWithPagination.scss";
 
 export const ProjectsWithPagination: React.FC<ProjectsWithPaginationProps> = ({
   projects,

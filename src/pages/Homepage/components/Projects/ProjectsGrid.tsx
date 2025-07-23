@@ -1,10 +1,11 @@
 import React from "react";
 import { Box, Alert, Typography } from "@mui/material";
 import { motion } from "framer-motion";
-import { ProjectCard } from "../ProjectCard";
-import { ProjectSkeleton } from "../ProjectSkeleton";
-import type { ProjectsGridProps } from "../../types";
-import { ANIMATION_VARIANTS } from "../../constants/tabsConfig";
+import { ProjectCard } from "./ProjectCard";
+import { ProjectSkeleton } from "./ProjectSkeleton";
+import type { ProjectsGridProps } from "./types";
+import { ANIMATION_VARIANTS } from "../../../../constants/projectsConfig";
+import "./ProjectsGrid.scss";
 
 export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
   projects,
