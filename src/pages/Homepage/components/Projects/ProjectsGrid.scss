@@ -1,0 +1,32 @@
+.projects-grid-container {
+  width: 100%;
+  position: relative;
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    // Ensure stable grid positioning
+    min-height: 400px; // Prevent collapse during animations
+
+    @media (min-width: 600px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 1200px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .projects-error {
+    padding: 32px 0;
+
+    .MuiAlert-root {
+      margin-bottom: 16px;
+    }
+  }
+
+  .projects-empty {
+    padding: 32px 0;
+  }
+}
