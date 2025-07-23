@@ -1,3 +1,4 @@
+// FINAL SOLUTION - Using react-card-flip Library
 import React from "react";
 import {
   Box,
@@ -20,8 +21,10 @@ import {
   Facebook,
   Instagram,
   X,
+  TouchApp,
 } from "@mui/icons-material";
 import { motion } from "framer-motion";
+import ReactCardFlip from "react-card-flip";
 import { SectionHeader } from "../../../components/SectionHeader/SectionHeader";
 import {
   FloatingParticle,
@@ -101,7 +104,8 @@ interface ContactCardProps {
   description?: string;
 }
 
-const ContactCard: React.FC<ContactCardProps> = ({
+// PERFECT Flip Card using react-card-flip
+const FlipContactCard: React.FC<ContactCardProps> = ({
   icon,
   title,
   value,
@@ -111,7 +115,7 @@ const ContactCard: React.FC<ContactCardProps> = ({
   description,
 }) => {
   const theme = useTheme();
-  const [isHovered, setIsHovered] = React.useState(false);
+  const [isFlipped, setIsFlipped] = React.useState(false);
 
   const handleClick = () => {
     if (action) {
@@ -121,388 +125,298 @@ const ContactCard: React.FC<ContactCardProps> = ({
     }
   };
 
-  const cardVariants = {
-    hidden: { opacity: 0, scale: 0.5, rotateY: -15 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      rotateY: 0,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        delay: 0.1,
-      },
-    },
-    hover: {
-      scale: 1.05,
-      rotateY: 5,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 20,
-      },
-    },
-  };
-
-  const contentVariants = {
-    collapsed: {
-      height: 140,
-      opacity: 1,
-    },
-    expanded: {
-      height: 220, // Increased from 200 to 220 for better spacing
-      opacity: 1,
-      transition: {
-        height: { duration: 0.4, ease: "easeInOut" },
-        opacity: { duration: 0.3, delay: 0.1 },
-      },
-    },
-  };
-
-  const detailsVariants = {
-    hidden: {
-      opacity: 0,
-      y: 20,
-      scale: 0.8,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.3,
-        delay: 0.1,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const iconVariants = {
-    rest: {
-      scale: 1,
-      rotate: 0,
-      y: 0,
-    },
-    hover: {
-      scale: 1.2,
-      rotate: 360,
-      y: -8,
-      transition: {
-        duration: 0.6,
-        ease: "easeInOut",
-      },
-    },
-  };
-
-  const glowVariants = {
-    rest: {
-      scale: 1,
-      opacity: 0,
-    },
-    hover: {
-      scale: 1.4,
-      opacity: 0.6,
-      transition: {
-        duration: 0.4,
-        ease: "easeOut",
-      },
-    },
-  };
-
   return (
     <motion.div
-      variants={cardVariants}
-      initial="hidden"
-      whileInView="visible"
-      whileHover="hover"
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      style={{
-        height: "auto",
-        perspective: "1000px",
+      initial={{ opacity: 0, y: 30, scale: 0.95 }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+          duration: 0.5,
+          ease: "easeOut",
+          delay: 0.1,
+        },
       }}
+      viewport={{ once: true }}
+      style={{ height: 280, width: "100%" }}
     >
-      <Card
-        className="contact-card-modern"
-        onClick={handleClick}
-        sx={{
-          cursor: link || action ? "pointer" : "default",
-          display: "flex",
-          flexDirection: "column",
-          position: "relative",
-          overflow: "hidden",
-          background: `linear-gradient(145deg, 
-            ${theme.palette.background.paper}95, 
-            ${theme.palette.mode === "dark" ? "#1a1f2e" : "#f8fafc"}90)`,
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          border: `1px solid ${
-            theme.palette.mode === "dark"
-              ? "rgba(255,255,255,0.1)"
-              : "rgba(0,0,0,0.05)"
-          }`,
-          borderRadius: "24px",
-          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-          boxShadow:
-            theme.palette.mode === "dark"
-              ? "0 8px 32px rgba(0, 0, 0, 0.4)"
-              : "0 8px 32px rgba(0, 0, 0, 0.08)",
-          "&::before": {
-            content: '""',
-            position: "absolute",
-            inset: 0,
-            borderRadius: "24px",
-            padding: "2px",
-            background: `linear-gradient(145deg, ${
-              brandColor || theme.palette.primary.main
-            }, transparent, ${brandColor || theme.palette.secondary.main})`,
-            mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-            maskComposite: "xor",
-            WebkitMask:
-              "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-            WebkitMaskComposite: "xor",
-            opacity: 0,
-            transition: "opacity 0.3s ease",
-          },
-          "&::after": {
-            content: '""',
-            position: "absolute",
-            inset: 0,
-            borderRadius: "24px",
-            background: `radial-gradient(circle at 50% 50%, ${
-              brandColor || theme.palette.primary.main
-            }15, transparent 70%)`,
-            opacity: 0,
-            transition: "opacity 0.3s ease",
-          },
-          "&:hover": {
-            transform: "translateY(-8px)",
-            boxShadow:
-              theme.palette.mode === "dark"
-                ? `0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px ${
-                    brandColor || theme.palette.primary.main
-                  }30`
-                : `0 20px 60px rgba(0, 0, 0, 0.15), 0 0 40px ${
-                    brandColor || theme.palette.primary.main
-                  }20`,
-            "&::before": {
-              opacity: 1,
-            },
-            "&::after": {
-              opacity: 1,
-            },
-          },
-        }}
+      <Box
+        onMouseEnter={() => setIsFlipped(true)}
+        onMouseLeave={() => setIsFlipped(false)}
+        sx={{ height: "100%", width: "100%" }}
       >
-        <motion.div
-          variants={contentVariants}
-          animate={isHovered ? "expanded" : "collapsed"}
-          style={{ overflow: "hidden" }}
+        <ReactCardFlip
+          isFlipped={isFlipped}
+          flipDirection="horizontal"
+          flipSpeedBackToFront={0.6}
+          flipSpeedFrontToBack={0.6}
         >
-          <CardContent
+          {/* FRONT SIDE */}
+          <Card
+            key="front"
             sx={{
-              textAlign: "center",
-              p: 3,
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "flex-start",
-              position: "relative",
+              height: 280,
+              width: "100%",
+              background: `linear-gradient(135deg, 
+                ${theme.palette.background.paper}90, 
+                ${theme.palette.mode === "dark" ? "#1a1f2e" : "#f8fafc"}95)`,
+              backdropFilter: "blur(15px)",
+              WebkitBackdropFilter: "blur(15px)",
+              border: `1px solid ${
+                theme.palette.mode === "dark"
+                  ? "rgba(255,255,255,0.1)"
+                  : "rgba(0,0,0,0.05)"
+              }`,
+              borderRadius: "16px",
+              overflow: "hidden",
+              cursor: "pointer",
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? "0 4px 20px rgba(0,0,0,0.3)"
+                  : "0 4px 20px rgba(0,0,0,0.1)",
+              transition: "transform 0.2s ease, box-shadow 0.2s ease",
+              "&:hover": {
+                transform: "translateY(-4px)",
+                boxShadow:
+                  theme.palette.mode === "dark"
+                    ? `0 8px 30px rgba(0,0,0,0.4), 0 0 20px ${brandColor}20`
+                    : `0 8px 30px rgba(0,0,0,0.15), 0 0 20px ${brandColor}20`,
+              },
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 3,
+                background: `linear-gradient(90deg, ${brandColor}, ${brandColor}80, ${brandColor})`,
+              },
             }}
           >
-            {/* Animated Background Elements */}
-            <motion.div
-              variants={glowVariants}
-              animate={isHovered ? "hover" : "rest"}
-              style={{
-                position: "absolute",
-                top: "20%",
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: 80,
-                height: 80,
-                borderRadius: "50%",
-                background: `radial-gradient(circle, ${
-                  brandColor || theme.palette.primary.main
-                }40, transparent)`,
-                filter: "blur(20px)",
-                zIndex: 0,
-              }}
-            />
-
-            {/* Main Icon */}
-            <motion.div
-              variants={iconVariants}
-              animate={isHovered ? "hover" : "rest"}
-              style={{
-                marginBottom: isHovered ? 16 : 20,
-                zIndex: 2,
-                position: "relative",
+            <CardContent
+              sx={{
+                p: 3,
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
               }}
             >
+              {/* Icon */}
               <Box
                 sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: 64,
-                  height: 64,
+                  width: 80,
+                  height: 80,
                   borderRadius: "50%",
-                  background: `linear-gradient(145deg, ${
-                    brandColor || theme.palette.primary.main
-                  }20, ${brandColor || theme.palette.primary.main}10)`,
-                  color: brandColor || theme.palette.primary.main,
+                  background: `linear-gradient(135deg, ${brandColor}20, ${brandColor}40)`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mb: 3,
                   position: "relative",
-                  border: `2px solid ${
-                    brandColor || theme.palette.primary.main
-                  }30`,
+                  "&::after": {
+                    content: '""',
+                    position: "absolute",
+                    inset: -2,
+                    borderRadius: "50%",
+                    background: `conic-gradient(${brandColor}60, transparent, ${brandColor}60)`,
+                    zIndex: -1,
+                    opacity: 0.5,
+                  },
                   "& svg": {
-                    fontSize: 32,
-                    filter: `drop-shadow(0 0 8px ${
-                      brandColor || theme.palette.primary.main
-                    }40)`,
+                    fontSize: 40,
+                    color: brandColor,
+                    filter: `drop-shadow(0 0 8px ${brandColor}40)`,
                   },
                 }}
               >
                 {icon}
-
-                {/* Orbital Ring - Slower Animation */}
-                <Box
-                  sx={{
-                    position: "absolute",
-                    inset: -8,
-                    borderRadius: "50%",
-                    border: `1px solid ${
-                      brandColor || theme.palette.primary.main
-                    }20`,
-                    animation: isHovered ? "spin 8s linear infinite" : "none",
-                    "&::before": {
-                      content: '""',
-                      position: "absolute",
-                      top: -2,
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      width: 4,
-                      height: 4,
-                      borderRadius: "50%",
-                      background: brandColor || theme.palette.primary.main,
-                      boxShadow: `0 0 8px ${
-                        brandColor || theme.palette.primary.main
-                      }`,
-                    },
-                    "@keyframes spin": {
-                      from: { transform: "rotate(0deg)" },
-                      to: { transform: "rotate(360deg)" },
-                    },
-                  }}
-                />
               </Box>
-            </motion.div>
 
-            {/* Contact Details - Only visible on hover */}
-            <motion.div
-              variants={detailsVariants}
-              animate={isHovered ? "visible" : "hidden"}
-              style={{
-                position: "absolute",
-                bottom: 0,
-                left: 0,
-                right: 0,
-                padding: "0 20px 20px", // Reduced horizontal padding
-                zIndex: 3,
-              }}
-            >
+              {/* Title */}
               <Typography
                 variant="h6"
                 sx={{
                   color: theme.palette.text.primary,
                   fontWeight: 700,
-                  fontSize: "1rem",
-                  mb: 1,
-                  textShadow:
-                    theme.palette.mode === "dark"
-                      ? "0 0 10px rgba(0,0,0,0.5)"
-                      : "none",
+                  mb: 2,
+                  fontSize: "1.2rem",
+                  background: `linear-gradient(135deg, ${theme.palette.text.primary}, ${brandColor})`,
+                  backgroundClip: "text",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
                 }}
               >
                 {title}
               </Typography>
 
+              {/* Hover indicator */}
+              <Box sx={{ textAlign: "center", opacity: 0.7 }}>
+                <TouchApp sx={{ color: brandColor, fontSize: 22, mb: 0.5 }} />
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: theme.palette.text.secondary,
+                    fontSize: "0.75rem",
+                    opacity: 0.8,
+                  }}
+                >
+                  Hover for details
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+
+          {/* BACK SIDE */}
+          <Card
+            key="back"
+            onClick={handleClick}
+            sx={{
+              height: 280,
+              width: "100%",
+              background: `linear-gradient(135deg, 
+                ${brandColor}15, 
+                ${theme.palette.background.paper}90)`,
+              backdropFilter: "blur(15px)",
+              WebkitBackdropFilter: "blur(15px)",
+              border: `2px solid ${brandColor}40`,
+              borderRadius: "16px",
+              overflow: "hidden",
+              cursor: link || action ? "pointer" : "default",
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? `0 8px 30px rgba(0,0,0,0.4), 0 0 0 1px ${brandColor}30`
+                  : `0 8px 30px rgba(0,0,0,0.15), 0 0 0 1px ${brandColor}30`,
+              transition: "transform 0.2s ease",
+              "&:hover": {
+                transform: "translateY(-2px)",
+              },
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                inset: 0,
+                background: `conic-gradient(from 0deg at 50% 50%, transparent, ${brandColor}10, transparent)`,
+                animation: "slowSpin 20s linear infinite",
+                borderRadius: "16px",
+              },
+              "@keyframes slowSpin": {
+                from: { transform: "rotate(0deg)" },
+                to: { transform: "rotate(360deg)" },
+              },
+            }}
+          >
+            <CardContent
+              sx={{
+                p: 3,
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                position: "relative",
+                zIndex: 1,
+              }}
+            >
+              {/* Icon */}
+              <Box
+                sx={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: "50%",
+                  background: `linear-gradient(135deg, ${brandColor}, ${brandColor}80)`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mb: 2,
+                  boxShadow: `0 0 20px ${brandColor}50`,
+                  "& svg": {
+                    fontSize: 30,
+                    color: "white",
+                  },
+                }}
+              >
+                {icon}
+              </Box>
+
+              {/* Title */}
+              <Typography
+                variant="h6"
+                sx={{
+                  color: theme.palette.text.primary,
+                  fontWeight: 600,
+                  mb: 1.5,
+                  fontSize: "1.1rem",
+                }}
+              >
+                {title}
+              </Typography>
+
+              {/* Value */}
               <Typography
                 variant="body2"
                 sx={{
-                  color: brandColor || theme.palette.primary.main,
-                  fontSize: "0.8rem", // Slightly smaller font
+                  color: brandColor,
                   fontWeight: 600,
-                  mb: 1,
+                  mb: 1.5,
+                  fontSize: "0.95rem",
                   fontFamily:
                     title === "Email" || title === "Phone"
-                      ? '"JetBrains Mono", "SF Mono", "Monaco", monospace'
+                      ? '"JetBrains Mono", monospace'
                       : "inherit",
-                  textShadow: `0 0 10px ${
-                    brandColor || theme.palette.primary.main
-                  }40`,
-                  wordBreak: "break-word", // Handle long text
-                  lineHeight: 1.3,
-                  // Truncate very long text
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: value.length > 25 ? "nowrap" : "normal",
+                  wordBreak: "break-word",
+                  background: `linear-gradient(135deg, ${brandColor}, ${brandColor}80)`,
+                  backgroundClip: "text",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
                 }}
               >
                 {value}
               </Typography>
 
+              {/* Description */}
               <Typography
                 variant="caption"
                 sx={{
                   color: theme.palette.text.secondary,
-                  fontSize: "0.7rem", // Smaller description
-                  opacity: 0.8,
+                  fontSize: "0.8rem",
                   fontStyle: "italic",
-                  lineHeight: 1.2,
+                  mb: 2,
+                  opacity: 0.9,
+                  lineHeight: 1.3,
                 }}
               >
                 {description}
               </Typography>
-            </motion.div>
 
-            {/* Always visible title when not hovered - Fixed spacing */}
-            {!isHovered && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                style={{
-                  position: "absolute",
-                  bottom: 12, // Moved up slightly from 16
-                  left: 0,
-                  right: 0,
-                  zIndex: 2,
-                  padding: "0 16px", // Add horizontal padding
+              {/* Action Button */}
+              <Box
+                sx={{
+                  px: 3,
+                  py: 1.5,
+                  borderRadius: "12px",
+                  background: `linear-gradient(135deg, ${brandColor}, ${brandColor}90)`,
+                  color: "white",
+                  fontSize: "0.85rem",
+                  fontWeight: 600,
+                  boxShadow: `0 4px 15px ${brandColor}40`,
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                  "&:hover": {
+                    transform: "translateY(-1px)",
+                    boxShadow: `0 6px 20px ${brandColor}50`,
+                  },
                 }}
               >
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: theme.palette.text.primary,
-                    fontWeight: 600,
-                    fontSize: "0.85rem", // Slightly smaller
-                    opacity: 0.9,
-                    textAlign: "center",
-                  }}
-                >
-                  {title}
-                </Typography>
-              </motion.div>
-            )}
-          </CardContent>
-        </motion.div>
-      </Card>
+                {action ? "Contact Now" : "Visit Profile"}
+              </Box>
+            </CardContent>
+          </Card>
+        </ReactCardFlip>
+      </Box>
     </motion.div>
   );
 };
@@ -696,7 +610,7 @@ export const Contact: React.FC = () => {
             }}
           >
             {contactMethods.map((method) => (
-              <ContactCard key={method.title} {...method} />
+              <FlipContactCard key={method.title} {...method} />
             ))}
           </Box>
 
