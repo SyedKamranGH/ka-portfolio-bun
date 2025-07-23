@@ -1,0 +1,123 @@
+.tab-panel {
+  position: relative;
+  width: 100%;
+
+  .tab-panel-content {
+    width: 100%;
+
+    .tab-panel-inner {
+      background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(248, 250, 252, 0.9) 100%
+      );
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      border-radius: 0 20px 20px 20px; // Top-left corner square to connect with active tab
+      border: 1px solid rgba(226, 232, 240, 0.6);
+      border-top: none; // Remove top border to connect seamlessly
+      box-shadow: 0 8px 32px rgba(30, 58, 138, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      margin-top: 0; // Connect directly with tabs - no margin
+      padding-top: 24px; // Add padding top to create space for the animation line
+
+      @media (min-width: 600px) {
+        padding: 24px;
+        padding-top: 32px;
+      }
+
+      @media (min-width: 900px) {
+        padding: 32px;
+        padding-top: 40px;
+      }
+
+      // Animation line at the top
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px; // Slightly thicker for better visibility in dedicated space
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(30, 58, 138, 0.3) 20%,
+          rgba(139, 92, 246, 0.2) 50%,
+          rgba(30, 58, 138, 0.3) 80%,
+          transparent
+        );
+        animation: shimmer 3s ease-in-out infinite;
+        z-index: 1; // Ensure it stays in its designated area
+      }
+
+      // Subtle divider line
+      &::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(226, 232, 240, 0.4) 50%,
+          transparent
+        );
+        z-index: 1;
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+    }
+
+    .tab-panel-children {
+      position: relative;
+      z-index: 2; // Ensure content is above animation
+    }
+  }
+
+  // Dark theme styles
+  [data-mui-color-scheme="dark"] & {
+    .tab-panel-inner {
+      background: linear-gradient(
+        145deg,
+        rgba(50, 50, 50, 0.95) 0%,
+        rgba(40, 40, 40, 0.9) 100%
+      );
+      border-color: rgba(100, 100, 100, 0.6);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+      &::before {
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(100, 100, 100, 0.3) 20%,
+          rgba(139, 92, 246, 0.2) 50%,
+          rgba(100, 100, 100, 0.3) 80%,
+          transparent
+        );
+      }
+
+      &::after {
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(100, 100, 100, 0.2) 50%,
+          transparent
+        );
+      }
+    }
+  }
+}

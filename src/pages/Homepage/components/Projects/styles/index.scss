@@ -1,0 +1,8 @@
+// Main Projects component styles
+@use "./Projects.scss";
+
+// Component-specific styles
+@use "./TabPanel.scss";
+@use "./ProjectCard.scss";
+@use "./ProjectsGrid.scss";
+@use "./ProjectsWithPagination.scss";
