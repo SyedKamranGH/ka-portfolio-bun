@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { coreSkills } from "../../../../constants/data/skills";
+import { personalInfo } from "../../../../constants/data/personal";
 
 const MotionBox = motion(Box);
 
@@ -37,11 +38,7 @@ export const ProfileSection: React.FC = () => {
                 color="text.secondary"
                 className="profile-text"
               >
-                I&apos;m a passionate full-stack developer with expertise in
-                modern web technologies. My journey in software development
-                spans over 5 years, during which I&apos;ve had the privilege of
-                working on diverse projects ranging from small business websites
-                to enterprise-level applications.
+                {personalInfo.aboutMe}
               </Typography>
 
               <Typography
@@ -56,30 +53,26 @@ export const ProfileSection: React.FC = () => {
                 community.
               </Typography>
 
-              <Box className="skills-container">
+              {/* Core Skills */}
+              <Box className="profile-skills">
                 <Typography
                   variant="h6"
-                  color="text.primary"
+                  color="primary"
                   className="skills-title"
                 >
                   Core Technologies
                 </Typography>
-                <Stack
-                  direction="row"
-                  flexWrap="wrap"
-                  gap={1}
-                  justifyContent="center"
-                  className="skills-stack"
-                >
-                  {coreSkills.map((skill, index) => (
+                <Box className="skills-chips">
+                  {coreSkills.slice(0, 6).map((skill) => (
                     <Chip
-                      key={index}
+                      key={skill}
                       label={skill}
-                      size="small"
+                      variant="outlined"
+                      color="primary"
                       className="skill-chip"
                     />
                   ))}
-                </Stack>
+                </Box>
               </Box>
             </Stack>
           </CardContent>

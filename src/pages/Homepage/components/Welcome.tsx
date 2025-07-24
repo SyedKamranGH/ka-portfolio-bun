@@ -61,7 +61,7 @@ export const Welcome: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
                 >
-                  John Doe
+                  Syed Kamran Ahmed
                 </MotionTypography>
 
                 {/* Subtitle */}
@@ -72,7 +72,7 @@ export const Welcome: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7 }}
                 >
-                  Full Stack Developer
+                  Full-Stack Developer
                 </MotionTypography>
 
                 {/* Professional Summary */}
@@ -83,7 +83,7 @@ export const Welcome: React.FC = () => {
                   className="welcome-summary"
                 >
                   <Typography variant="body1" className="summary-text">
-                    Crafting innovative digital solutions with 5+ years of
+                    Crafting innovative digital solutions with 6+ years of
                     expertise in modern web technologies. Specialized in{" "}
                     <Box component="span" className="highlight-text">
                       React, TypeScript, and Node.js

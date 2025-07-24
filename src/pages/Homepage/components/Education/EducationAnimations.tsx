@@ -75,7 +75,7 @@ export const EducationAnimations: React.FC<EducationAnimationsProps> = ({
       }}
     >
       {/* Floating Orbs */}
-      {config.FLOATING_ORBS.map((orbConfig, index) => (
+      {config.FLOATING_ORBS?.map((orbConfig, index) => (
         <FloatingOrb
           key={`floating-orb-${index}`}
           size={orbConfig.size}
@@ -87,7 +87,7 @@ export const EducationAnimations: React.FC<EducationAnimationsProps> = ({
       ))}
 
       {/* Academic Icons */}
-      {config.ACADEMIC_ICONS.map((iconConfig, index) => (
+      {config.ACADEMIC_ICONS?.map((iconConfig, index) => (
         <TechIcon
           key={`academic-icon-${index}`}
           icon={iconConfig.icon}
@@ -98,25 +98,80 @@ export const EducationAnimations: React.FC<EducationAnimationsProps> = ({
         />
       ))}
 
-      {/* Floating Particles */}
-      {config.FLOATING_PARTICLES.map((particleConfig, index) => (
-        <FloatingParticle
+      {/* Particles - Updated to use PARTICLES instead of FLOATING_PARTICLES */}
+      {config.PARTICLES?.map((particleConfig, index) => (
+        <MotionBox
           key={`particle-${index}`}
-          size={particleConfig.size}
-          delay={particleConfig.delay}
-          x={particleConfig.x}
-          y={particleConfig.y}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{
+            opacity: [0, particleConfig.opacity, 0],
+            scale: [0.5, 1, 0.5],
+            y: [-20, 20, -20],
+            x: [-10, 10, -10],
+          }}
+          transition={{
+            duration: particleConfig.duration,
+            delay: particleConfig.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          sx={{
+            position: "absolute",
+            left: `${Math.random() * 80 + 10}%`,
+            top: `${Math.random() * 80 + 10}%`,
+            width: particleConfig.size,
+            height: particleConfig.size,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(59, 130, 246, 0.6) 0%, rgba(59, 130, 246, 0.1) 100%)",
+            filter: "blur(0.5px)",
+            zIndex: 0,
+          }}
         />
       ))}
 
-      {/* Geometric Shapes */}
-      {config.GEOMETRIC_SHAPES.map((shapeConfig, index) => (
-        <GeometricShape
+      {/* Simple Geometric Shapes - Fallback implementation */}
+      {[...Array(3)].map((_, index) => (
+        <MotionBox
           key={`shape-${index}`}
-          type={shapeConfig.type}
-          size={shapeConfig.size}
-          position={shapeConfig.position}
-          animation={shapeConfig.animation}
+          initial={{ opacity: 0, rotate: 0 }}
+          animate={{
+            opacity: [0.1, 0.3, 0.1],
+            rotate: [0, 360],
+            scale: [0.8, 1.2, 0.8],
+          }}
+          transition={{
+            duration: 15 + index * 3,
+            delay: index * 2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          sx={{
+            position: "absolute",
+            left: `${20 + index * 30}%`,
+            top: `${15 + index * 25}%`,
+            width: 40 + index * 10,
+            height: 40 + index * 10,
+            borderRadius: index % 2 === 0 ? "50%" : "8px",
+            background: `linear-gradient(45deg, 
+              ${
+                index === 0
+                  ? "rgba(59, 130, 246, 0.1)"
+                  : index === 1
+                  ? "rgba(168, 85, 247, 0.1)"
+                  : "rgba(34, 197, 94, 0.1)"
+              } 0%, 
+              transparent 70%
+            )`,
+            border: `1px solid ${
+              index === 0
+                ? "rgba(59, 130, 246, 0.2)"
+                : index === 1
+                ? "rgba(168, 85, 247, 0.2)"
+                : "rgba(34, 197, 94, 0.2)"
+            }`,
+            zIndex: 0,
+          }}
         />
       ))}
     </Box>

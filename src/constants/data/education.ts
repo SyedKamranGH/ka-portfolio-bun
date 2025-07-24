@@ -3,31 +3,23 @@ import type { Education } from "../../types";
 export const educationData: Education[] = [
   {
     id: "edu-1",
-    university: "University of Technology",
-    degree: "Bachelor of Science in Computer Science",
-    year: "2016 - 2020",
+    university: "National University of Science and Technology, Islamabad",
+    degree: "M.S. Robotics and Intelligent Machine Engineering",
+    year: "2018 - 2020",
     description:
-      "Focused on software engineering, web development, and computer systems.",
-    grade: "3.8 GPA",
-    location: "California, USA",
+      "Specialized in robotics, cognitive computing, and intelligent machine engineering with focus on humanoid robots and AI systems.",
+    grade: "Distinction",
+    location: "Islamabad, Pakistan",
   },
   {
     id: "edu-2",
-    university: "Code Academy",
-    degree: "Full Stack Web Development Bootcamp",
-    year: "2020",
+    university: "COMSATS Institute of Information Technology, Lahore",
+    degree: "Bachelor of Science in Computer Science",
+    year: "2011 - 2015",
     description:
-      "Intensive 6-month program covering modern web development technologies.",
-    location: "Online",
-  },
-  {
-    id: "edu-3",
-    university: "Tech Institute",
-    degree: "Certification in React Development",
-    year: "2021",
-    description:
-      "Advanced React concepts, hooks, and modern development practices.",
-    location: "Online",
+      "Comprehensive study of computer science fundamentals, software engineering, and web development technologies.",
+    grade: "Good Standing",
+    location: "Lahore, Pakistan",
   },
 ];
 
@@ -48,42 +40,61 @@ export const EDUCATION_ANIMATION_CONFIG = {
     { icon: "🏫", delay: 4, duration: 14, x: "25%", y: "70%" },
     { icon: "📖", delay: 6, duration: 11, x: "70%", y: "65%" },
     { icon: "✏️", delay: 8, duration: 13, x: "35%", y: "30%" },
-    { icon: "🎯", delay: 10, duration: 9, x: "65%", y: "35%" },
-    { icon: "💡", delay: 12, duration: 15, x: "45%", y: "75%" },
-    { icon: "🏆", delay: 14, duration: 8, x: "55%", y: "25%" },
+    { icon: "🔬", delay: 10, duration: 15, x: "60%", y: "40%" },
   ],
 
-  // Floating Particles configuration
-  FLOATING_PARTICLES: [
-    { size: 6, delay: 0, x: "20%", y: "40%" },
-    { size: 8, delay: 2, x: "60%", y: "45%" },
-    { size: 5, delay: 4, x: "30%", y: "60%" },
-    { size: 10, delay: 6, x: "70%", y: "50%" },
-    { size: 7, delay: 8, x: "40%", y: "30%" },
-    { size: 9, delay: 10, x: "80%", y: "60%" },
-    { size: 6, delay: 12, x: "50%", y: "80%" },
-    { size: 8, delay: 14, x: "25%", y: "50%" },
+  // Particle Effects configuration
+  PARTICLES: [
+    { delay: 0, duration: 20, size: 4, opacity: 0.6 },
+    { delay: 5, duration: 25, size: 6, opacity: 0.4 },
+    { delay: 10, duration: 18, size: 3, opacity: 0.8 },
+    { delay: 15, duration: 22, size: 5, opacity: 0.5 },
   ],
 
-  // Geometric Shapes configuration
-  GEOMETRIC_SHAPES: [
-    {
-      type: "circle" as const,
-      size: 50,
-      position: { top: "15%", right: "15%" },
-      animation: { rotate: [0, 360], scale: [1, 1.1, 1], duration: 16 },
-    },
-    {
-      type: "roundedSquare" as const,
-      size: 35,
-      position: { bottom: "20%", left: "12%" },
-      animation: { rotate: [360, 0], scale: [1, 0.9, 1], duration: 14 },
-    },
-    {
-      type: "gradientCircle" as const,
-      size: 40,
-      position: { top: "65%", right: "20%" },
-      animation: { rotate: [0, -360], scale: [0.9, 1.2, 0.9], duration: 18 },
-    },
+  // Animation timings
+  STAGGER_DELAY: 0.2,
+  CARD_ANIMATION_DURATION: 0.6,
+  FLOATING_ORB_DURATION: 20,
+  ACADEMIC_ICON_SPEED: 0.5,
+
+  // Hover effects
+  CARD_HOVER_SCALE: 1.05,
+  CARD_HOVER_SHADOW: "0 20px 40px rgba(0,0,0,0.1)",
+
+  // Responsive breakpoints
+  MOBILE_BREAKPOINT: 768,
+  TABLET_BREAKPOINT: 1024,
+};
+
+// Education section constants
+export const EDUCATION_CONSTANTS = {
+  SECTION_TITLE: "Education & Learning Journey",
+  SECTION_SUBTITLE: "Academic foundation and continuous learning",
+  EMPTY_STATE_MESSAGE: "No education data available",
+  LOADING_MESSAGE: "Loading education information...",
+};
+
+// Thesis project data
+export const THESIS_PROJECT = {
+  title: "NiNA: Interfacing NiHA With NAO (Nina)",
+  location: "Islamabad, Pakistan",
+  description:
+    "Advanced robotics thesis project implementing Nature-inspired Humanoid Cognitive Computing Platform (NiHA) using Quantum Bio-Inspired Cognitive Agent (QuBIC) for social interactions on NAO Robot.",
+  keyAchievements: [
+    "Implemented Nature-inspired Humanoid Cognitive Computing Platform (NiHA)",
+    "Re-implemented sensory-motor memory, visual perceptual associative memory, and procedural memory blocks",
+    "Encoded visual perception in NiHA's Knowledge Representation Scheme",
+    "Created new version of procedural memory for generating speech and body language actions",
+    "Employed Point Cloud Library for 3D mapping and depth mapping",
+    "Applied 2D object detection using YOLO v3 on COCO dataset",
+  ],
+  technologies: [
+    "NAO Robot",
+    "QuBIC",
+    "Point Cloud Library",
+    "YOLO v3",
+    "OpenCV",
+    "Python",
+    "Computer Vision",
   ],
 };
