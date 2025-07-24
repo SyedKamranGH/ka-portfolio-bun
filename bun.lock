@@ -13,6 +13,7 @@
         "chart.js": "^4.5.0",
         "framer-motion": "^12.16.0",
         "react": "^19.1.0",
+        "react-card-flip": "^1.2.3",
         "react-chartjs-2": "^5.3.0",
         "react-dom": "^19.1.0",
         "react-router-dom": "^7.6.1",
@@ -857,6 +858,8 @@
     "raw-body": ["raw-body@3.0.0", "", { "dependencies": { "bytes": "3.1.2", "http-errors": "2.0.0", "iconv-lite": "0.6.3", "unpipe": "1.0.0" } }, "sha512-RmkhL8CAyCRPXCE28MMH0z2PNWQBNk2Q09ZdxM9IOOXwxwZbN+qbWaatPkdkWIKL2ZVDImrN/pK5HTRz2PcS4g=="],
 
     "react": ["react@19.1.0", "", {}, "sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg=="],
+
+    "react-card-flip": ["react-card-flip@1.2.3", "", { "peerDependencies": { "react": "^18.2.0", "react-dom": "^18.2.0" } }, "sha512-yb8+yyeTf5UVlZ/FC78XDgxYeWhgA0W28OXNB31LjiFeY1Y2kFhLP7bFiED4KNaRWKjaafT74G38XU53a6eIuw=="],
 
     "react-chartjs-2": ["react-chartjs-2@5.3.0", "", { "peerDependencies": { "chart.js": "^4.1.1", "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0" } }, "sha512-UfZZFnDsERI3c3CZGxzvNJd02SHjaSJ8kgW1djn65H1KK8rehwTjyrRKOG3VTMG8wtHZ5rgAO5oTHtHi9GCCmw=="],
 
