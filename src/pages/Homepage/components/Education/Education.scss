@@ -57,26 +57,34 @@
 
   &__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 500px));
+    gap: 2rem;
     margin-top: 3rem;
     width: 100%;
-    max-width: 1400px;
+    max-width: 1200px;
+    justify-content: center;
+    justify-items: center;
 
-    @media (min-width: 576px) {
-      grid-template-columns: repeat(2, 1fr);
+    @media (max-width: 1200px) {
+      grid-template-columns: repeat(auto-fit, minmax(350px, 450px));
+      gap: 1.5rem;
     }
 
-    @media (min-width: 768px) {
-      grid-template-columns: repeat(2, 1fr);
+    @media (max-width: 992px) {
+      grid-template-columns: repeat(auto-fit, minmax(320px, 400px));
+      gap: 1.5rem;
     }
 
-    @media (min-width: 1024px) {
-      grid-template-columns: repeat(3, 1fr);
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
     }
 
-    @media (min-width: 1200px) {
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 1.5rem;
     }
   }
 
@@ -148,12 +156,6 @@
   .education-section {
     padding: 3rem 0;
 
-    &__grid {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
     &__navigation {
       gap: 0.75rem;
       margin-top: 1.5rem;
@@ -169,10 +171,6 @@
 @media (max-width: 480px) {
   .education-section {
     padding: 2rem 0;
-
-    &__grid {
-      margin-top: 1.5rem;
-    }
 
     &__title {
       margin-top: 1.5rem;
