@@ -112,28 +112,28 @@
   // Main title
   .welcome-title {
     font-weight: 800;
-    font-size: 2.5rem;
+    font-size: 2rem;
     line-height: 1.1;
     margin-bottom: 1rem;
     letter-spacing: -0.02em;
 
     @media (min-width: 900px) {
-      font-size: 4rem;
+      font-size: 2.8rem;
     }
 
     @media (min-width: 1200px) {
-      font-size: 5rem;
+      font-size: 3.2rem;
     }
   }
 
   // Subtitle
   .welcome-subtitle {
     font-weight: 600;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     margin-bottom: 1rem;
 
     @media (min-width: 900px) {
-      font-size: 2rem;
+      font-size: 1.5rem;
     }
   }
 
@@ -148,13 +148,13 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 
     .summary-text {
-      font-size: 1.1rem;
+      font-size: 1rem;
       line-height: 1.6;
       font-weight: 500;
       text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 
       @media (min-width: 900px) {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
       }
 
       .highlight-text {
