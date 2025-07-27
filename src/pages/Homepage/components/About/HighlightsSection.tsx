@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Card, CardContent, Stack, Typography } from "@mui/material";
 import { motion } from "framer-motion";
+import { useTheme as useCustomTheme } from "../../../../context/ThemeContext";
 import { highlights } from "../../../../constants/data/about";
 
 const MotionBox = motion(Box);
@@ -12,6 +13,8 @@ const getHighlightClassName = (title: string) => {
 };
 
 export const HighlightsSection: React.FC = () => {
+  const { isDarkMode } = useCustomTheme();
+
   return (
     <Box className="about-highlights-section">
       <MotionBox
@@ -21,7 +24,11 @@ export const HighlightsSection: React.FC = () => {
         viewport={{ once: true }}
         sx={{ height: "100%" }}
       >
-        <Box className="highlights-grid">
+        <Box
+          className={`highlights-grid ${
+            isDarkMode ? "theme-dark" : "theme-light"
+          }`}
+        >
           {highlights.map((highlight, index) => {
             const IconComponent = highlight.icon;
             const highlightClass = getHighlightClassName(highlight.title);
@@ -29,16 +36,24 @@ export const HighlightsSection: React.FC = () => {
             return (
               <MotionCard
                 key={index}
-                className={`highlight-card ${highlightClass}`}
-                whileHover={{ scale: 1.02, y: -5 }}
+                className={`highlight-card ${highlightClass} ${
+                  isDarkMode ? "dark-mode" : "light-mode"
+                }`}
+                whileHover={{ scale: 1.01, y: -3 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <CardContent className="highlight-content">
-                  <Box className="highlight-icon">
-                    <IconComponent />
+                  <Box
+                    className="highlight-icon"
+                    sx={{
+                      color: highlight.color,
+                      backgroundColor: `${highlight.color}15`,
+                    }}
+                  >
+                    <IconComponent sx={{ fontSize: "1.8rem" }} />
                   </Box>
                   <Typography
-                    variant="h6"
+                    variant="subtitle1"
                     color="text.primary"
                     className="highlight-title"
                   >
