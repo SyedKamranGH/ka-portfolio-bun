@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -8,6 +8,8 @@ import {
   useTheme,
   Fab,
   IconButton,
+  Fade,
+  Tooltip,
 } from "@mui/material";
 import {
   GitHub,
@@ -27,29 +29,63 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ onScrollToTop }) => {
   const theme = useTheme();
+  const [isVisible, setIsVisible] = useState(false); // Back to conditional visibility
+
+  // Show/hide the scroll-to-top button based on scroll position
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const handleScrollClick = () => {
+    onScrollToTop();
+  };
 
   return (
     <>
-      {/* Scroll to Top FAB */}
-      <Fab
-        color="primary"
-        aria-label="scroll to top"
-        className="scroll-to-top-fab"
-        onClick={onScrollToTop}
-        sx={{
-          position: "fixed",
-          bottom: 24,
-          right: 24,
-          zIndex: 1000,
-          transition: "all 0.3s ease-in-out",
-          "&:hover": {
-            transform: "translateY(-4px)",
-            boxShadow: "0 8px 25px rgba(0,0,0,0.2)",
-          },
-        }}
-      >
-        <KeyboardArrowUp />
-      </Fab>
+      {/* Enhanced Scroll to Top FAB with proper conditional visibility */}
+      <Fade in={isVisible}>
+        <Tooltip title="Scroll to top" placement="left" arrow>
+          <Fab
+            color="primary"
+            aria-label="scroll to top"
+            className="scroll-to-top-fab"
+            onClick={handleScrollClick}
+            sx={{
+              position: "fixed",
+              bottom: 24,
+              right: 24,
+              zIndex: 1300,
+              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
+              "&:hover": {
+                transform: "translateY(-4px) scale(1.05)",
+                boxShadow: "0 8px 30px rgba(0,0,0,0.25)",
+              },
+              "&:active": {
+                transform: "translateY(-2px) scale(0.98)",
+              },
+              // Enhanced visibility in both light and dark modes
+              backgroundColor: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
+              "&:focus": {
+                outline: `2px solid ${theme.palette.primary.main}`,
+                outlineOffset: "2px",
+              },
+            }}
+          >
+            <KeyboardArrowUp sx={{ fontSize: "1.5rem" }} />
+          </Fab>
+        </Tooltip>
+      </Fade>
 
       {/* Main Footer */}
       <Box

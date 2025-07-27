@@ -21,10 +21,18 @@ const Layout: React.FC = () => {
   };
 
   const handleScrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+
+    try {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+    } catch (error) {
+      console.error("Error during scroll:", error);
+      // Fallback to instant scroll
+      window.scrollTo(0, 0);
+    }
   };
 
   return (
