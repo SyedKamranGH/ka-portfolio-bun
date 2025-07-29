@@ -10,8 +10,6 @@ import {
   Avatar,
   Divider,
   IconButton,
-  Fade,
-  Collapse,
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import WorkIcon from "@mui/icons-material/Work";
@@ -41,17 +39,13 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
     <MotionCard
       sx={{
         cursor: "pointer",
-        background:
-          theme.palette.mode === "light"
-            ? "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)"
-            : "linear-gradient(135deg, #1e2a47 0%, #2d3f62 100%)",
-        border: `1px solid ${
-          theme.palette.mode === "light" ? "#e2e8f0" : "#334155"
-        }`,
-        borderRadius: 3,
-        overflow: "hidden",
         position: "relative",
+        overflow: "hidden",
+        background: theme.palette.background.paper,
+        border: `1px solid ${theme.palette.divider}`,
+        borderRadius: 2,
         transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+        textAlign: "left", // Ensure left alignment
         "&::before": {
           content: '""',
           position: "absolute",
@@ -62,60 +56,21 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
           background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
         },
         "&:hover": {
-          transform: "translateY(-8px) scale(1.02)",
+          transform: "translateY(-4px)",
           boxShadow:
-            theme.palette.mode === "light"
-              ? "0 20px 60px rgba(30, 58, 138, 0.2)"
-              : "0 20px 60px rgba(74, 54, 106, 0.3)",
-          "& .view-details-btn": {
-            opacity: 1,
-            transform: "scale(1)",
-          },
+            theme.customShadows?.md || "0 8px 30px rgba(0, 0, 0, 0.15)",
+          borderColor: theme.palette.primary.main,
         },
       }}
+      onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={onClick}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >
-      <CardContent sx={{ p: 3, position: "relative" }}>
-        {/* View Details Button */}
-        <Box
-          className="view-details-btn"
-          sx={{
-            position: "absolute",
-            top: 12,
-            right: 12,
-            opacity: 0,
-            transform: "scale(0.8)",
-            transition: "all 0.3s ease",
-            zIndex: 2,
-          }}
-        >
-          <IconButton
-            size="small"
-            sx={{
-              bgcolor: theme.palette.primary.main,
-              color: theme.palette.primary.contrastText,
-              "&:hover": {
-                bgcolor: theme.palette.primary.dark,
-                transform: "rotate(45deg)",
-              },
-              transition: "all 0.3s ease",
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-              onClick?.();
-            }}
-          >
-            <ArrowForwardIcon fontSize="small" />
-          </IconButton>
-        </Box>
-
-        {/* Compact Header - Always Visible */}
+      <CardContent sx={{ p: 3, textAlign: "left" }}>
+        {/* Header */}
         <Box sx={{ display: "flex", alignItems: "flex-start", mb: 2 }}>
           <Avatar
             sx={{
@@ -123,30 +78,19 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
               width: 48,
               height: 48,
               mr: 2,
-              transition: "all 0.3s ease",
-              ...(isHovered && {
-                background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
-                transform: "rotate(5deg)",
-              }),
             }}
           >
             <WorkIcon />
           </Avatar>
-          <Box sx={{ flex: 1, pr: 6 }}>
+          <Box sx={{ flex: 1, textAlign: "left" }}>
             <Typography
               variant="h6"
               component="h3"
               sx={{
                 fontWeight: 600,
-                color: theme.palette.primary.main,
+                color: theme.palette.text.primary,
                 mb: 0.5,
-                transition: "all 0.3s ease",
-                ...(isHovered && {
-                  background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
-                  backgroundClip: "text",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }),
+                textAlign: "left",
               }}
             >
               {experience.jobRole}
@@ -162,17 +106,37 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
               <Typography
                 variant="body1"
                 sx={{
-                  color: theme.palette.text.secondary,
+                  color: theme.palette.primary.main,
                   fontWeight: 500,
+                  textAlign: "left",
                 }}
               >
                 {experience.company}
               </Typography>
             </Box>
           </Box>
+          <IconButton
+            size="small"
+            sx={{
+              bgcolor: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
+              opacity: isHovered ? 1 : 0.7,
+              transform: isHovered ? "scale(1.1)" : "scale(1)",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                bgcolor: theme.palette.primary.dark,
+              },
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClick?.();
+            }}
+          >
+            <ArrowForwardIcon fontSize="small" />
+          </IconButton>
         </Box>
 
-        {/* Duration and Location - Always Visible */}
+        {/* Duration and Location */}
         <Stack direction="row" spacing={2} sx={{ mb: 2, flexWrap: "wrap" }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <CalendarTodayIcon
@@ -187,6 +151,7 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
               sx={{
                 color: theme.palette.text.secondary,
                 fontWeight: 500,
+                textAlign: "left",
               }}
             >
               {experience.duration}
@@ -206,6 +171,7 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
                 sx={{
                   color: theme.palette.text.secondary,
                   fontWeight: 500,
+                  textAlign: "left",
                 }}
               >
                 {experience.location}
@@ -214,32 +180,42 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
           )}
         </Stack>
 
-        {/* Tech Stack - Always Visible */}
+        {/* Summary */}
+        <Typography
+          variant="body2"
+          sx={{
+            color: theme.palette.text.primary,
+            mb: 2,
+            lineHeight: 1.6,
+            textAlign: "left",
+          }}
+        >
+          {experience.summary}
+        </Typography>
+
+        {/* Tech Stack */}
         <Box sx={{ mb: isHovered ? 2 : 0 }}>
           <Stack direction="row" flexWrap="wrap" gap={0.5}>
-            {experience.skills.slice(0, 4).map((skill, index) => (
+            {experience.skills.slice(0, 5).map((skill, index) => (
               <Chip
                 key={index}
                 label={skill}
                 size="small"
                 sx={{
-                  bgcolor:
-                    theme.palette.mode === "light" ? "#f1f5f9" : "#334155",
-                  color: theme.palette.secondary.main,
+                  bgcolor: theme.palette.action.hover,
+                  color: theme.palette.text.secondary,
                   fontWeight: 500,
                   fontSize: "0.75rem",
-                  transition: "all 0.3s ease",
                   "&:hover": {
                     bgcolor: theme.palette.secondary.main,
                     color: theme.palette.secondary.contrastText,
-                    transform: "translateY(-2px)",
                   },
                 }}
               />
             ))}
-            {experience.skills.length > 4 && (
+            {experience.skills.length > 5 && (
               <Chip
-                label={`+${experience.skills.length - 4}`}
+                label={`+${experience.skills.length - 5}`}
                 size="small"
                 sx={{
                   bgcolor: theme.palette.primary.main,
@@ -264,18 +240,6 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
             >
               <Divider sx={{ my: 2 }} />
 
-              {/* Summary */}
-              <Typography
-                variant="body2"
-                sx={{
-                  color: theme.palette.text.primary,
-                  mb: 2,
-                  lineHeight: 1.6,
-                }}
-              >
-                {experience.summary}
-              </Typography>
-
               {/* Key Highlights */}
               {experience.keyHighlights &&
                 experience.keyHighlights.length > 0 && (
@@ -286,42 +250,42 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
                         fontWeight: 600,
                         color: theme.palette.primary.main,
                         mb: 1,
+                        textAlign: "left",
                       }}
                     >
                       Key Highlights:
                     </Typography>
                     <Stack spacing={0.5}>
-                      {experience.keyHighlights
-                        .slice(0, 3)
-                        .map((highlight, index) => (
-                          <MotionBox
-                            key={index}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.1, duration: 0.3 }}
+                      {experience.keyHighlights.map((highlight, index) => (
+                        <MotionBox
+                          key={index}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1, duration: 0.3 }}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color: theme.palette.text.secondary,
+                              fontSize: "0.875rem",
+                              textAlign: "left",
+                              "&::before": {
+                                content: '"• "',
+                                color: theme.palette.secondary.main,
+                                fontWeight: "bold",
+                              },
+                            }}
                           >
-                            <Typography
-                              variant="body2"
-                              sx={{
-                                color: theme.palette.text.secondary,
-                                fontSize: "0.875rem",
-                                "&::before": {
-                                  content: '"• "',
-                                  color: theme.palette.secondary.main,
-                                  fontWeight: "bold",
-                                },
-                              }}
-                            >
-                              {highlight}
-                            </Typography>
-                          </MotionBox>
-                        ))}
+                            {highlight}
+                          </Typography>
+                        </MotionBox>
+                      ))}
                     </Stack>
                   </Box>
                 )}
 
-              {/* Additional Tech Stack */}
-              {experience.skills.length > 4 && (
+              {/* Additional Skills */}
+              {experience.skills.length > 5 && (
                 <Box>
                   <Typography
                     variant="body2"
@@ -329,12 +293,13 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
                       fontWeight: 600,
                       color: theme.palette.primary.main,
                       mb: 1,
+                      textAlign: "left",
                     }}
                   >
                     Additional Skills:
                   </Typography>
                   <Stack direction="row" flexWrap="wrap" gap={0.5}>
-                    {experience.skills.slice(4).map((skill, index) => (
+                    {experience.skills.slice(5).map((skill, index) => (
                       <MotionBox
                         key={index}
                         initial={{ opacity: 0, scale: 0.8 }}
@@ -345,17 +310,10 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
                           label={skill}
                           size="small"
                           sx={{
-                            bgcolor:
-                              theme.palette.mode === "light"
-                                ? "#f1f5f9"
-                                : "#334155",
+                            bgcolor: theme.palette.action.hover,
                             color: theme.palette.text.secondary,
                             fontWeight: 500,
                             fontSize: "0.75rem",
-                            "&:hover": {
-                              bgcolor: theme.palette.secondary.main,
-                              color: theme.palette.secondary.contrastText,
-                            },
                           }}
                         />
                       </MotionBox>
