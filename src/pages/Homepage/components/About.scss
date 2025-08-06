@@ -1,38 +1,31 @@
-.about-section {
-  padding: 3rem 0;
+// About Section Styles - Updated for unified background system
+.about-section-content {
+  // Remove padding - now handled by MUI sx
   position: relative;
   overflow: hidden;
 
-  @media (min-width: 900px) {
-    padding: 5rem 0;
-  }
+  // Disable existing background - now handled by SectionBackground
+  background: none !important;
 
-  // Background gradient overlay
+  // Disable existing pseudo-element background
   &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(25, 118, 210, 0.03) 0%,
-      rgba(156, 39, 176, 0.03) 100%
-    );
-    z-index: 0;
+    display: none !important;
   }
 
   // Main container
   .about-container {
     position: relative;
-    z-index: 1;
+    z-index: 1; // Above background
   }
 
-  // Section Header
+  // Rest of the existing styles remain the same
   .about-header {
     text-align: center;
     margin-bottom: 4rem;
+
+    @media (min-width: 900px) {
+      margin-bottom: 5rem;
+    }
 
     .about-title {
       font-weight: 700;
@@ -396,4 +389,9 @@
   .highlight-card {
     // Removed static color variations - now using dynamic theming through component props
   }
+}
+
+// Legacy support for any remaining .about-section references
+.about-section {
+  @extend .about-section-content;
 }
