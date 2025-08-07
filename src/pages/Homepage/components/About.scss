@@ -1,16 +1,16 @@
 // About Section Styles - Updated for unified background system
 .about-section-content {
   // Remove padding - now handled by MUI sx
-  position: relative;
+  // position: relative;
   overflow: hidden;
 
   // Disable existing background - now handled by SectionBackground
   background: none !important;
 
   // Disable existing pseudo-element background
-  &::before {
-    display: none !important;
-  }
+  // &::before {
+  //   display: none !important;
+  // }
 
   // Main container
   .about-container {

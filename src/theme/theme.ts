@@ -437,6 +437,8 @@ export const lightTheme = createTheme({
       contrastText: "#ffffff",
     },
     background: {
+      // bgGradient: ["#F5FAFF", "#EAE0FE"], // Whispering Blue-Violet
+      // accent: "#3B82F6", // Light Blue
       default: "#F8FAFC", // Light blue-gray
       paper: "#FFFFFF",
     },

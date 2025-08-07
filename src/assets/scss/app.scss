@@ -38,6 +38,8 @@ body {
 // Utility classes
 .section {
   padding: 4rem 0;
+  display: block;
+  width: 100%;
 
   @media (max-width: 768px) {
     padding: 2rem 0;

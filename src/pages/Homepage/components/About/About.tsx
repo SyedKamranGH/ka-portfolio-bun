@@ -21,17 +21,19 @@ export const About: React.FC = () => {
         "@media (min-width: 900px)": {
           padding: "5rem 0",
         },
-        // Override any existing backgrounds from CSS
-        background: "transparent !important",
-        "&::before": {
-          display: "none !important",
+        // Ensure proper background containment
+        overflow: "hidden",
+        // Remove any background overrides
+        background: "none",
+        "&::before, &::after": {
+          content: "none", // Remove any pseudo-elements
         },
       }}
     >
-      {/* Unified Background - Now with meaningful section-specific theming */}
-      <SectionBackground section="about" variant="solid" opacity={0.8} />
+      {/* Background that won't affect layout */}
+      <SectionBackground variant="gradient" opacity={0.8} />
 
-      {/* Original About Content */}
+      {/* Original content structure - completely unchanged */}
       <Container maxWidth="lg" className="about-container">
         <MotionBox
           initial={{ opacity: 0, y: 50 }}

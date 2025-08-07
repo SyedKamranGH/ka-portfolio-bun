@@ -2,19 +2,11 @@ import React from "react";
 import { Box, useTheme } from "@mui/material";
 
 interface SectionBackgroundProps {
-  section:
-    | "about"
-    | "education"
-    | "skills"
-    | "experience"
-    | "projects"
-    | "contact";
   variant?: "gradient" | "minimal" | "solid";
   opacity?: number;
 }
 
 export const SectionBackground: React.FC<SectionBackgroundProps> = ({
-  section,
   variant = "gradient",
   opacity = 0.5,
 }) => {
@@ -22,184 +14,60 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
 
   const getBackgroundStyles = () => {
     const isDark = theme.palette.mode === "dark";
+    const { primary, secondary } = theme.palette;
 
-    // Base positioning
-    const baseStyles = {
-      position: "absolute" as const,
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      zIndex: -1,
-      pointerEvents: "none" as const,
-      opacity: opacity,
+    // Single unified color scheme for the entire application background
+    const globalColors = {
+      light: {
+        primary: primary, // "#1E3A8A", // Navy Blue (can be adjusted if not used)
+        secondary: secondary, // "#8B5CF6", // Lilac (can be adjusted if not used)
+        accent: "#3B82F6", // Light Blue (can be adjusted if not used)
+        bgGradient: ["#F5FAFF", "#EAE0FE"], // Whispering Blue-Violet
+      },
+      dark: {
+        primary: primary, // "#1E2A47", // Dark Navy (can be adjusted if not used)
+        secondary: secondary, // "#4A366A", // Dark Lilac (can be adjusted if not used)
+        accent: "#A78BFA", // Light Lilac (can be adjusted if not used)
+        bgGradient: ["#0F1419", "#1A1F26"], // Dark Blue-Grey
+      },
     };
 
-    // Section-specific color schemes using established theme
-    const getSectionColors = () => {
-      const colors = {
-        about: {
-          light: {
-            primary: "#1E3A8A", // Navy Blue
-            secondary: "#8B5CF6", // Lilac
-            accent: "#3B82F6", // Light Blue
-            bg: "#F8FAFC", // Light background
-          },
-          dark: {
-            primary: "#1E2A47", // Dark Navy
-            secondary: "#4A366A", // Dark Lilac
-            accent: "#A78BFA", // Light Lilac
-            bg: "#0F1419", // Dark background
-          },
-        },
-        education: {
-          light: {
-            primary: "#059669", // Success Green
-            secondary: "#1E3A8A", // Navy
-            accent: "#10B981",
-            bg: "#F0FDF4",
-          },
-          dark: {
-            primary: "#10B981",
-            secondary: "#1E2A47",
-            accent: "#34D399",
-            bg: "#0F1B0F",
-          },
-        },
-        skills: {
-          light: {
-            primary: "#3B82F6", // Info Blue
-            secondary: "#8B5CF6", // Lilac
-            accent: "#60A5FA",
-            bg: "#EFF6FF",
-          },
-          dark: {
-            primary: "#A78BFA",
-            secondary: "#4A366A",
-            accent: "#C4B5FD",
-            bg: "#1E1B3A",
-          },
-        },
-        experience: {
-          light: {
-            primary: "#D97706", // Warning Orange
-            secondary: "#1E3A8A", // Navy
-            accent: "#F59E0B",
-            bg: "#FFFBEB",
-          },
-          dark: {
-            primary: "#F59E0B",
-            secondary: "#1E2A47",
-            accent: "#FBBF24",
-            bg: "#1F1611",
-          },
-        },
-        projects: {
-          light: {
-            primary: "#8B5CF6", // Lilac
-            secondary: "#1E3A8A", // Navy
-            accent: "#A78BFA",
-            bg: "#FAF5FF",
-          },
-          dark: {
-            primary: "#4A366A",
-            secondary: "#1E2A47",
-            accent: "#6B46C1",
-            bg: "#1A1625",
-          },
-        },
-        contact: {
-          light: {
-            primary: "#DC2626", // Error Red
-            secondary: "#8B5CF6", // Lilac
-            accent: "#EF4444",
-            bg: "#FEF2F2",
-          },
-          dark: {
-            primary: "#EF4444",
-            secondary: "#4A366A",
-            accent: "#F87171",
-            bg: "#1F1012",
-          },
-        },
-      };
-
-      return isDark ? colors[section].dark : colors[section].light;
-    };
-
-    const sectionColors = getSectionColors();
+    const currentColors = isDark ? globalColors.dark : globalColors.light;
 
     // Variant-specific styling
     switch (variant) {
       case "gradient":
         return {
-          ...baseStyles,
-          background: `
-            radial-gradient(circle at 20% 20%, ${
-              sectionColors.primary
-            }15 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, ${
-              sectionColors.secondary
-            }12 0%, transparent 50%),
-            radial-gradient(circle at 40% 60%, ${
-              sectionColors.accent
-            }08 0%, transparent 50%),
-            linear-gradient(135deg, ${sectionColors.bg} 0%, ${
-            isDark ? "#0A0E13" : "#FAFBFC"
-          } 100%)
-          `,
+          background: `linear-gradient(to bottom, ${currentColors.bgGradient[0]}, ${currentColors.bgGradient[1]})`,
           "&::before": {
-            content: '""',
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: `linear-gradient(135deg, ${sectionColors.primary}05 0%, ${sectionColors.secondary}03 100%)`,
-            zIndex: 1,
+            // These still use primary/secondary for a subtle overlay, adjust if not desired
+            background: `linear-gradient(135deg, ${currentColors.primary}05 0%, ${currentColors.secondary}03 100%)`,
           },
         };
 
       case "minimal":
         return {
-          ...baseStyles,
           background: `
-            linear-gradient(135deg, ${sectionColors.primary}03 0%, ${sectionColors.secondary}02 50%, transparent 100%)
+            linear-gradient(135deg, ${currentColors.primary}03 0%, ${currentColors.secondary}02 50%, transparent 100%)
           `,
           "&::before": {
-            content: '""',
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: `radial-gradient(circle at 50% 50%, ${sectionColors.accent}02 0%, transparent 70%)`,
-            zIndex: 1,
+            background: `radial-gradient(circle at 50% 50%, ${currentColors.accent}02 0%, transparent 70%)`,
           },
         };
 
       case "solid":
         return {
-          ...baseStyles,
-          backgroundColor: sectionColors.bg,
+          backgroundColor: currentColors.bgGradient[0], // Uses the start color of the gradient
           "&::before": {
-            content: '""',
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
             background: `
-              radial-gradient(circle at 30% 30%, ${sectionColors.primary}08 0%, transparent 40%),
-              radial-gradient(circle at 70% 70%, ${sectionColors.secondary}06 0%, transparent 40%)
+              radial-gradient(circle at 30% 30%, ${currentColors.primary}08 0%, transparent 40%),
+              radial-gradient(circle at 70% 70%, ${currentColors.secondary}06 0%, transparent 40%)
             `,
-            zIndex: 1,
           },
         };
 
       default:
         return {
-          ...baseStyles,
           background: "transparent",
         };
     }
@@ -207,8 +75,27 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
 
   return (
     <Box
-      className={`section-background ${section}-bg ${variant}-variant`}
-      sx={getBackgroundStyles()}
+      className={`section-background ${variant}-variant`} // Removed section-specific class
+      sx={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        zIndex: -1,
+        pointerEvents: "none",
+        opacity: opacity,
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 1,
+        },
+        ...getBackgroundStyles(),
+      }}
     />
   );
 };
